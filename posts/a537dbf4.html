@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南 | JIE的笔记本</title><meta name="author" content="jjmk6"><meta name="copyright" content="jjmk6"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最近，Cloud Code 在开发者圈子里热度持续攀升。作为一款强大的编程 Agent，它不仅能帮你写代码、改代码，还能通过多模态、MCP、插件等机制，成为你手中的“超级开发助手”。但很多同学只是简单试了几个命令，并没有真正把它用到生产环境中。今天，我们就基于一份详尽的实战教程，带你彻底搞懂 ..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南",
+  "url": "https://jjmk6.github.io/posts/a537dbf4.html",
+  "image": "https://jjmk6.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.693Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jjmk6",
+      "url": "https://jjmk6.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jjmk6.github.io/posts/a537dbf4.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026-03-14 16:09:38">2026-03-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>最近，Cloud Code 在开发者圈子里热度持续攀升。作为一款强大的编程 Agent，它不仅能帮你写代码、改代码，还能通过多模态、MCP、插件等机制，成为你手中的“超级开发助手”。但很多同学只是简单试了几个命令，并没有真正把它用到生产环境中。今天，我们就基于一份详尽的实战教程，带你彻底搞懂 Cloud Code 的完整工作流。</p>
+<p>本文将从环境搭建开始，逐步深入到复杂任务处理、多模态交互、上下文管理，最后解锁高级定制功能。无论你是刚接触 Cloud Code，还是希望挖掘它的更多潜力，相信都能从中获益。</p>
+<hr>
+<p>一、环境搭建与基础交互</p>
+<ol>
+<li>安装与登录</li>
+</ol>
+<p>访问 Cloud Code 官网，复制安装命令并在终端执行。安装完成后，使用 cloud 命令启动。首次使用可能需要登录，官方提供两种接入方式：</p>
+<p>· 订阅制（Pro/Max 会员）<br>· API Key 按量计费</p>
+<p>如果你无法使用官方订阅，也可以配置国产模型（如 GLM、MiniMax）驱动 Cloud Code，只需设置几个环境变量即可。</p>
+<p>![[cloud-code-modes.svg|682]]<br>2. 三种核心模式<br>Cloud Code 通过 Shift+Tab 在三种模式间循环：</p>
+<p>· 默认模式：最谨慎，每次创建/修改文件都会询问用户。<br>· 自动模式（Accept Edits On）：会话期间自动同意所有文件操作，效率最高。<br>· 规划模式（Plan Mode）：只讨论不执行，适合复杂方案的前期设计。</p>
+<p>例如，在开发一个待办应用时，先用默认模式生成基础 HTML，再切换到自动模式进行迭代，最后用规划模式讨论重构方案。</p>
+<hr>
+<p>二、复杂任务处理与终端控制</p>
+<ol>
+<li>从简单 HTML 到现代架构</li>
+</ol>
+<p>假设你已经有了一个简单的待办应用（index.html），想重构为 React + TypeScript + Vite 项目。此时应进入规划模式，输入需求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将当前的待办应用重构为使用 React + TypeScript + Vite 的项目，保留所有功能，UI 风格保持一致。</span><br></pre></td></tr></table></figure>
+
+<p>Cloud Code 会生成详细计划（目标、文件结构、步骤），并询问是否执行。你可以选择直接执行，或继续修改计划（例如增加优先级标记）。</p>
+<ol start="2">
+<li>终端命令与权限管理</li>
+</ol>
+<p>Cloud Code 可以执行终端命令（如 mkdir、npm install），但默认每次都会询问，因为它认为命令操作有风险。如果你希望完全自动化，可以启动时添加 –dangerously-skip-permissions 参数——但官方明确警告：这会让 Cloud Code 拥有和你一样的终端权限，存在理论风险，请自行权衡。</p>
+<p>执行耗时命令（如 npm run dev）会阻塞新请求，此时按 Ctrl+B 可将任务放到后台，之后用 /tasks 查看或结束任务。</p>
+<ol start="3">
+<li>回滚功能</li>
+</ol>
+<p>Cloud Code 每次请求都会创建回滚点。按两下 ESC 进入回滚界面，选择要恢复的版本即可。但注意：它只能回滚自己写入的文件，终端命令生成的文件（如 node_modules）无法回滚。精准版本管理还是建议用 Git。</p>
+<hr>
+<p>三、多模态与上下文管理<br>![[cloud-code-multimodal.svg]]</p>
+<ol>
+<li>上传图片让 Cloud Code 仿制界面</li>
+</ol>
+<p>如果你在 Figma 画了设计稿，可以直接导出 PNG 图片，拖拽或 Ctrl+V 粘贴到 Cloud Code 输入框，然后输入“根据图片修改代码”。不过图片方式对字体、间距等细节还原不够精确。</p>
+<ol start="2">
+<li>MCP（模型上下文协议）接入 Figma</li>
+</ol>
+<p>更专业的做法是使用 Figma 官方提供的 MCP Server。安装后，通过 /mcp 授权，然后提供 Figma 设计稿链接，Cloud Code 会自动调用工具获取设计稿的截图、组件间距、字体样式等详细信息，并精确还原页面。这是目前还原设计稿的最高效方式。</p>
+<ol start="3">
+<li>上下文压缩与清理</li>
+</ol>
+<p>随着对话进行，上下文会积累大量信息。使用 /compact 可压缩上下文，保留核心内容，减少 Token 消耗。如果想彻底清空，用 /clear。</p>
+<ol start="4">
+<li>项目级指令：CLAUDE.md</li>
+</ol>
+<p>你可以在项目根目录创建 CLAUDE.md 文件，写入希望 Cloud Code 每次读取的指令（如编码规范、注意事项）。通过 /memory 可以快速查看或编辑项目级和用户级的 CLAUDE.md。例如，要求每次回答末尾加上“Happy coding”，Cloud Code 就会严格遵守。</p>
+<hr>
+<p>![[cloud-code-ecosystem.svg|660]]<br>四、高级功能扩展与定制</p>
+<ol>
+<li>Hooks：自动化工作流</li>
+</ol>
+<p>Hooks 允许在特定时机（如工具使用后）执行自定义命令。比如，你可以在 Cloud Code 写完代码后自动格式化文件：</p>
+<p>配置一个 Post-Tool Use Hook，指定工具为 write 或 edit，命令用 jq 提取文件路径并传给 prettier。这样，每次 Cloud Code 生成或修改文件后，都会自动格式化，保持代码风格统一。</p>
+<ol start="2">
+<li>Agent Skills：动态加载的提示词</li>
+</ol>
+<p>如果你每天都要写日报，可以把日报格式写成一个 Skill（放在 ~/.cloud/skills/ 下）。Cloud Code 会根据请求意图自动调用对应 Skill，或通过 /daily_report 直接调用。Skill 共享主对话上下文，适合对上下文影响小的任务。</p>
+<ol start="3">
+<li>Sub Agents：独立上下文的子 Agent</li>
+</ol>
+<p>Sub Agent 拥有独立的上下文、工具和 Skill，执行完只返回最终结果，不会污染主对话。例如，创建一个代码审查 Sub Agent，配置只读工具，设定审查规则（针对 JS 和 CSS 的规范），以后执行“代码审查”时，Cloud Code 会委托给 Sub Agent，并得到干净的报告。适合处理大型任务（如审查数万行代码）。</p>
+<ol start="4">
+<li>Plugins：一键安装全家桶</li>
+</ol>
+<p>Plugin 是 Skills、Sub Agents、Hooks 等的集合包。通过 /plugin 进入插件管理器，可以浏览市场、安装插件。比如安装 frontend-design 插件后，再开发前端应用时，Cloud Code 会调用该插件的 Skill，生成更具设计感的 UI（排版、色彩、交互都更现代）。你也可以将自己的配置打包成插件分享给团队或社区。</p>
+<hr>
+<p>五、总结</p>
+<p>Cloud Code 远不止是一个命令行工具，它通过模式切换、MCP 集成、上下文管理、Hooks、Skills、Sub Agents 和 Plugins，构建了一个高度可扩展的编程 Agent 生态。无论你是希望快速原型、精确还原设计稿，还是定制团队工作流，它都能提供强大支持。</p>
+<p>当然，工具再强也离不开人的判断。建议在实际项目中逐步引入这些功能，找到最适合自己的组合。如果你还用过其他编程 Agent（如 Codex、Open Code），会发现它们的设计理念大同小异，掌握 Cloud Code 后，同类产品也能一通百通。</p>
+<p>希望这篇指南能帮你把 Cloud Code 真正变成手心里最顺手的生产力工具。如果你有任何心得或问题，欢迎在评论区交流！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jjmk6.github.io">jjmk6</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jjmk6.github.io/posts/a537dbf4.html">https://jjmk6.github.io/posts/a537dbf4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jjmk6.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9D%82%E8%B0%88/">杂谈</a></div><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/83494985.html" title="2026年03月05日"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">2026年03月05日</div></div><div class="info-2"><div class="info-item-1">今日概述早八水课摸鱼，高数课摸鱼，金铲铲启动。但下午的管理运筹学课上，被老师的一番考研数据狠狠焦虑到了。晚上找到一个高质量博客，对AI时代的个人IP有了新思考。豆角炒肉连吃三天，是时候换口味了�? 关键成果 学业觉察：在管理运筹学课上，清醒认识到考研的“就业陷阱”和社会化的紧迫性�?- 认知升级：通过高质量博主的内容，明确了AI时代的方向—�?*专家领域+编程思维+AI=个人IP**�?- 项目推进：下午整理项目，进度平稳�?- 自我觉察：发现自己“不敢迈步”的卡点——找不到热爱且能深耕的领域�?习惯追踪   习惯 完成情况 备注    规律三餐 �? 早上两个包子，中午金旺豆角炒肉（第三天），晚上未记录�?   关键任务推进 �? 下午整理项目，有进展�?   课上专注 ⚠️ 水课看项目总结，高数摸鱼，运筹学被焦虑击中后开始思考�?   主动学习 �? 晚上发现高质量博主，深度阅读并产出思考�?   饮食多样�? �? 豆角炒肉三连，备注里自己吐槽了�?     情绪/反�?“不谈就业只谈上岸就是流氓�?老师介绍考研情况：第一�?0人，1人考公（事业编），10人潦草就业，剩下都...</div></div></div></a><a class="pagination-related" href="/posts/d4011479.html" title="当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南</div></div><div class="info-2"><div class="info-item-1">最近我陷入一种奇怪的循环：一边刷着各种“AI取代人类”的短视频，一边焦虑地刷LeetCode准备后端面试。刷到一个视频，标题大概意思是“别再学编程了，AI都能写了”，下一条又是“2026年最火的几个高薪岗位”。我夹在中间，像一只被时代洪流裹挟的蚂蚁，不知道该往哪儿爬。 直到我读到一篇长文，它没有贩卖焦虑，而是从一个让我愣住的问题开始：“你为什么在看这个？你明明可以用ChatGPT，为什么还在看一个真人讲的东西？” 对啊，为什么？这个问题像一把钥匙，打开了我对“未来我到底该怎么办”的深层思考。下面是我对这篇文章的解读、感悟，以及给自己列的行动清单。 一、 原文核心观点：意义经济，才是未来真正的护城河这篇文章的核心，是探讨当AI能完成大部分“工作”后，人类的价值和意义将从何而来。它构建了一个从历史到未来的完整框架。  意义的历史四幕：    第一幕（神赐意义）：意义由神、国王、长者赋予。   第二幕（工作换取意义）：工业革命后，意义来自生产力、工作和对机器的贡献。   第三幕（意义虚无）：后现代主义解构一切，意义无处可寻。   第四幕（自我生成意义）：我们必须从内部为自己创造意义。 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/7ae3dfa5.html" title="别再用旧地图探索新大陆：一个正在被重构的商业模式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-14</div><div class="info-item-2">别再用旧地图探索新大陆：一个正在被重构的商业模式</div></div><div class="info-2"><div class="info-item-1">最近脑子里一直盘旋着一个词：“失效感”。 刷手机时，这种感觉尤其强烈。感觉去年还被奉为圭臬的赚钱逻辑、商业模式，到了今年，突然就玩不转了。作为一个大二学生，学的是大数据管理与应用，整天泡在代码和算法里，这种“失效感”被放得更大。我常常会想，等我两年后毕业，后端开发的岗位还会是今天这个样子吗？AI会把我挤到哪里去？ 就在这种有点焦虑的状态下，我看到一篇长文，它没讲那些被嚼烂了的“2026年风口”，而是深入剖析了当下每一个普通个体，尤其是我这样的学生，该如何理解和应对这场巨变。它像一个思维导图，把我脑子里那些模糊的焦虑，梳理成了清晰的脉络。 这篇文章，我想把它拆解成三部分：原文的核心观点，我的个人思考，以及最后，写给自己的行动清单。 一、 原文核心观点：从“卖课”到“卖私教AI分身”这篇文章的核心，是探讨了创作者（或者原文说的“艺人公司”）商业模式的进化。它认为，过去十年主流的“麦克模式”（即制作知识付费产品，如电子书、录播课）正在消亡，而一个全新的阶段已经到来。   传统模式的辉煌与终结：过去，一个普通人可以凭一己之力，通过分享自己的兴趣和知识，吸引粉丝，然后销售自己制作的日程本、...</div></div></div></a><a class="pagination-related" href="/posts/d4011479.html" title="当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-14</div><div class="info-item-2">当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南</div></div><div class="info-2"><div class="info-item-1">最近我陷入一种奇怪的循环：一边刷着各种“AI取代人类”的短视频，一边焦虑地刷LeetCode准备后端面试。刷到一个视频，标题大概意思是“别再学编程了，AI都能写了”，下一条又是“2026年最火的几个高薪岗位”。我夹在中间，像一只被时代洪流裹挟的蚂蚁，不知道该往哪儿爬。 直到我读到一篇长文，它没有贩卖焦虑，而是从一个让我愣住的问题开始：“你为什么在看这个？你明明可以用ChatGPT，为什么还在看一个真人讲的东西？” 对啊，为什么？这个问题像一把钥匙，打开了我对“未来我到底该怎么办”的深层思考。下面是我对这篇文章的解读、感悟，以及给自己列的行动清单。 一、 原文核心观点：意义经济，才是未来真正的护城河这篇文章的核心，是探讨当AI能完成大部分“工作”后，人类的价值和意义将从何而来。它构建了一个从历史到未来的完整框架。  意义的历史四幕：    第一幕（神赐意义）：意义由神、国王、长者赋予。   第二幕（工作换取意义）：工业革命后，意义来自生产力、工作和对机器的贡献。   第三幕（意义虚无）：后现代主义解构一切，意义无处可寻。   第四幕（自我生成意义）：我们必须从内部为自己创造意义。 ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jjmk6</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jjmk6"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/jjmk6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/45bb28d7.html" title="渐进式披露：Cloud Code团队踩坑无数后悟出的AI Agent设计真谛">渐进式披露：Cloud Code团队踩坑无数后悟出的AI Agent设计真谛</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/32c772e2.html" title="Linux常用文件管理命令">Linux常用文件管理命令</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/acf3e64f.html" title="一文读懂RAG：从原理到落地，搭建智能知识库原来这么简单">一文读懂RAG：从原理到落地，搭建智能知识库原来这么简单</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/078ecc05.html" title="彻底搞懂Token：大模型的“翻译官”是如何炼成的？">彻底搞懂Token：大模型的“翻译官”是如何炼成的？</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5ebf852a.html" title="shell教程（三）基本语句">shell教程（三）基本语句</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By jjmk6</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?jjmk6",git_color,'jjmk6')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

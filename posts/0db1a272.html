@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>08第八章：索引深入理解及高级运用（结合常见优化问题讲解） | JIE的笔记本</title><meta name="author" content="jjmk6"><meta name="copyright" content="jjmk6"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="对于后端开发者而言，MySQL 索引是提升数据库性能的核心手段，也是面试中的高频考点。很多初学者虽然知道“要建索引”，但往往陷入“索引建得越多越好”的误区，甚至建了索引却发现查询速度没提升，反而拖慢了写入性能。今天这篇文章，我们就从零深入拆解索引的核心逻辑、适用场景、优化技巧，结合实际开发中的..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "08第八章：索引深入理解及高级运用（结合常见优化问题讲解）",
+  "url": "https://jjmk6.github.io/posts/0db1a272.html",
+  "image": "https://jjmk6.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.694Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jjmk6",
+      "url": "https://jjmk6.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jjmk6.github.io/posts/0db1a272.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '08第八章：索引深入理解及高级运用（结合常见优化问题讲解）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">08第八章：索引深入理解及高级运用（结合常见优化问题讲解）</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">08第八章：索引深入理解及高级运用（结合常见优化问题讲解）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026-03-14 16:09:38">2026-03-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>对于后端开发者而言，MySQL 索引是提升数据库性能的核心手段，也是面试中的高频考点。很多初学者虽然知道“要建索引”，但往往陷入“索引建得越多越好”的误区，甚至建了索引却发现查询速度没提升，反而拖慢了写入性能。今天这篇文章，我们就从零深入拆解索引的核心逻辑、适用场景、优化技巧，结合实际开发中的常见问题，帮你真正吃透索引的高级运用，避开所有坑。</p>
+<h2 id="一、为什么要创建索引（Index）？——-数据库的“目录”有多重要"><a href="#一、为什么要创建索引（Index）？——-数据库的“目录”有多重要" class="headerlink" title="一、为什么要创建索引（Index）？—— 数据库的“目录”有多重要"></a>一、为什么要创建索引（Index）？—— 数据库的“目录”有多重要</h2><p>我们先从最基础的问题入手：为什么需要索引？其实一句话就能理解：<strong>索引就是数据库表的“目录”</strong>，就像我们看书时，不用逐页翻找，通过目录就能快速定位到目标章节；数据库查询时，有了索引，就不用进行全表扫描（逐行查找数据），能直接定位到符合条件的记录，极大提升查询效率。</p>
+<h3 id="✅-索引的核心优点"><a href="#✅-索引的核心优点" class="headerlink" title="✅ 索引的核心优点"></a>✅ 索引的核心优点</h3><ul>
+<li>提升检索速度：这是最核心的作用，尤其是表中数据量达到万级、十万级甚至百万级时，索引能将查询时间从“秒级”压缩到“毫秒级”。</li>
+<li>加速表连接：多表关联查询（JOIN）时，索引能快速匹配两个表中的关联字段，避免两个表都进行全表扫描，减少关联耗时。</li>
+<li>优化排序和分组：当查询中包含 ORDER BY（排序）、GROUP BY（分组）时，索引会提前对字段进行排序，避免数据库在查询后再进行“文件排序”，节省大量资源。</li>
+</ul>
+<h3 id="❌-索引的不可忽视的缺点"><a href="#❌-索引的不可忽视的缺点" class="headerlink" title="❌ 索引的不可忽视的缺点"></a>❌ 索引的不可忽视的缺点</h3><p>索引不是“万能的”，它的优点背后也有代价，这也是很多初学者容易忽略的点：</p>
+<ul>
+<li>占用额外磁盘空间：索引本身也是一种数据结构（比如B+树），需要单独存储在磁盘上，一张表的索引越多，占用的磁盘空间就越大。</li>
+<li>降低写入性能：当执行插入、删除、更新操作时，数据库不仅要修改表中的数据，还要同步维护对应的索引（比如新增数据时，要在索引树中插入新的节点），这会增加写入操作的耗时，索引越多，维护成本越高。</li>
+</ul>
+<p>总结：索引的核心是“trade-off（权衡）”—— 用少量的磁盘空间和写入性能损耗，换取查询性能的巨大提升。</p>
+<h2 id="二、什么时候需要创建索引？——-记住这一个核心原则"><a href="#二、什么时候需要创建索引？——-记住这一个核心原则" class="headerlink" title="二、什么时候需要创建索引？—— 记住这一个核心原则"></a>二、什么时候需要创建索引？—— 记住这一个核心原则</h2><p>很多人建索引凭“感觉”，其实只要记住一句话，就能避开80%的误区：<strong>凡是经常出现在 WHERE、JOIN、ORDER BY、GROUP BY 中的列，都值得考虑建立索引</strong>。</p>
+<p>结合实际开发场景，以下5种情况，一定要建索引：</p>
+<h3 id="1-主键和唯一键（必建索引）"><a href="#1-主键和唯一键（必建索引）" class="headerlink" title="1. 主键和唯一键（必建索引）"></a>1. 主键和唯一键（必建索引）</h3><p>MySQL 中，主键（PRIMARY KEY）会自动创建唯一索引，无需手动操作；唯一键（UNIQUE）也会自动创建唯一索引，用于保证字段值的唯一性（比如用户手机号、邮箱）。这两种索引是数据库自带的优化，必须合理使用。</p>
+<p>示例：用户表中，id 作为主键，自动生成主键索引；email 作为唯一键，自动生成唯一索引，避免重复注册。</p>
+<h3 id="2-经常用作查询条件的字段（WHERE-后出现的列）"><a href="#2-经常用作查询条件的字段（WHERE-后出现的列）" class="headerlink" title="2. 经常用作查询条件的字段（WHERE 后出现的列）"></a>2. 经常用作查询条件的字段（WHERE 后出现的列）</h3><p>如果一个字段经常出现在 WHERE 子句中，作为查询条件（比如根据邮箱查用户、根据商品ID查商品），那么给这个字段建索引，能直接定位到符合条件的记录，避免全表扫描。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> email <span class="operator">=</span> <span class="string">&#x27;test@xupt.edu.cn&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>分析：email 是频繁查询的条件，给 email 建立索引，查询时能直接定位到该邮箱对应的用户记录，效率提升明显。</p>
+<h3 id="3-用于排序的字段（ORDER-BY-后出现的列）"><a href="#3-用于排序的字段（ORDER-BY-后出现的列）" class="headerlink" title="3. 用于排序的字段（ORDER BY 后出现的列）"></a>3. 用于排序的字段（ORDER BY 后出现的列）</h3><p>当查询需要对某个字段进行排序（比如按文章发布时间降序、按商品价格升序），给该字段建索引，能让数据库直接利用索引的有序性进行排序，避免查询后再进行“文件排序”（文件排序耗时极长，尤其是数据量较大时）。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> article <span class="keyword">ORDER</span> <span class="keyword">BY</span> create_time <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+<p>分析：create_time 是排序字段，给它建索引后，数据库会直接按照索引的顺序返回数据，无需额外排序，查询速度会大幅提升。</p>
+<h3 id="4-用于分组统计的字段（GROUP-BY-后出现的列）"><a href="#4-用于分组统计的字段（GROUP-BY-后出现的列）" class="headerlink" title="4. 用于分组统计的字段（GROUP BY 后出现的列）"></a>4. 用于分组统计的字段（GROUP BY 后出现的列）</h3><p>当需要对某个字段进行分组统计（比如统计每个部门的员工数量、每个分类的商品数量），给该字段建索引，能让数据库快速分组，减少分组时的计算耗时。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> department, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> employee <span class="keyword">GROUP</span> <span class="keyword">BY</span> department;</span><br></pre></td></tr></table></figure>
+
+<p>分析：department 是分组字段，给它建索引后，数据库能快速按照部门分组，统计每个部门的员工数量，避免全表扫描后再分组。</p>
+<h3 id="5-多表连接时用作连接条件的字段（JOIN-关联字段）"><a href="#5-多表连接时用作连接条件的字段（JOIN-关联字段）" class="headerlink" title="5. 多表连接时用作连接条件的字段（JOIN 关联字段）"></a>5. 多表连接时用作连接条件的字段（JOIN 关联字段）</h3><p>多表关联查询（比如学生表和成绩表、订单表和用户表）时，连接条件中的字段（通常是主键和外键）必须建索引，否则会导致两个表都进行全表扫描，关联效率极低。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> student s <span class="keyword">JOIN</span> score c <span class="keyword">ON</span> s.id <span class="operator">=</span> c.student_id;</span><br></pre></td></tr></table></figure>
+
+<p>分析：s.id（学生表主键，自动有索引）和 c.student_id（成绩表外键），需要给 c.student_id 建索引，这样关联时，能通过索引快速匹配学生和成绩，避免全表扫描。</p>
+<h2 id="三、什么时候不需要创建索引？——-索引越多，性能越差"><a href="#三、什么时候不需要创建索引？——-索引越多，性能越差" class="headerlink" title="三、什么时候不需要创建索引？—— 索引越多，性能越差"></a>三、什么时候不需要创建索引？—— 索引越多，性能越差</h2><p>很多初学者觉得“索引建得越多越好”，其实恰恰相反：错误的索引不仅不能提升性能，还会拖慢数据库的写入速度、浪费磁盘空间。以下5种情况，坚决不建议建索引：</p>
+<h3 id="1-数据量很小的表（几百行以内）"><a href="#1-数据量很小的表（几百行以内）" class="headerlink" title="1. 数据量很小的表（几百行以内）"></a>1. 数据量很小的表（几百行以内）</h3><p>如果表中只有几百行数据，MySQL 进行全表扫描的时间非常短（毫秒级），此时建索引反而会浪费磁盘空间，而且查询时，数据库可能会直接选择全表扫描（因为索引查询也需要消耗资源），索引相当于“无用功”。</p>
+<h3 id="2-频繁更新的字段"><a href="#2-频繁更新的字段" class="headerlink" title="2. 频繁更新的字段"></a>2. 频繁更新的字段</h3><p>如果一个字段经常被更新（比如用户的登录时间、商品的库存），那么给这个字段建索引，每次更新时，数据库都要同步维护索引，会大幅增加写入耗时。比如商品库存，每秒可能有多次更新，建索引会严重影响更新性能。</p>
+<h3 id="3-高重复度的字段（区分度极低）"><a href="#3-高重复度的字段（区分度极低）" class="headerlink" title="3. 高重复度的字段（区分度极低）"></a>3. 高重复度的字段（区分度极低）</h3><p>索引的效果取决于字段的“区分度”（即字段中不同值的比例），区分度越低，索引的作用越小。比如“性别”（男/女）、“是否删除”（0/1）、“状态”（启用/禁用）这类字段，重复度极高，区分度很低，即使建了索引，数据库也可能选择全表扫描，优化效果几乎为零，还会浪费磁盘空间。</p>
+<p>小技巧：判断字段是否适合建索引，可以计算“区分度”= 不同值的数量 / 总记录数，区分度低于0.1的字段，不建议建索引。</p>
+<h3 id="4-查询中很少用到的字段"><a href="#4-查询中很少用到的字段" class="headerlink" title="4. 查询中很少用到的字段"></a>4. 查询中很少用到的字段</h3><p>如果一个字段几乎不会出现在 WHERE、JOIN、ORDER BY、GROUP BY 中，那么给它建索引完全没有意义，只是单纯浪费磁盘空间和维护成本。比如用户表中的“备注”字段，很少用于查询，就没必要建索引。</p>
+<h3 id="5-临时表、一次性查询的表"><a href="#5-临时表、一次性查询的表" class="headerlink" title="5. 临时表、一次性查询的表"></a>5. 临时表、一次性查询的表</h3><p>如果是临时创建的表，用于一次性查询，查询完成后就删除，那么建索引完全是多余的，只会增加表的创建时间和磁盘占用。</p>
+<h2 id="四、索引优化方法——-面试高频-实战必备"><a href="#四、索引优化方法——-面试高频-实战必备" class="headerlink" title="四、索引优化方法—— 面试高频+实战必备"></a>四、索引优化方法—— 面试高频+实战必备</h2><p>掌握了索引的创建和不创建场景，接下来就是核心的索引优化技巧。这些技巧不仅能提升实际开发中的数据库性能，也是面试中经常被问到的考点，建议重点掌握。</p>
+<h3 id="1️⃣-前缀索引优化（Prefix-Index）——-解决长字符串索引浪费空间问题"><a href="#1️⃣-前缀索引优化（Prefix-Index）——-解决长字符串索引浪费空间问题" class="headerlink" title="1️⃣ 前缀索引优化（Prefix Index）—— 解决长字符串索引浪费空间问题"></a>1️⃣ 前缀索引优化（Prefix Index）—— 解决长字符串索引浪费空间问题</h3><p>实际开发中，我们经常会遇到长字符串字段（比如邮箱、URL、UUID），如果给整个字段建索引，会占用大量的磁盘空间（比如一个邮箱字段，平均长度20个字符，建索引后，每个索引节点都会存储这20个字符，数据量大会非常浪费）。</p>
+<p>前缀索引的核心：<strong>只取长字符串的前N个字符建立索引</strong>，既能节省磁盘空间，又能保证一定的区分度，实现高效查询。</p>
+<p>示例（给邮箱字段建前缀索引）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD</span> INDEX idx_email (email(<span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+
+<p>说明：取 email 的前10个字符建索引，既能节省空间，又能通过前10个字符快速定位到大部分符合条件的记录，再回表验证完整邮箱即可。</p>
+<h4 id="前缀索引的优缺点"><a href="#前缀索引的优缺点" class="headerlink" title="前缀索引的优缺点"></a>前缀索引的优缺点</h4><ul>
+<li>优点：占用磁盘空间小，索引查询速度快，适合长字符串字段。</li>
+<li>缺点：可能降低字段的区分度（比如两个邮箱前10个字符相同，就需要回表验证），无法用于 ORDER BY 和 GROUP BY 操作。</li>
+</ul>
+<h4 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h4><p>前缀长度N的选择是关键，既要节省空间，又要保证区分度。可以通过以下SQL语句测试前缀长度的区分度：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 测试不同前缀长度的区分度，接近1最好</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(email, <span class="number">8</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> rate8,</span><br><span class="line">       <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(email, <span class="number">10</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> rate10,</span><br><span class="line">       <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(email, <span class="number">12</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> rate12</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下，前缀长度选择能让区分度达到0.9以上的最小N即可。</p>
+<h3 id="2️⃣-覆盖索引优化（Covering-Index）——-避免回表，提升查询速度"><a href="#2️⃣-覆盖索引优化（Covering-Index）——-避免回表，提升查询速度" class="headerlink" title="2️⃣ 覆盖索引优化（Covering Index）—— 避免回表，提升查询速度"></a>2️⃣ 覆盖索引优化（Covering Index）—— 避免回表，提升查询速度</h3><p>很多人不知道，即使建了索引，查询时也可能存在“回表”操作：索引中只存储了索引列的值，而查询需要的字段（比如姓名、年龄）不在索引中，此时数据库会先通过索引找到对应的主键，再通过主键去表中查询完整数据，这个过程就是“回表”，会增加IO操作，降低查询速度。</p>
+<p>覆盖索引的核心：<strong>查询的所有字段，都包含在索引中</strong>，无需回表，直接从索引中获取所有需要的数据，大幅提升查询效率。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给 student 表建立索引 (id, name)</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> student <span class="keyword">ADD</span> INDEX idx_id_name (id, name);</span><br><span class="line"><span class="comment">-- 查询的 id 和 name 都在索引中，无需回表</span></span><br><span class="line"><span class="keyword">SELECT</span> id, name <span class="keyword">FROM</span> student <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>说明：索引 idx_id_name 包含了 id 和 name 两个字段，查询时直接从索引中获取这两个字段的值，不需要回表查询，速度极快。</p>
+<h4 id="覆盖索引的实战技巧"><a href="#覆盖索引的实战技巧" class="headerlink" title="覆盖索引的实战技巧"></a>覆盖索引的实战技巧</h4><ul>
+<li>查询时，只查需要的字段，不要用 SELECT *（SELECT * 会查询所有字段，大概率需要回表）。</li>
+<li>用 EXPLAIN 分析查询语句，查看 Extra 字段，如果出现“Using index”，说明使用了覆盖索引，无需回表。</li>
+</ul>
+<h3 id="3️⃣-主键索引自增优化（Auto-Increment-Primary-Key）——-避免数据页分裂"><a href="#3️⃣-主键索引自增优化（Auto-Increment-Primary-Key）——-避免数据页分裂" class="headerlink" title="3️⃣ 主键索引自增优化（Auto Increment Primary Key）—— 避免数据页分裂"></a>3️⃣ 主键索引自增优化（Auto Increment Primary Key）—— 避免数据页分裂</h3><p>MySQL 的 InnoDB 存储引擎中，主键索引是“聚簇索引”（Clustered Index），聚簇索引的特点是：<strong>数据按照主键的顺序存储在磁盘上</strong>，索引和数据是绑定在一起的。</p>
+<p>如果主键是随机值（比如 UUID、随机字符串），会导致以下问题：</p>
+<ul>
+<li>数据插入时，无法按照顺序插入，需要频繁调整数据页的顺序，导致数据页分裂。</li>
+<li>数据页分裂会产生大量碎片，占用更多磁盘空间，同时降低写入和查询性能。</li>
+</ul>
+<p>实战建议：<strong>主键必须使用自增主键</strong>，格式如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id <span class="type">BIGINT</span> AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span>;</span><br></pre></td></tr></table></figure>
+
+<p>自增主键的优势：数据会按照主键顺序依次插入，不会产生数据页分裂，碎片少，写入性能最优，同时查询时也能通过自增主键快速定位。</p>
+<p>注意：不要用 INT 类型作为主键（INT 最大只能存储2147483647条数据），建议用 BIGINT 类型，避免数据量过大时主键溢出。</p>
+<h3 id="4️⃣-索引列设置为-NOT-NULL-——-避免索引失效"><a href="#4️⃣-索引列设置为-NOT-NULL-——-避免索引失效" class="headerlink" title="4️⃣ 索引列设置为 NOT NULL —— 避免索引失效"></a>4️⃣ 索引列设置为 NOT NULL —— 避免索引失效</h3><p>MySQL 在处理 NULL 值时，无法高效使用索引，尤其是在范围查询（比如 &gt;、&lt;、BETWEEN）和排序时，NULL 值会被当作特殊值处理，导致索引失效，只能进行全表扫描。</p>
+<p>实战建议：</p>
+<ul>
+<li>避免在索引列中使用 NULL 值。</li>
+<li>如果字段确实可能为空，可以设置默认值（比如字符串字段默认空字符串 DEFAULT ‘’，数值字段默认 0），确保索引列不会出现 NULL。</li>
+</ul>
+<h3 id="5️⃣-防止索引失效-——-避开这些常见坑"><a href="#5️⃣-防止索引失效-——-避开这些常见坑" class="headerlink" title="5️⃣ 防止索引失效 —— 避开这些常见坑"></a>5️⃣ 防止索引失效 —— 避开这些常见坑</h3><p>最让人头疼的问题：索引建好了，但查询时却没被用到，这就是“索引失效”。以下是6种最常见的索引失效场景，一定要避开，同时记住对应的解决方法。</p>
+<table>
+<thead>
+<tr>
+<th>索引失效场景</th>
+<th>示例</th>
+<th>失效原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>使用 OR 连接非索引列</td>
+<td>WHERE a=1 OR b=2（a有索引，b无索引）</td>
+<td>OR 连接的字段中，只要有一个字段没有索引，就会导致全表扫描</td>
+<td>给 OR 连接的所有字段都建索引；或用 UNION 替代 OR</td>
+</tr>
+<tr>
+<td>对索引列进行函数操作</td>
+<td>WHERE YEAR(create_time)=2025（create_time有索引）</td>
+<td>函数操作会改变索引列的值，导致数据库无法利用索引</td>
+<td>避免对索引列进行函数操作，改为 WHERE create_time BETWEEN ‘2025-01-01’ AND ‘2025-12-31’</td>
+</tr>
+<tr>
+<td>模糊匹配以 % 开头</td>
+<td>WHERE username LIKE ‘%abc’（username有索引）</td>
+<td>% 开头的模糊匹配，无法利用前缀索引，只能全表扫描</td>
+<td>尽量用前缀匹配（LIKE ‘abc%’）；如果必须用 % 开头，可考虑全文索引</td>
+</tr>
+<tr>
+<td>隐式类型转换</td>
+<td>WHERE num = ‘123’（num是INT类型，有索引）</td>
+<td>字符串和数值类型不匹配，MySQL会自动进行类型转换，导致索引失效</td>
+<td>保持查询条件和字段类型一致，改为 WHERE num = 123</td>
+</tr>
+<tr>
+<td>复合索引未遵守“最左前缀原则”</td>
+<td>索引(a,b,c)，查询 WHERE b=2 AND c=3</td>
+<td>复合索引的查询，必须从最左边的列开始，否则无法使用索引</td>
+<td>查询时包含复合索引最左边的列；或调整索引顺序，将常用字段放在左边</td>
+</tr>
+<tr>
+<td>使用 NOT IN / NOT EXISTS</td>
+<td>WHERE id NOT IN (1,2,3)（id有索引）</td>
+<td>NOT IN / NOT EXISTS 会导致索引失效，触发全表扫描</td>
+<td>用 LEFT JOIN … IS NULL 替代 NOT IN；或用 EXISTS 替代 NOT EXISTS</td>
+</tr>
+</tbody></table>
+<h2 id="五、总结速记表-——-快速回顾核心要点"><a href="#五、总结速记表-——-快速回顾核心要点" class="headerlink" title="五、总结速记表 —— 快速回顾核心要点"></a>五、总结速记表 —— 快速回顾核心要点</h2><p>为了方便大家记忆和后续查阅，整理了一份核心速记表，涵盖索引的创建原则、优化技巧和避坑点，建议收藏：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>原则/技巧</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建索引</td>
+<td>WHERE / JOIN / ORDER / GROUP 字段</td>
+<td>核心原则，提升查询效率</td>
+</tr>
+<tr>
+<td>不建索引</td>
+<td>小表 / 高频更新 / 低区分度 / 少用字段</td>
+<td>节省磁盘空间，避免拖慢写入性能</td>
+</tr>
+<tr>
+<td>前缀索引</td>
+<td>email(10)（取前N个字符）</td>
+<td>节省空间，需测试区分度（接近1最佳）</td>
+</tr>
+<tr>
+<td>覆盖索引</td>
+<td>查询字段全在索引中</td>
+<td>避免回表，减少IO，查询更快</td>
+</tr>
+<tr>
+<td>主键自增</td>
+<td>AUTO_INCREMENT</td>
+<td>防止数据页分裂，写入性能最优</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>索引列不应为NULL</td>
+<td>避免索引失效，提升查询效率</td>
+</tr>
+<tr>
+<td>索引失效</td>
+<td>函数、OR、%abc、类型不匹配等</td>
+<td>避开这些场景，确保索引被正常使用</td>
+</tr>
+</tbody></table>
+<h2 id="六、最后总结"><a href="#六、最后总结" class="headerlink" title="六、最后总结"></a>六、最后总结</h2><p>索引是MySQL性能优化的核心，掌握它的关键不在于“建多少索引”，而在于“建对索引”。记住以下3点，就能轻松应对大部分开发和面试场景：</p>
+<ul>
+<li>权衡利弊：索引是“查询快、写入慢”的 trade-off，根据业务场景选择是否建索引。</li>
+<li>抓准场景：常出现在 WHERE、JOIN、ORDER、GROUP 中的列建索引，反之不建。</li>
+<li>避开坑点：记住常见的索引失效场景，合理使用前缀索引、覆盖索引、自增主键，最大化索引价值。</li>
+</ul>
+<p>下一章，我们将结合具体的SQL案例，实战演练索引优化的全过程，教你如何用 EXPLAIN 分析索引使用情况，解决实际开发中的性能问题，记得持续关注哦！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jjmk6.github.io">jjmk6</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jjmk6.github.io/posts/0db1a272.html">https://jjmk6.github.io/posts/0db1a272.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jjmk6.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/250c96a6.html" title="从零起步学习MySQL  第十一章：MySQL中常见的索引失效情况原因分析及解决方案"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">从零起步学习MySQL  第十一章：MySQL中常见的索引失效情况原因分析及解决方案</div></div><div class="info-2"><div class="info-item-1">前言： 在 MySQL 数据库中，很多时候 SQL 的 CRUD 性能极差，并不是因为数据量真的大到无法处理，而是开发者对索引底层实现不够透彻，写出了让索引 “失效” 的 SQL。本文就带你一次性搞懂：MySQL 中最常见的 6 类索引失效场景，从本质原因到检测方式，再到可直接落地的解决方案，无论是日常开发优化，还是后端面试，都能直接用上。  1）左 / 左右模糊匹配（LIKE 的 % 在左侧或两侧）示例12SELECT * FROM users WHERE name LIKE &#x27;%smith&#x27;;SELECT * FROM users WHERE name LIKE &#x27;%smi%&#x27;;  为什么失效（本质）InnoDB 的 B+ 树索引是按字段值有序存储的，只有前缀匹配才能利用索引的有序性做快速范围查找。 当 LIKE 以 % 开头时，查询需要匹配 “任意前缀 + 目标串”，B+ 树无法定位到连续的有序区间，只能走全表扫描或全索引扫描，索引直接失效。 如何检测执行 EXPLAIN 查看执行计划：  type = ALL（全表扫描） 或 typ...</div></div></div></a><a class="pagination-related" href="/posts/8c4bd063.html" title="从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型</div></div><div class="info-2"><div class="info-item-1">引言从今天开始，我们正式启动MySQL的系统性学习之旅！本专栏将完全从零起步，循序渐进地带大家吃透MySQL的整个知识库——从最基础的概念、操作，到进阶的优化、调优，再到生产环境的实战技巧，全程干货无冗余。无论你是刚入门的后端新手，还是想巩固基础的开发从业者，都能从中有所收获。学习过程中，大家有任何疑问、困惑，或者不同的见解，都可以在评论区交流探讨，我们一起进步、一起成长，感谢大家的支持！ 一、MySQL 是什么？—— 后端开发的“数据管家”在后端开发的世界里，无论你是开发简单的注册登录接口、复杂的商品管理系统，还是核心的订单交易系统，都离不开一个核心组件——数据库。而在众多数据库中，MySQL 凭借其开源免费、高效稳定、兼容性强的特点，成为了后端开发者的首选，更是Java后端开发中最常用的关系型数据库，没有之一。 ✅ 核心定义MySQL 是一种 关系型数据库管理系统（RDBMS），它基于关系模型设计，使用 SQL（结构化查询语言）作为数据的存取和管理工具。简单来说，MySQL 就像一个“智能文件柜”，它把杂乱无章的数据，按照固定的规则（表格）整理存放，并且表与表之间通过特定的关...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jjmk6</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jjmk6"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/jjmk6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%88Index%EF%BC%89%EF%BC%9F%E2%80%94%E2%80%94-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E2%80%9C%E7%9B%AE%E5%BD%95%E2%80%9D%E6%9C%89%E5%A4%9A%E9%87%8D%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">一、为什么要创建索引（Index）？—— 数据库的“目录”有多重要</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%B4%A2%E5%BC%95%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BC%98%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">✅ 索引的核心优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-%E7%B4%A2%E5%BC%95%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%BF%BD%E8%A7%86%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">❌ 索引的不可忽视的缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%9F%E2%80%94%E2%80%94-%E8%AE%B0%E4%BD%8F%E8%BF%99%E4%B8%80%E4%B8%AA%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99"><span class="toc-number">2.</span> <span class="toc-text">二、什么时候需要创建索引？—— 记住这一个核心原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BB%E9%94%AE%E5%92%8C%E5%94%AF%E4%B8%80%E9%94%AE%EF%BC%88%E5%BF%85%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">1. 主键和唯一键（必建索引）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BB%8F%E5%B8%B8%E7%94%A8%E4%BD%9C%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%AD%97%E6%AE%B5%EF%BC%88WHERE-%E5%90%8E%E5%87%BA%E7%8E%B0%E7%9A%84%E5%88%97%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2. 经常用作查询条件的字段（WHERE 后出现的列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%A8%E4%BA%8E%E6%8E%92%E5%BA%8F%E7%9A%84%E5%AD%97%E6%AE%B5%EF%BC%88ORDER-BY-%E5%90%8E%E5%87%BA%E7%8E%B0%E7%9A%84%E5%88%97%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">3. 用于排序的字段（ORDER BY 后出现的列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%94%A8%E4%BA%8E%E5%88%86%E7%BB%84%E7%BB%9F%E8%AE%A1%E7%9A%84%E5%AD%97%E6%AE%B5%EF%BC%88GROUP-BY-%E5%90%8E%E5%87%BA%E7%8E%B0%E7%9A%84%E5%88%97%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">4. 用于分组统计的字段（GROUP BY 后出现的列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%97%B6%E7%94%A8%E4%BD%9C%E8%BF%9E%E6%8E%A5%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%AD%97%E6%AE%B5%EF%BC%88JOIN-%E5%85%B3%E8%81%94%E5%AD%97%E6%AE%B5%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">5. 多表连接时用作连接条件的字段（JOIN 关联字段）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%9F%E2%80%94%E2%80%94-%E7%B4%A2%E5%BC%95%E8%B6%8A%E5%A4%9A%EF%BC%8C%E6%80%A7%E8%83%BD%E8%B6%8A%E5%B7%AE"><span class="toc-number">3.</span> <span class="toc-text">三、什么时候不需要创建索引？—— 索引越多，性能越差</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E9%87%8F%E5%BE%88%E5%B0%8F%E7%9A%84%E8%A1%A8%EF%BC%88%E5%87%A0%E7%99%BE%E8%A1%8C%E4%BB%A5%E5%86%85%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">1. 数据量很小的表（几百行以内）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="toc-number">3.2.</span> <span class="toc-text">2. 频繁更新的字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%AB%98%E9%87%8D%E5%A4%8D%E5%BA%A6%E7%9A%84%E5%AD%97%E6%AE%B5%EF%BC%88%E5%8C%BA%E5%88%86%E5%BA%A6%E6%9E%81%E4%BD%8E%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">3. 高重复度的字段（区分度极低）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E8%AF%A2%E4%B8%AD%E5%BE%88%E5%B0%91%E7%94%A8%E5%88%B0%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="toc-number">3.4.</span> <span class="toc-text">4. 查询中很少用到的字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%B8%B4%E6%97%B6%E8%A1%A8%E3%80%81%E4%B8%80%E6%AC%A1%E6%80%A7%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%A1%A8"><span class="toc-number">3.5.</span> <span class="toc-text">5. 临时表、一次性查询的表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94-%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91-%E5%AE%9E%E6%88%98%E5%BF%85%E5%A4%87"><span class="toc-number">4.</span> <span class="toc-text">四、索引优化方法—— 面试高频+实战必备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%EF%BC%88Prefix-Index%EF%BC%89%E2%80%94%E2%80%94-%E8%A7%A3%E5%86%B3%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B4%A2%E5%BC%95%E6%B5%AA%E8%B4%B9%E7%A9%BA%E9%97%B4%E9%97%AE%E9%A2%98"><span class="toc-number">4.1.</span> <span class="toc-text">1️⃣ 前缀索引优化（Prefix Index）—— 解决长字符串索引浪费空间问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">4.1.1.</span> <span class="toc-text">前缀索引的优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.1.2.</span> <span class="toc-text">实战建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%EF%BC%88Covering-Index%EF%BC%89%E2%80%94%E2%80%94-%E9%81%BF%E5%85%8D%E5%9B%9E%E8%A1%A8%EF%BC%8C%E6%8F%90%E5%8D%87%E6%9F%A5%E8%AF%A2%E9%80%9F%E5%BA%A6"><span class="toc-number">4.2.</span> <span class="toc-text">2️⃣ 覆盖索引优化（Covering Index）—— 避免回表，提升查询速度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7"><span class="toc-number">4.2.1.</span> <span class="toc-text">覆盖索引的实战技巧</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E8%87%AA%E5%A2%9E%E4%BC%98%E5%8C%96%EF%BC%88Auto-Increment-Primary-Key%EF%BC%89%E2%80%94%E2%80%94-%E9%81%BF%E5%85%8D%E6%95%B0%E6%8D%AE%E9%A1%B5%E5%88%86%E8%A3%82"><span class="toc-number">4.3.</span> <span class="toc-text">3️⃣ 主键索引自增优化（Auto Increment Primary Key）—— 避免数据页分裂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%B8%8F%E2%83%A3-%E7%B4%A2%E5%BC%95%E5%88%97%E8%AE%BE%E7%BD%AE%E4%B8%BA-NOT-NULL-%E2%80%94%E2%80%94-%E9%81%BF%E5%85%8D%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="toc-number">4.4.</span> <span class="toc-text">4️⃣ 索引列设置为 NOT NULL —— 避免索引失效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%B8%8F%E2%83%A3-%E9%98%B2%E6%AD%A2%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88-%E2%80%94%E2%80%94-%E9%81%BF%E5%BC%80%E8%BF%99%E4%BA%9B%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="toc-number">4.5.</span> <span class="toc-text">5️⃣ 防止索引失效 —— 避开这些常见坑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93%E9%80%9F%E8%AE%B0%E8%A1%A8-%E2%80%94%E2%80%94-%E5%BF%AB%E9%80%9F%E5%9B%9E%E9%A1%BE%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">五、总结速记表 —— 快速回顾核心要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%9C%80%E5%90%8E%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、最后总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/45bb28d7.html" title="渐进式披露：Cloud Code团队踩坑无数后悟出的AI Agent设计真谛">渐进式披露：Cloud Code团队踩坑无数后悟出的AI Agent设计真谛</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/32c772e2.html" title="Linux常用文件管理命令">Linux常用文件管理命令</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/acf3e64f.html" title="一文读懂RAG：从原理到落地，搭建智能知识库原来这么简单">一文读懂RAG：从原理到落地，搭建智能知识库原来这么简单</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/078ecc05.html" title="彻底搞懂Token：大模型的“翻译官”是如何炼成的？">彻底搞懂Token：大模型的“翻译官”是如何炼成的？</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5ebf852a.html" title="shell教程（三）基本语句">shell教程（三）基本语句</a><time datetime="2026-03-14T07:00:00.000Z" title="发表于 2026-03-14 15:00:00">2026-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By jjmk6</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?jjmk6",git_color,'jjmk6')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>
