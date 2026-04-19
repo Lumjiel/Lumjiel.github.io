@@ -1,0 +1,488 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>10第十章：深入了解B+树及B+树的性能优势 | JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在MySQL的学习之路中，索引是提升查询性能的核心，而B+树则是MySQL索引的“灵魂”——无论是InnoDB还是MyISAM存储引擎，都以B+树作为底层索引结构。很多初学者会有疑问：为什么数据库不选择我们熟悉的二叉树、红黑树，偏偏青睐B+树？B+树的底层结构到底有什么优势，能支撑千万级、亿级..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "10第十章：深入了解B+树及B+树的性能优势",
+  "url": "https://lumjiel.github.io/posts/c3d9b764.html",
+  "image": "https://lumjiel.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.694Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lumjiel",
+      "url": "https://Lumjiel.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/posts/c3d9b764.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '10第十章：深入了解B+树及B+树的性能优势',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">10第十章：深入了解B+树及B+树的性能优势</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">10第十章：深入了解B+树及B+树的性能优势</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>在MySQL的学习之路中，索引是提升查询性能的核心，而B+树则是MySQL索引的“灵魂”——无论是InnoDB还是MyISAM存储引擎，都以B+树作为底层索引结构。很多初学者会有疑问：为什么数据库不选择我们熟悉的二叉树、红黑树，偏偏青睐B+树？B+树的底层结构到底有什么优势，能支撑千万级、亿级数据的高效查询？本章将从底层数据结构出发，结合MySQL的实际实现，深度解析B+树的原理、性能优势，以及它在数据库中的具体应用，帮你彻底搞懂B+树与MySQL索引的关联。</p>
+<h2 id="一、什么是-B-树？"><a href="#一、什么是-B-树？" class="headerlink" title="一、什么是 B+ 树？"></a>一、什么是 B+ 树？</h2><h3 id="1-核心定义"><a href="#1-核心定义" class="headerlink" title="1. 核心定义"></a>1. 核心定义</h3><p>B+ 树（B Plus Tree）是一种多路平衡查找树（Multi-way Balanced Search Tree），专门为磁盘存储场景设计，广泛应用于数据库和文件系统的索引结构。它并非全新的数据结构，而是对B树（B-Tree，注意不是B-树，两者无区别，只是写法不同）的优化和改进，解决了B树在范围查询、磁盘IO效率上的不足。</p>
+<p>与二叉树（每个节点最多2个子节点）不同，B+树的每个节点可以有m个子节点（称为m阶B+树），m的大小由磁盘页的大小决定——这也是B+树适配磁盘存储的关键设计之一。</p>
+<h3 id="2-B-树的核心结构特点（图文化解析）"><a href="#2-B-树的核心结构特点（图文化解析）" class="headerlink" title="2. B+ 树的核心结构特点（图文化解析）"></a>2. B+ 树的核心结构特点（图文化解析）</h3><p>为了方便理解，我们先明确B+树的核心结构逻辑（无需纠结具体阶数，重点看设计思路）：B+树分为根节点、非叶子节点（也叫中间节点）和叶子节点三层，每层节点都对应一个磁盘页，所有数据最终都落在叶子节点上，非叶子节点仅负责“导航”。</p>
+<p>以下是B+树的5个核心特点，结合实际场景拆解说明：</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>详细说明</th>
+<th>设计优势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1️⃣ 所有数据都存放在叶子节点</td>
+<td>非叶子节点只存储键值（索引值）和子节点指针，不存放实际的表数据；叶子节点存储完整的键值和对应的数据记录（InnoDB中是整行数据或主键值）。</td>
+<td>非叶子节点无需存储数据，能节省空间，让每个节点容纳更多键值和指针，从而减少树的层数。</td>
+</tr>
+<tr>
+<td>2️⃣ 叶子节点之间有双向链表</td>
+<td>所有叶子节点按键值顺序排列，并且通过双向链表相互连接，每个叶子节点都有一个前驱指针和后继指针。</td>
+<td>支持顺序查询和范围查询，无需回溯父节点，效率极大提升（这是B+树优于B树的核心亮点）。</td>
+</tr>
+<tr>
+<td>3️⃣ 树高较低</td>
+<td>由于每个节点可以存储多个键值（多路分叉），即使存储百万级、千万级数据，B+树的高度通常也不会超过3~4层。</td>
+<td>树高越低，查询时需要访问的磁盘页越少，磁盘IO次数越少，查询速度越快。</td>
+</tr>
+<tr>
+<td>4️⃣ 节点可存多条索引键</td>
+<td>每个节点（磁盘页）的大小固定（InnoDB中默认16KB），可存储上千个键值和指针（具体数量取决于键值大小）。</td>
+<td>减少磁盘IO次数：一次磁盘IO可加载整个节点的所有键值，无需多次加载，大幅提升查询效率。</td>
+</tr>
+<tr>
+<td>5️⃣ 自动保持平衡</td>
+<td>插入或删除数据时，若节点满或节点数据量低于阈值，会触发节点分裂或合并操作，确保树的结构始终平衡。</td>
+<td>避免树结构退化（如二叉树退化成链表），保证查询、插入、删除的效率稳定在O(logN)。</td>
+</tr>
+</tbody></table>
+<h2 id="二、为什么-MySQL-选择-B-树？（核心原因拆解）"><a href="#二、为什么-MySQL-选择-B-树？（核心原因拆解）" class="headerlink" title="二、为什么 MySQL 选择 B+ 树？（核心原因拆解）"></a>二、为什么 MySQL 选择 B+ 树？（核心原因拆解）</h2><p>要搞懂这个问题，首先要明确一个核心前提：数据库的索引是存储在磁盘上的，而磁盘IO（输入/输出）是数据库性能的最大瓶颈——内存的访问速度是磁盘的10万倍以上，因此，索引设计的核心目标，就是<strong>最小化磁盘IO次数</strong>。</p>
+<p>我们对比几种常见的数据结构，就能清晰看到B+树的优势所在：</p>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>查询复杂度</th>
+<th>范围查询能力</th>
+<th>磁盘IO效率</th>
+<th>适用场景</th>
+<th>MySQL不选择的原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二叉查找树（BST）</td>
+<td>O(logN)（不稳定）</td>
+<td>差</td>
+<td>差</td>
+<td>小规模内存数据</td>
+<td>容易退化成链表（如有序插入时），查询复杂度变为O(N)；节点仅存1个键值，树高极高，磁盘IO次数多。</td>
+</tr>
+<tr>
+<td>AVL树 / 红黑树</td>
+<td>O(logN)（稳定）</td>
+<td>差</td>
+<td>差</td>
+<td>内存中的平衡查找（如Java TreeMap）</td>
+<td>本质是二叉树，节点存储量少，树高较高（百万数据树高约20层），磁盘IO次数过多；仅适合内存场景，不适合磁盘存储。</td>
+</tr>
+<tr>
+<td>B树（B-Tree）</td>
+<td>O(logN)（稳定）</td>
+<td>一般</td>
+<td>好</td>
+<td>早期数据库、文件系统</td>
+<td>非叶子节点也存储数据，占用节点空间，导致每个节点存储的键值数量减少，树高比B+树高；叶子节点无链表连接，范围查询需回溯父节点，效率低。</td>
+</tr>
+<tr>
+<td>B+树</td>
+<td>O(logN)（稳定）</td>
+<td>优</td>
+<td>优</td>
+<td>现代数据库索引（MySQL、Oracle）</td>
+<td>完美适配磁盘存储，树低、IO少、范围查询高效，是数据库索引的最优选择。</td>
+</tr>
+</tbody></table>
+<h3 id="核心优势总结：磁盘IO效率-范围查询性能"><a href="#核心优势总结：磁盘IO效率-范围查询性能" class="headerlink" title="核心优势总结：磁盘IO效率 + 范围查询性能"></a>核心优势总结：磁盘IO效率 + 范围查询性能</h3><p>MySQL选择B+树，本质是它的设计完美解决了磁盘存储场景下的性能痛点，主要体现在两点：</p>
+<ol>
+<li>多路分叉设计，降低树高，减少磁盘IO：B+树每个节点可存储上千个键值（16KB磁盘页，若键值是int类型，可存储约4000个键值），这意味着：</li>
+</ol>
+<ul>
+<li>100万条数据：B+树高度仅需3层（根节点→中间节点→叶子节点）；</li>
+<li>1000万条数据：B+树高度仅需4层；</li>
+<li>一次查询仅需2<del>3次磁盘IO（加载3</del>4个节点），而二叉树可能需要20次以上IO，效率差距巨大。</li>
+</ul>
+<ol start="2">
+<li>叶子节点双向链表，优化范围查询：范围查询（如BETWEEN、ORDER BY、&lt;、&gt;）是数据库中最常见的查询场景之一，B+树的叶子节点链表结构，让范围查询无需回溯父节点——只要找到范围的起点叶子节点，顺着链表顺序扫描，就能获取所有符合条件的数据，效率远超B树和红黑树。</li>
+</ol>
+<h2 id="三、B-树在不同操作下的性能表现（结合MySQL实操）"><a href="#三、B-树在不同操作下的性能表现（结合MySQL实操）" class="headerlink" title="三、B+ 树在不同操作下的性能表现（结合MySQL实操）"></a>三、B+ 树在不同操作下的性能表现（结合MySQL实操）</h2><p>B+树的性能优势，不仅体现在查询上，在插入、删除操作中也能保持高效稳定，这也是它能成为MySQL索引核心的重要原因。下面结合MySQL的实际操作场景，解析B+树在不同操作下的表现。</p>
+<h3 id="1-单点查询（-查询，最常用场景）"><a href="#1-单点查询（-查询，最常用场景）" class="headerlink" title="1. 单点查询（= 查询，最常用场景）"></a>1. 单点查询（= 查询，最常用场景）</h3><p>场景示例：SELECT * FROM user WHERE id = 100;（id为主键，对应聚簇索引）</p>
+<p>查询过程（结合B+树结构）：</p>
+<ol>
+<li>从B+树的根节点开始，根节点存储键值和子节点指针，通过比较id=100与根节点的键值，确定需要访问的子节点（中间节点）；</li>
+<li>访问中间节点，再次比较键值，确定目标叶子节点的位置，此时完成第二次磁盘IO；</li>
+<li>加载叶子节点，在叶子节点中找到id=100对应的记录，完成查询（若为聚簇索引，直接获取整行数据；若为二级索引，需回表查询）。</li>
+</ol>
+<p>性能分析：</p>
+<ul>
+<li>时间复杂度：稳定在O(logN)，不受数据顺序影响；</li>
+<li>核心优势：树高极低（2~4层），磁盘IO次数少，查询速度快且稳定，即使数据量达到千万级，单点查询也能在毫秒级完成。</li>
+</ul>
+<h3 id="2-插入与删除操作"><a href="#2-插入与删除操作" class="headerlink" title="2. 插入与删除操作"></a>2. 插入与删除操作</h3><p>B+树的自动平衡机制，确保了插入和删除操作的高效性，不会出现结构退化的问题，具体过程如下：</p>
+<h4 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h4><ol>
+<li>根据插入的键值，从根节点向下遍历，找到目标叶子节点（需1~3次磁盘IO）；</li>
+<li>将数据插入到叶子节点中，若叶子节点未满，直接完成插入；</li>
+<li>若叶子节点已满（达到节点最大容量），则触发<strong>节点分裂</strong>：将叶子节点拆分为两个节点，将中间键值提升到父节点（中间节点）；</li>
+<li>若父节点也已满，则继续向上分裂，直至根节点分裂（此时树高增加1层），整个过程始终保持树的平衡。</li>
+</ol>
+<h4 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h4><ol>
+<li>根据删除的键值，找到目标叶子节点，删除对应记录；</li>
+<li>若删除后，叶子节点的数据量仍高于阈值（节点容量的1/2），直接完成删除；</li>
+<li>若删除后，叶子节点的数据量低于阈值，则触发<strong>节点合并</strong>：将当前叶子节点与相邻的叶子节点合并，同时删除父节点中对应的键值；</li>
+<li>若父节点的键值数量低于阈值，继续向上合并，直至根节点（树高可能减少1层），始终保持树的平衡。</li>
+</ol>
+<p>性能分析：</p>
+<ul>
+<li>时间复杂度：O(logN)，与单点查询一致；</li>
+<li>核心优势：分裂和合并操作仅影响局部节点，不会影响整个树的结构，成本较低；同时自动保持平衡，确保后续查询、插入、删除的效率稳定。</li>
+</ul>
+<h3 id="3-范围查询（B-树的核心优势场景）"><a href="#3-范围查询（B-树的核心优势场景）" class="headerlink" title="3. 范围查询（B+树的核心优势场景）"></a>3. 范围查询（B+树的核心优势场景）</h3><p>场景示例：SELECT * FROM user WHERE id BETWEEN 100 AND 200;（id为主键，聚簇索引）</p>
+<p>为什么B+树的范围查询远优于B树、红黑树？核心原因就是叶子节点的双向链表结构——所有数据按顺序排列，无需回溯父节点，具体执行过程如下：</p>
+<ol>
+<li>在B+树中，从根节点向下遍历，找到id=100对应的叶子节点（这一步与单点查询一致，需2~3次磁盘IO）；</li>
+<li>通过叶子节点的后继指针，依次扫描后续的叶子节点，直到找到id=200对应的记录；</li>
+<li>将所有id在100~200之间的记录收集，返回结果，整个过程无需再次访问父节点。</li>
+</ol>
+<p>性能分析：</p>
+<ul>
+<li>时间复杂度：O(logN + M)，其中logN是定位起点叶子节点的时间，M是符合条件的记录数量；</li>
+<li>核心优势：范围越大，B+树的优势越明显——如果用B树，每次查询下一个数据都需要回溯父节点，效率会大幅降低；而B+树只需一次定位，后续顺序扫描即可。</li>
+</ul>
+<p>这也是MySQL中ORDER BY、GROUP BY、BETWEEN等操作能高效执行的核心原因，也是B+树成为数据库索引首选结构的关键因素之一。</p>
+<h2 id="四、MySQL-中的-B-树特点（InnoDB-实现，重点掌握）"><a href="#四、MySQL-中的-B-树特点（InnoDB-实现，重点掌握）" class="headerlink" title="四、MySQL 中的 B+ 树特点（InnoDB 实现，重点掌握）"></a>四、MySQL 中的 B+ 树特点（InnoDB 实现，重点掌握）</h2><p>需要注意的是，我们上面讨论的是B+树的通用结构，而MySQL的InnoDB存储引擎，对B+树做了针对性优化，使之更贴合磁盘存储和数据库查询场景，这些优化也是InnoDB成为MySQL默认存储引擎的重要原因。</p>
+<h3 id="1-以“页（Page）”为节点单位"><a href="#1-以“页（Page）”为节点单位" class="headerlink" title="1. 以“页（Page）”为节点单位"></a>1. 以“页（Page）”为节点单位</h3><p>InnoDB中，B+树的每个节点对应一个<strong>磁盘页</strong>，页的大小默认是16KB（可通过参数调整），每次磁盘IO都会加载整个页的数据——这是InnoDB优化磁盘IO的核心设计。</p>
+<p>由于每个页是16KB，且非叶子节点仅存储键值和指针（不存储数据），一个页可以存储上千个键值和指针（例如：int类型的键值占4字节，指针占8字节，一个键值+指针共12字节，16KB页可存储约1365个键值+指针）。</p>
+<p>举个直观的例子：</p>
+<ul>
+<li>1000万条记录的表，主键是int类型（4字节），聚簇索引的B+树高度仅需3~4层；</li>
+<li>一次主键查询，仅需加载3<del>4个16KB的页，也就是3</del>4次磁盘IO，毫秒级就能完成查询。</li>
+</ul>
+<h3 id="2-聚簇索引（Clustered-Index）——-InnoDB的核心索引"><a href="#2-聚簇索引（Clustered-Index）——-InnoDB的核心索引" class="headerlink" title="2. 聚簇索引（Clustered Index）—— InnoDB的核心索引"></a>2. 聚簇索引（Clustered Index）—— InnoDB的核心索引</h3><p>InnoDB中，主键索引就是聚簇索引，这是InnoDB与MyISAM的核心区别之一，也是InnoDB查询效率高的关键。聚簇索引的核心特点是：<strong>叶子节点存储整行数据</strong>，数据文件本身就是B+树的结构。</p>
+<p>示例表结构（主键为id，聚簇索引）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span>,  <span class="comment">-- 主键，对应聚簇索引</span></span><br><span class="line">  name <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">  age <span class="type">INT</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>聚簇索引的B+树结构解析：</p>
+<ul>
+<li>非叶子节点：存储主键值（id）+ 子节点指针，仅负责导航，不存储实际数据；</li>
+<li>叶子节点：存储完整的行数据（id、name、age），按主键值顺序排列，且通过双向链表连接。</li>
+</ul>
+<p>核心优势：按主键查询时，只需遍历一次B+树，就能直接获取整行数据，无需额外操作，效率极高。</p>
+<h3 id="3-二级索引（Secondary-Index）——-辅助索引"><a href="#3-二级索引（Secondary-Index）——-辅助索引" class="headerlink" title="3. 二级索引（Secondary Index）—— 辅助索引"></a>3. 二级索引（Secondary Index）—— 辅助索引</h3><p>除了主键（聚簇索引），我们创建的其他索引（如普通索引、唯一索引）都属于二级索引（也叫辅助索引）。二级索引的B+树结构与聚簇索引不同，核心特点是：<strong>叶子节点不存储整行数据，只存储索引列的值和主键值</strong>。</p>
+<p>示例：给name列创建普通索引（二级索引）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_name <span class="keyword">ON</span> <span class="keyword">user</span>(name);  <span class="comment">-- 二级索引</span></span><br></pre></td></tr></table></figure>
+
+<p>二级索引的B+树结构解析：</p>
+<ul>
+<li>非叶子节点：存储索引列的值（name）+ 子节点指针；</li>
+<li>叶子节点：存储索引列的值（name）+ 主键值（id），不存储其他列的数据。</li>
+</ul>
+<p>这里需要注意“回表”的概念：当我们通过二级索引查询数据时，若查询的列不是索引列（如SELECT * FROM user WHERE name = ‘张三’），会先通过二级索引找到对应的主键值，再通过聚簇索引（主键索引）查询整行数据，这个过程称为“回表”。</p>
+<p>优化技巧：如果查询的列都在二级索引中（如SELECT id, name FROM user WHERE name = ‘张三’），则无需回表，直接从二级索引的叶子节点获取数据，这就是“覆盖索引”，能大幅提升查询效率。</p>
+<h3 id="4-叶子节点双向链表（InnoDB优化）"><a href="#4-叶子节点双向链表（InnoDB优化）" class="headerlink" title="4. 叶子节点双向链表（InnoDB优化）"></a>4. 叶子节点双向链表（InnoDB优化）</h3><p>InnoDB的B+树叶子节点，不仅按键值顺序排列，还通过双向链表连接，同时叶子节点内部的数据也按顺序排列——这一设计进一步优化了范围查询和顺序扫描的效率。</p>
+<p>例如：执行ORDER BY id DESC时，InnoDB可以直接通过叶子节点的前驱指针，反向扫描叶子节点，无需额外排序操作，效率极高。</p>
+<h3 id="5-自平衡-空间利用率高"><a href="#5-自平衡-空间利用率高" class="headerlink" title="5. 自平衡 + 空间利用率高"></a>5. 自平衡 + 空间利用率高</h3><p>InnoDB的B+树，通过节点分裂和合并机制，自动保持平衡；同时，16KB的页大小，让每个节点的空间利用率达到最优，减少磁盘空间浪费，进一步降低磁盘IO次数。</p>
+<h2 id="五、总结：B-树与B树的核心区别及MySQL选择逻辑"><a href="#五、总结：B-树与B树的核心区别及MySQL选择逻辑" class="headerlink" title="五、总结：B+树与B树的核心区别及MySQL选择逻辑"></a>五、总结：B+树与B树的核心区别及MySQL选择逻辑</h2><p>为了让大家更清晰地掌握B+树的优势，我们再次对比B树和MySQL采用的B+树（InnoDB实现）：</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>B 树</th>
+<th>B+ 树（MySQL InnoDB实现）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据存放位置</td>
+<td>各层节点（非叶子+叶子）都存储数据</td>
+<td>仅叶子节点存储数据，非叶子节点仅存键值+指针</td>
+</tr>
+<tr>
+<td>叶子节点是否链表连接</td>
+<td>否</td>
+<td>是（双向链表）</td>
+</tr>
+<tr>
+<td>范围查询性能</td>
+<td>一般（需回溯父节点）</td>
+<td>优（顺序扫描叶子链表，无需回溯）</td>
+</tr>
+<tr>
+<td>树高</td>
+<td>稍高（节点存储数据，键值数量少）</td>
+<td>更低（节点仅存键值，键值数量多）</td>
+</tr>
+<tr>
+<td>查询效率稳定性</td>
+<td>一般（非叶子节点存数据，IO次数不稳定）</td>
+<td>高（树高固定，IO次数稳定）</td>
+</tr>
+<tr>
+<td>MySQL 实现</td>
+<td>几乎不使用（MyISAM早期曾用，现已淘汰）</td>
+<td>核心实现，每个节点对应16KB磁盘页</td>
+</tr>
+</tbody></table>
+<h3 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h3><p>MySQL 采用 B+ 树作为索引结构，核心原因是它能最大化磁盘IO效率（树低、节点存储量大、IO次数少），同时支持高性能的单点查找、插入删除操作，并且天然适合数据库中高频的范围查询场景；而InnoDB对B+树的针对性优化（聚簇索引、二级索引、16KB页），进一步强化了它的性能优势，成为现代MySQL数据库的核心底层结构。</p>
+<p>下一章，我们将结合本章所学的B+树知识，深入解析MySQL索引的创建技巧、索引失效场景，以及如何通过索引优化查询性能，敬请关注！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Lumjiel.github.io">Lumjiel</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lumjiel.github.io/posts/c3d9b764.html">https://lumjiel.github.io/posts/c3d9b764.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Lumjiel.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2a611b68.html" title="11第十一章：MySQL中常见的索引失效情况原因分析及解决方案"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">11第十一章：MySQL中常见的索引失效情况原因分析及解决方案</div></div><div class="info-2"><div class="info-item-1">前言： 在 MySQL 数据库中，很多时候 SQL 的 CRUD 性能极差，并不是因为数据量真的大到无法处理，而是开发者对索引底层实现不够透彻，写出了让索引 “失效” 的 SQL。本文就带你一次性搞懂：MySQL 中最常见的 6 类索引失效场景，从本质原因到检测方式，再到可直接落地的解决方案，无论是日常开发优化，还是后端面试，都能直接用上。  1）左 / 左右模糊匹配（LIKE 的 % 在左侧或两侧）示例12SELECT * FROM users WHERE name LIKE &#x27;%smith&#x27;;SELECT * FROM users WHERE name LIKE &#x27;%smi%&#x27;;  为什么失效（本质）InnoDB 的 B+ 树索引是按字段值有序存储的，只有前缀匹配才能利用索引的有序性做快速范围查找。 当 LIKE 以 % 开头时，查询需要匹配 “任意前缀 + 目标串”，B+ 树无法定位到连续的有序区间，只能走全表扫描或全索引扫描，索引直接失效。 如何检测执行 EXPLAIN 查看执行计划：  type = ALL（全表扫描） 或 typ...</div></div></div></a><a class="pagination-related" href="/posts/0ebf5d73.html" title="09第九章：从数据页的角度看B+树及MySQL中数据的底层存储原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">09第九章：从数据页的角度看B+树及MySQL中数据的底层存储原理</div></div><div class="info-2"><div class="info-item-1">在MySQL的InnoDB存储引擎中，数据的底层存储并非简单的无序存放，而是通过表空间-段-区-页-行的层级结构组织，并基于B+树实现高效的索引和数据查询。这也是MySQL能支撑高并发、大数据量查询的核心原因之一。上一章我们从行的角度解析了单条数据的存储格式，本章将从数据页这个InnoDB最小读写单位出发，深入剖析数据页的内部结构，并结合B+树讲解InnoDB中数据的整体存储原理，同时解答相关高频面试题。 一、InnoDB 数据存储的层级结构InnoDB对数据的管理有着严格的逻辑层级划分，从大到小依次为：数据库 -&gt; 表空间 -&gt; 段 -&gt; 区 -&gt; 页 -&gt; 行，每一层都有其明确的职责和存储规则，层层嵌套构成了完整的数据存储体系。 1. 表空间 (Tablespace)表空间是InnoDB存储数据的最高级容器，对应磁盘上的.ibd或ibdata1文件。MySQL中可通过配置innodb_file_per_table=ON实现单表单表空间，此时每张表的所有数据和索引都会单独存放在对应的表名.ibd文件中（如user表对应user.ibd）；若关闭该配...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-B-%E6%A0%91%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、什么是 B+ 树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A0%B8%E5%BF%83%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">1. 核心定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-B-%E6%A0%91%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%93%E6%9E%84%E7%89%B9%E7%82%B9%EF%BC%88%E5%9B%BE%E6%96%87%E5%8C%96%E8%A7%A3%E6%9E%90%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">2. B+ 树的核心结构特点（图文化解析）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88-MySQL-%E9%80%89%E6%8B%A9-B-%E6%A0%91%EF%BC%9F%EF%BC%88%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%9B%A0%E6%8B%86%E8%A7%A3%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">二、为什么 MySQL 选择 B+ 树？（核心原因拆解）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%E6%80%BB%E7%BB%93%EF%BC%9A%E7%A3%81%E7%9B%98IO%E6%95%88%E7%8E%87-%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E6%80%A7%E8%83%BD"><span class="toc-number">2.1.</span> <span class="toc-text">核心优势总结：磁盘IO效率 + 范围查询性能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81B-%E6%A0%91%E5%9C%A8%E4%B8%8D%E5%90%8C%E6%93%8D%E4%BD%9C%E4%B8%8B%E7%9A%84%E6%80%A7%E8%83%BD%E8%A1%A8%E7%8E%B0%EF%BC%88%E7%BB%93%E5%90%88MySQL%E5%AE%9E%E6%93%8D%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、B+ 树在不同操作下的性能表现（结合MySQL实操）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%95%E7%82%B9%E6%9F%A5%E8%AF%A2%EF%BC%88-%E6%9F%A5%E8%AF%A2%EF%BC%8C%E6%9C%80%E5%B8%B8%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">1. 单点查询（&#x3D; 查询，最常用场景）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8F%92%E5%85%A5%E4%B8%8E%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">3.2.</span> <span class="toc-text">2. 插入与删除操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">插入操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">3.2.2.</span> <span class="toc-text">删除操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%EF%BC%88B-%E6%A0%91%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%E5%9C%BA%E6%99%AF%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">3. 范围查询（B+树的核心优势场景）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81MySQL-%E4%B8%AD%E7%9A%84-B-%E6%A0%91%E7%89%B9%E7%82%B9%EF%BC%88InnoDB-%E5%AE%9E%E7%8E%B0%EF%BC%8C%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">四、MySQL 中的 B+ 树特点（InnoDB 实现，重点掌握）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%A5%E2%80%9C%E9%A1%B5%EF%BC%88Page%EF%BC%89%E2%80%9D%E4%B8%BA%E8%8A%82%E7%82%B9%E5%8D%95%E4%BD%8D"><span class="toc-number">4.1.</span> <span class="toc-text">1. 以“页（Page）”为节点单位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%EF%BC%88Clustered-Index%EF%BC%89%E2%80%94%E2%80%94-InnoDB%E7%9A%84%E6%A0%B8%E5%BF%83%E7%B4%A2%E5%BC%95"><span class="toc-number">4.2.</span> <span class="toc-text">2. 聚簇索引（Clustered Index）—— InnoDB的核心索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%EF%BC%88Secondary-Index%EF%BC%89%E2%80%94%E2%80%94-%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95"><span class="toc-number">4.3.</span> <span class="toc-text">3. 二级索引（Secondary Index）—— 辅助索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8%EF%BC%88InnoDB%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">4. 叶子节点双向链表（InnoDB优化）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%B9%B3%E8%A1%A1-%E7%A9%BA%E9%97%B4%E5%88%A9%E7%94%A8%E7%8E%87%E9%AB%98"><span class="toc-number">4.5.</span> <span class="toc-text">5. 自平衡 + 空间利用率高</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93%EF%BC%9AB-%E6%A0%91%E4%B8%8EB%E6%A0%91%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E5%8F%8AMySQL%E9%80%89%E6%8B%A9%E9%80%BB%E8%BE%91"><span class="toc-number">5.</span> <span class="toc-text">五、总结：B+树与B树的核心区别及MySQL选择逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="toc-number">5.1.</span> <span class="toc-text">一句话总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

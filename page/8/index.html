@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/page/8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JIE的笔记本',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/steam-steel-infinite-minds/00_%E5%B0%81%E9%9D%A2.png,/img/minimax-agent-analysis/cover.png,/img/qwen-coding-plan/cover.png,/img/coding-plan-report/cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">JIE的笔记本</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/621690000000000000000.html" title="19-20真题">19-20真题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9C%9F%E9%A2%98%E5%8D%B7/">真题卷</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9C%9F%E9%A2%98/">真题</a></span></div><div class="content">19-20真题自操作表，指表中元素被find函数访问到，就自动移动到表头，并保持其他元素顺序不变 用数组存储结构写find功能 写链表存储结构的find功能  1234567891011121314151617181920212223242526272829303132void Find(char a[],int n,char e)&#123;    //n为数组长度，e为要查找的元素    for(int i=0;i&lt;n;i++)&#123;        if(a[i]==e)&#123;            //找到元素之后            for(int j=i-1;j&gt;=0;j--)&#123;                a[j+1]=a[j];//i-1位置之前的所有结点后移            &#125;            a[0]=e;        &#125;    &#125;&#125;struct LNode&#123;    char data;//数据域，保存结点的值    struct LNode *next;//指...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/485a8abe.html" title="20年833">20年833</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9C%9F%E9%A2%98%E5%8D%B7/">真题卷</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9C%9F%E9%A2%98/">真题</a></span></div><div class="content">20年8331. 给一个带头结点单链表，删除所有值为k的节点1234567891011121314151617181920struct ListNode&#123;    int val;    struct ListNode *next;&#125;;ListNode * removeElements(ListNode *head,int k)&#123;    if(head==NULL) return NULL;    ListNode *p=head;    ListNode *q;    while(p-&gt;next!=NULL)//用p来遍历链表    &#123;        if(p-&gt;next-&gt;val==k)&#123;//p的后一个节点为要删除的结点            q=p-&gt;next;            p-&gt;next=p-&gt;next-&gt;next;            free(q);//删除值为k的结点，并释放内存        &#125;        else            p=p-&g...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/7439ef23.html" title="22真题">22真题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9C%9F%E9%A2%98%E5%8D%B7/">真题卷</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9C%9F%E9%A2%98/">真题</a></span></div><div class="content">22真题5. （1）使用C语言给出双链表的数据结构(2)写出删除结点的C语言实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253struct node&#123;    struct node *prev;    int data;    struct node *next;&#125;void deletion_beginning(node *head)&#123;    struct node *ptr;    if(head==NULL)    &#123;        printf(&quot;UNDERFLOW\n&quot;);    &#125;else if(head-&gt;next==NULL)&#123;        head=NULL;        free(head);        printf(&quot;not delete&quot;);    &#125;    else&#123;      ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/e6a1168e.html" title="测试卷1-0">测试卷1-0</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9C%9F%E9%A2%98%E5%8D%B7/">真题卷</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9C%9F%E9%A2%98/">真题</a></span></div><div class="content"> title: 测试卷1.0tags:  algorithm datastruct 真题cover: img/realquestion.jpegabbrlink: 4ccb95c4date: 2022-09-11 22:10:14—  测试卷1.01. 旧事重提二分法实现幂函数x的n次方pow(x,n) 这里的二分法是指减少乘法的次数，把重复的运算省去。我要求x的n次方，那么先求x的n/2次方，然后两个相乘起来。如此递归下去。 1234567891011121314151617181920212223242526272829303132int pow(int x,int n)&#123;    int t=1;    while(n)&#123;        if(n%2==1)&#123;            n=n-1;            t*=x;        &#125;        x*=x;        n/=2;    &#125;    return t;&#125;double fun(double x,int n)&#123;    if(n==...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/05c522a8.html" title="Spring 核心  IOC 深度解析：从原理到实战">Spring 核心  IOC 深度解析：从原理到实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/">Java基础</a></span></div><div class="content">一、IOC 核心概念：从「手动控制」到「容器托管」1.1 什么是 IOC？IOC（Inversion of Control）控制反转 是 Spring 框架的灵魂，核心是将对象的创建、依赖管理、生命周期控制从业务代码中剥离，交由 Spring 容器统一管理。 传统开发模式（无 IOC）： 12345678// 手动创建对象，硬编码依赖public class UserService &#123;    private UserRepository userRepository = new UserRepositoryImpl();        public void getUser() &#123;        userRepository.findUser();    &#125;&#125;  缺点：耦合度极高，修改实现类需要改代码，无法做到开闭原则。 Spring IOC 模式： 12345678910// 只声明依赖，创建和注入交给容器@Servicepublic class UserService &#123;    @Autowired    private Us...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/cd594649.html" title="深度剖析 HashMap：从底层原理到最佳实践">深度剖析 HashMap：从底层原理到最佳实践</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/">Java基础</a></span></div><div class="content">HashMap 作为 Java 集合框架中最常用的键值对存储实现，几乎是所有 Java 开发者日常开发的 “标配”。但你真的了解它的底层逻辑吗？为什么 JDK 1.8 要引入红黑树？扩容时的高低位分离有什么优势？本文将从数据结构、核心算法、关键方法到性能优化，全方位拆解 HashMap 的设计精髓。 一、底层数据结构：从 “数组 + 链表” 到 “数组 + 链表 + 红黑树”HashMap 的性能核心依赖于底层数据结构的设计，JDK 1.7 到 1.8 的演进是其性能跃升的关键。 1.1 JDK 1.7 vs 1.8 核心差异   特性 JDK 1.7 JDK 1.8    底层结构 数组 + 链表 数组 + 链表 + 红黑树   链表插入方式 头插法（易死循环） 尾插法（避免死循环）   扩容链表处理 重新计算 Hash，顺序混乱 高低位分离，保持原有顺序   性能优化 无 链表转红黑树（阈值 8）   1.2 核心结构定义HashMap 的底层由哈希桶数组、链表节点、红黑树节点三部分组成（JDK 1.8）： 1234567891011121314151617181920212...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/2aab64b3.html" title="深度解析 ArrayList 扩容机制：从源码到时序图全拆解">深度解析 ArrayList 扩容机制：从源码到时序图全拆解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/">Java基础</a></span></div><div class="content">在 Java 开发中，ArrayList 是最常用的集合类之一，但其底层的扩容机制却常常成为面试和开发中的高频考点。本文将从底层数据结构出发，结合源码和时序图，完整拆解 ArrayList 的扩容流程，帮你彻底搞懂这一核心机制。 一、ArrayList 底层数据结构ArrayList 的核心是动态数组，所有操作最终都围绕数组的扩容和元素复制展开。先看核心源码结构： 12345678910111213141516public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable &#123;        // 真正存储元素的数组（transient表示不参与序列化）    transient Object[] elementData;        // 数组中实际元素的个数（≠数组长度）    private int size;        // 默认初始容量   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/30d36dde.html" title="RabbitMQ实战全解析：从核心概念到电商订单落地">RabbitMQ实战全解析：从核心概念到电商订单落地</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/RabbitMQ/">RabbitMQ</a></span></div><div class="content">在微服务与分布式系统架构中，消息队列是解决系统解耦、削峰填谷、异步通信的核心组件，而RabbitMQ作为AMQP（高级消息队列协议）的成熟实现，凭借其稳定的路由能力、完善的确认机制、灵活的持久化策略以及丰富的插件扩展，成为企业级开发中的首选方案。 很多开发者在使用RabbitMQ时，常会陷入“会用但用不精”的困境——比如不清楚Exchange的四种类型该如何选择、生产者确认机制怎么配置、重试与幂等该如何设计，导致线上出现消息丢失、重复消费、系统阻塞等问题。 本篇博客将彻底解决这些痛点，不绕弯、不堆砌理论，从核心概念入手，搭配可直接复制运行的Java原生与Spring Boot代码，最后结合电商下单场景，完整演示RabbitMQ在企业级项目中的端到端设计，帮你真正把RabbitMQ用好、用稳。 一、核心概念速览在使用RabbitMQ之前，必须先理清其核心组件的作用，这些概念是后续实战的基础，无需死记硬背，结合实际场景理解即可。  Broker（消息中间件节点）：简单来说，就是运行RabbitMQ服务的进程，相当于一个“消息中转站”。它负责管理Exchange（交换器）、Queue（...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/4075c2b4.html" title="RabbitMQ可靠性保障全指南  生产者,MQ,消费者三层兜底">RabbitMQ可靠性保障全指南  生产者,MQ,消费者三层兜底</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/RabbitMQ/">RabbitMQ</a></span></div><div class="content">在微服务分布式架构中，RabbitMQ作为主流消息队列，核心价值是解耦、削峰填谷和异步通信，但“消息丢失、重复消费、处理失败”等问题，往往成为线上故障的重灾区。很多开发者只掌握RabbitMQ的基础用法，却忽略了可靠性保障的核心逻辑，导致系统上线后频繁出现异常。 其实RabbitMQ的可靠性并非单点保障，而是需要贯穿「生产者→MQ自身→消费者」全链路，三层协同发力才能真正实现“消息发得出、存得住、处理完”。本篇博客将从这三个核心维度，拆解可靠性保障的原理、工作流程、关键配置和可直接复制运行的Spring Boot代码，覆盖生产环境高频场景，帮你彻底解决消息可靠性难题。 一、生产者可靠性：确保消息“发得出、送得到”生产者是消息链路的起点，可靠性核心解决两个核心问题：一是网络波动、MQ宕机时的连接稳定性（自动重连），二是确认消息确实被MQ接收（生产者确认），二者缺一不可，否则会导致消息“石沉大海”。 1. 生产者自动重连机制原理：RabbitMQ客户端（Java AMQP客户端/Spring AMQP）与MQ服务端建立TCP连接后，若因网络中断、MQ宕机、连接超时等异常导致连接断开，...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8bc13c4d.html" title="RabbitMQ的延迟消息在项目中的运用及实现剖析">RabbitMQ的延迟消息在项目中的运用及实现剖析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/RabbitMQ/">RabbitMQ</a></span></div><div class="content">对于后端开发者而言，RabbitMQ 的延迟消息不仅是项目中的高频应用，更是面试时的“必考题”——尤其是当面试官抛出这个经典场景时，很多人容易陷入“知其然不知其所以然”的困境： 用户下单后未支付，如何在指定时间（如30分钟）自动取消订单？ 相信很多同学都能说出“用 MQ”“用死信队列”，但当被追问“原理是什么”“为什么这么设计”“生产环境怎么落地”时，往往语塞。 今天这篇文章，我将以「面试官视角」拆解考点，结合「真实项目落地场景」，把延迟消息的核心逻辑、两种实现方案，以及订单超时取消的完整代码，一次性讲透、讲明白。 订单超时未支付，如何自动取消？ 很多同学：  知道用 MQ 知道死信队列 但一问原理就说不清  本文将以 “面试官视角” + “真实项目设计” 的方式，系统讲清：  RabbitMQ 为什么不直接支持延迟队列 延迟消息的 两种主流实现方案 订单超时取消的 完整设计 + Java 代码  一、面试引入：订单超时关闭你是怎么做的？这是一个非常经典的后端面试题，本质考察三点：  你有没有真实做过业务 你对 MQ 的理解是不是停留在 API 层 你是否具备系统设计能力  业务...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/7/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="page-number" href="/page/10/#content-inner">10</a><a class="extend next" rel="next" href="/page/9/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E8%BF%BD%E8%B8%AA/"><span class="card-category-list-name">AI追踪</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/c%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">c语言</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/database/"><span class="card-category-list-name">database</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/datastruct/"><span class="card-category-list-name">datastruct</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/python/"><span class="card-category-list-name">python</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/"><span class="card-category-list-name">八股面试</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Java基础</span><span class="card-category-list-count">4</span></a></li></ul></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/AI%E8%BF%BD%E8%B8%AA/" style="font-size: 1.22em; color: rgb(137, 50, 114);">AI追踪</a><a href="/tags/Linux/" style="font-size: 1.28em; color: rgb(158, 64, 182);">Linux</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.35em; color: rgb(81, 62, 50);">C语言</a><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.15em; color: rgb(83, 117, 97);">数据库</a><a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.18em; color: rgb(73, 158, 127);">面试</a><a href="/tags/Python/" style="font-size: 1.18em; color: rgb(125, 68, 50);">Python</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.38em; color: rgb(50, 99, 198);">数据结构</a><a href="/tags/%E5%A4%8D%E7%9B%98/" style="font-size: 1.15em; color: rgb(75, 62, 158);">复盘</a><a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 1.22em; color: rgb(50, 134, 187);">杂谈</a><a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 1.45em; color: rgb(50, 57, 142);">日记</a><a href="/tags/%E7%9C%9F%E9%A2%98/" style="font-size: 1.32em; color: rgb(141, 186, 88);">真题</a><a href="/tags/%E6%97%A5%E5%A4%8D%E7%9B%98/" style="font-size: 1.42em; color: rgb(50, 129, 63);">日复盘</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%8E%A2%E7%B4%A2/" style="font-size: 1.18em; color: rgb(67, 113, 197);">工具探索</a><a href="/tags/%E7%A4%BE%E4%BA%A4%E5%8F%8D%E6%80%9D/" style="font-size: 1.18em; color: rgb(50, 193, 86);">社交反思</a><a href="/tags/%E6%8A%80%E6%9C%AF%E6%95%99%E8%AE%AD/" style="font-size: 1.15em; color: rgb(118, 132, 52);">技术教训</a><a href="/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/" style="font-size: 1.18em; color: rgb(122, 132, 50);">时间管理</a><a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 1.25em; color: rgb(145, 50, 102);">技术探索</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%95%88%E7%8E%87/" style="font-size: 1.15em; color: rgb(194, 151, 50);">工具效率</a><a href="/tags/%E7%94%9F%E6%B4%BB%E6%99%BA%E6%85%A7/" style="font-size: 1.15em; color: rgb(176, 140, 63);">生活智慧</a><a href="/tags/%E6%B6%88%E8%B4%B9%E8%A7%82/" style="font-size: 1.15em; color: rgb(138, 160, 50);">消费观</a><a href="/tags/%E7%94%9F%E6%B4%BB%E8%AE%B0%E5%BD%95/" style="font-size: 1.18em; color: rgb(161, 50, 108);">生活记录</a><a href="/tags/%E5%B7%A5%E5%85%B7%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(140, 115, 50);">工具反思</a><a href="/tags/%E8%AE%A4%E7%9F%A5%E8%BD%AC%E6%8A%98/" style="font-size: 1.15em; color: rgb(84, 194, 50);">认知转折</a><a href="/tags/%E4%BF%A1%E6%81%AF%E6%BA%90/" style="font-size: 1.15em; color: rgb(96, 170, 74);">信息源</a><a href="/tags/%E6%8A%80%E6%9C%AF%E7%AA%81%E7%A0%B4/" style="font-size: 1.18em; color: rgb(179, 145, 52);">技术突破</a><a href="/tags/%E7%94%9F%E6%B4%BB%E5%86%B3%E7%AD%96/" style="font-size: 1.15em; color: rgb(69, 157, 175);">生活决策</a><a href="/tags/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/" style="font-size: 1.15em; color: rgb(64, 98, 72);">生活感悟</a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" style="font-size: 1.22em; color: rgb(178, 164, 50);">技术学习</a><a href="/tags/%E6%94%B6%E5%85%A5%E7%AA%81%E7%A0%B4/" style="font-size: 1.15em; color: rgb(50, 50, 188);">收入突破</a><a href="/tags/%E5%AE%B6%E5%BA%AD%E5%85%B3%E7%B3%BB/" style="font-size: 1.15em; color: rgb(160, 191, 175);">家庭关系</a><a href="/tags/%E5%AE%BF%E8%88%8D%E7%94%9F%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 54, 133);">宿舍生活</a><a href="/tags/%E9%A1%B9%E7%9B%AE%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(63, 191, 50);">项目反思</a><a href="/tags/%E7%8A%B6%E6%80%81%E5%8F%8D%E6%80%9D/" style="font-size: 1.18em; color: rgb(101, 50, 54);">状态反思</a><a href="/tags/%E6%83%85%E7%BB%AA%E8%AE%B0%E5%BD%95/" style="font-size: 1.15em; color: rgb(134, 189, 74);">情绪记录</a><a href="/tags/%E5%89%8D%E7%AB%AF%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(140, 107, 50);">前端调试</a><a href="/tags/%E7%A4%BE%E4%BA%A4%E7%84%A6%E8%99%91/" style="font-size: 1.18em; color: rgb(192, 130, 192);">社交焦虑</a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(72, 74, 64);">技术反思</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%8A%98%E8%85%BE/" style="font-size: 1.15em; color: rgb(50, 96, 169);">工具折腾</a><a href="/tags/%E5%86%85%E5%AE%B9%E8%BF%90%E8%90%A5/" style="font-size: 1.15em; color: rgb(137, 134, 119);">内容运营</a><a href="/tags/%E7%84%A6%E8%99%91%E6%83%85%E7%BB%AA/" style="font-size: 1.15em; color: rgb(64, 143, 64);">焦虑情绪</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              三月 2026
+            </span>
+            <span class="card-archive-list-count">98</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">98</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">232.3k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-19T07:46:07.655Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@3.0.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["学如逆水行舟，不进则退！","Learning is like rowing upstream!"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["学如逆水行舟，不进则退！","Learning is like rowing upstream!"])
+}
+typedJSFn.run(subtitleType)</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

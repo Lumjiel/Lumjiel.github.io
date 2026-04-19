@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/page/9/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JIE的笔记本',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/steam-steel-infinite-minds/00_%E5%B0%81%E9%9D%A2.png,/img/minimax-agent-analysis/cover.png,/img/qwen-coding-plan/cover.png,/img/coding-plan-report/cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">JIE的笔记本</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/cdc21d0c.html" title="深度解析 JDK1.8 ConcurrentHashMap：从底层结构到并发核心原理">深度解析 JDK1.8 ConcurrentHashMap：从底层结构到并发核心原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/">Java基础</a></span></div><div class="content">一、JDK1.8 底层数据结构：彻底抛弃分段锁JDK1.7 的 ConcurrentHashMap 采用 Segment 分段锁，锁粒度较大；而 JDK1.8 直接摒弃该设计，采用与 HashMap1.8 同源的 数组 + 链表 + 红黑树 结构，并发控制升级为 CAS + synchronized 桶级锁。 1.1 核心结构组成12345678ConcurrentHashMap    ├── Node[] table (volatile)  // 哈希桶数组（主线存储）    │    ├── Node (普通链表节点)    │    ├── TreeBin (红黑树包装节点)    │    └── ForwardingNode (扩容标记节点)    ├── Node[] nextTable         // 扩容时的新数组    ├── LongAdder baseCount      // 基础元素计数    └── CounterCell[] counterCells // 并发计数单元格（减少竞争）  1.2 三大关键节点类型 Node 基础链表节点，存储 k...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/f9ec2b48.html" title="从零起步学习 Redis  第三章  Redis 常用数据类型深层剖析">从零起步学习 Redis  第三章  Redis 常用数据类型深层剖析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Redis/">Redis</a></span></div><div class="content">前言： 在前文中，我们已经初步认识了 Redis 并完成了本地环境配置，接下来将开启 Redis 核心知识点的深入学习 ——Redis 常用数据类型的底层实现。不同于表面的 API 使用，深入底层能让我们理解 Redis 的性能优化逻辑、内存占用原理，更是后端面试中 Redis 相关考点的核心。 本文将整合两章内容，一次性讲解 Redis 中 5 种常用数据类型（String、List、Hash、Set、Zset）的底层实现、编码转换、优缺点及实际应用场景，从底层结构体到项目实战，层层递进，适合零基础入门，也适合巩固核心知识点。  先掌握：Redis 数据类型的高层共性 ——redisObject在讲解具体数据类型之前，必须先明确一个核心概念：Redis 中所有键值对的 value，本质上都是一个 redisObject（简称 robj） 。 无论是 String、List 还是 Hash，Redis 都会先创建一个 redisObject 对象，通过该对象的字段，指向真正存储数据的底层结构。这也是 Redis 能灵活支持多种数据类型、实现高效内存管理的基础。 redisObje...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/10060e2f.html" title="从零起步学习 Redis 第七章：Redis 持久化方案的实现及底层原理解析（RDB 快照与 AOF 日志）">从零起步学习 Redis 第七章：Redis 持久化方案的实现及底层原理解析（RDB 快照与 AOF 日志）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Redis/">Redis</a></span></div><div class="content">引言Redis 是典型的内存型键值数据库，其高性能、高吞吐、低延迟的核心优势，源于 “将数据主要存储在内存中” 的设计。但纯内存存储存在一个致命缺陷：一旦发生断电、进程崩溃或机器重启，内存中的所有数据都会丢失，这在生产环境中是无法接受的。 为了兼顾 “内存的速度优势” 与 “数据的持久性需求”，Redis 提供了完善的持久化机制 —— 将内存中的数据定期写入磁盘，当 Redis 重启时，再从磁盘读取数据恢复到内存中。目前 Redis 主要支持两大类持久化方式：RDB（快照式持久化） 和 AOF（日志式持久化），在实际生产部署中，更常见两者组合使用，以平衡数据恢复速度与数据安全性。  一、RDB：快照式持久化（整体备份）RDB（Redis Database）是 Redis 最基础的持久化方式，核心思想是 “拍摄内存数据的完整快照”，将某一时刻的全量数据集序列化后，写入磁盘的二进制文件（默认文件名：dump.rdb），重启时通过读取该文件反序列化，恢复数据状态。 1.1 底层原理RDB 的核心是 “全量快照 + 异步执行”，为了避免持久化操作阻塞主线程（影响客户端响应），Redis ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/bc83da02.html" title="02第二章：DDL语句定义及常见用法示例">02第二章：DDL语句定义及常见用法示例</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">上一章我们入门了MySQL的基础概念，了解了数据库、表的核心作用，今天我们正式进入SQL语句的学习，首先要掌握的就是DDL语句——它是构建数据库结构的“基石”，学会DDL，你才能真正开始创建属于自己的数据库和表，为后续的数据存储、查询打下基础。 一、什么是DDL？新手必懂的核心定义DDL 的全称是 Data Definition Language（数据定义语言），它是SQL语言的三大分类之一（另外两类是DML数据操纵语言、DCL数据控制语言），核心作用是 定义和管理数据库对象的结构。 这里要重点强调一个新手容易踩坑的点：执行DDL语句时，MySQL会自动提交事务，也就是说，语句一旦执行就会立即生效，无法通过ROLLBACK回滚。举个例子，如果你不小心用DDL语句删除了一张表，哪怕没有手动提交，这张表也会被永久删除，数据无法恢复，所以执行DDL语句一定要格外谨慎！ 常见的DDL操作主要分为5类，用表格总结更清晰，新手建议收藏：    操作类型 核心关键字 功能说明    创建 CREATE 创建数据库、数据表、视图、索引等数据库对象   修改 ALTER 修改数据库的字符集、排序规...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ea1dc819.html" title="01第一章：初识MySQL及深入理解内部数据类型">01第一章：初识MySQL及深入理解内部数据类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">引言从今天开始，我们正式启动MySQL的系统性学习之旅！本专栏将完全从零起步，循序渐进地带大家吃透MySQL的整个知识库——从最基础的概念、操作，到进阶的优化、调优，再到生产环境的实战技巧，全程干货无冗余。无论你是刚入门的后端新手，还是想巩固基础的开发从业者，都能从中有所收获。学习过程中，大家有任何疑问、困惑，或者不同的见解，都可以在评论区交流探讨，我们一起进步、一起成长，感谢大家的支持！ 一、MySQL 是什么？—— 后端开发的“数据管家”在后端开发的世界里，无论你是开发简单的注册登录接口、复杂的商品管理系统，还是核心的订单交易系统，都离不开一个核心组件——数据库。而在众多数据库中，MySQL 凭借其开源免费、高效稳定、兼容性强的特点，成为了后端开发者的首选，更是Java后端开发中最常用的关系型数据库，没有之一。 ✅ 核心定义MySQL 是一种 关系型数据库管理系统（RDBMS），它基于关系模型设计，使用 SQL（结构化查询语言）作为数据的存取和管理工具。简单来说，MySQL 就像一个“智能文件柜”，它把杂乱无章的数据，按照固定的规则（表格）整理存放，并且表与表之间通过特定的关...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/f240d09b.html" title="03第三章：DML语句定义及常见用法示例">03第三章：DML语句定义及常见用法示例</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">上一章我们学习了DDL语句，掌握了数据库和表的“创建、修改、删除”等结构定义操作，相当于搭建好了数据存储的“容器”。今天我们进入更核心的学习——DML语句，它是操作“容器”中数据的关键，学会DML，你才能真正实现数据的增、删、改、查，解锁MySQL的核心使用场景。 一、什么是DML？新手必懂的核心定义DML 的全称是 Data Manipulation Language（数据操作语言），它与上一章的DDL（数据定义语言）核心区别在于：DDL操作的是“数据库对象的结构”，而DML操作的是“表中的数据”，不改变表的结构本身。 简单来说，DDL是“建房子”（搭建表结构），DML就是“住人、装修”（操作表中数据）。在MySQL中，DML语句的核心作用是对表中的数据进行增、删、改、查，也是我们日常开发中使用频率最高的SQL语句。 这里有一个新手容易混淆的知识点：严格来说，“查询数据”的SELECT语句属于DQL（Data Query Language，数据查询语言），但在很多书籍、教程以及面试中，SELECT语句通常会被包含在DML的范畴中，我们今天也统一按这个习惯讲解，更贴合实际开发场景...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/null.html" title="04第四章：DQL查询全解析">04第四章：DQL查询全解析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">对于后端开发者、数据库初学者来说，MySQL中的DQL（数据查询语言）是日常工作中最常用、最核心的知识点之一。不同于DML（数据操纵语言）的“增删改”，DQL专注于“查数据”——如何快速、准确地从数据库中提取所需信息，直接决定了系统的性能和开发效率。今天，我们就从概念到实战，一步步拆解DQL的核心用法，帮你彻底吃透MySQL查询技巧。 一、先搞懂：DQL到底是什么？DQL的全称是Data Query Language，即数据查询语言，它的核心作用就是从数据库表中查询符合条件的数据，是MySQL中使用频率最高的语言模块。 这里我们可以用一个简单的类比理解DQL与DML的区别：  DML（INSERT、UPDATE、DELETE）：相当于“修改数据仓库”，负责往仓库里放数据、改数据、删数据； DQL（核心是SELECT语句）：相当于“从仓库里找东西”，根据你的需求，精准找到想要的数据，不会对原有数据做任何修改。  简单来说，只要你需要从数据库中“查东西”，就离不开DQL，而SELECT语句，就是DQL的灵魂。 二、核心框架：SELECT语句的基本结构与执行顺序很多新手写SELECT语...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/aad338c5.html" title="06第六章：MySQL数据库中的一条数据是如何存储的？">06第六章：MySQL数据库中的一条数据是如何存储的？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">在MySQL的学习之路中，我们已经掌握了表的创建、SQL语句的执行，但你有没有想过一个问题：当我们执行 INSERT INTO 插入一条数据后，这条数据在底层到底是如何被存储的？它以什么格式存在磁盘上？为什么有的字段能存很长的内容，有的却会被限制？今天这一章，我们就结合InnoDB源码（基于MySQL 8.0版本），深度解析一条MySQL数据的存储全过程，从行格式到数据页，从元数据到底层存储，帮你彻底搞懂数据存储的核心逻辑。 注：MySQL的存储引擎有很多，但InnoDB是目前默认且最常用的引擎（支持事务、索引、MVCC等核心特性），因此本文所有分析均围绕InnoDB展开，这也是面试中考察的重点。 一、InnoDB 的行格式（Row Format）：数据存储的“容器”InnoDB 在物理层面存储表数据时，并不是直接将用户插入的列值堆砌在一起，而是将每一行（row）按照固定的“行格式”组织起来，再存储到数据页（data page）中。简单来说，行格式就是一条数据的“包装规范”，定义了数据的组织方式、元数据的存储规则，不同的行格式对应不同的存储优化策略。 1. InnoDB 支持的四...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/65d5f025.html" title="07第七章：初识索引底层运用及性能优化">07第七章：初识索引底层运用及性能优化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">上一章我们讲解了MySQL数据的底层存储逻辑，了解了一行数据如何以特定行格式存储在数据页中。但当表中数据量达到几十万、几百万甚至上亿条时，单纯依靠全表扫描查询数据，速度会变得极其缓慢——就像在一本没有目录的厚书中找某个知识点，只能逐页翻找，效率极低。而索引，就是MySQL为我们打造的“图书目录”，能让查询速度实现质的飞跃。 本章我们将从索引的定义、作用出发，结合底层数据结构（重点是B+树），详解MySQL索引的分类、核心原则（最左匹配）和优化机制（索引下推），同时补充实操案例和避坑指南，让你不仅“知道索引是什么”，更能“会用索引、用好索引”。 一、什么是 MySQL 中的索引？1. 核心定义索引是数据库中一种用于加快数据查询速度的数据结构，由存储引擎（如InnoDB、MyISAM）负责维护，独立于表数据存在，本质是“对表中一列或多列数据进行排序后的数据结构”。 很多人误以为索引是“额外的表”，其实不然：索引是一种独立的存储结构，它存储了索引字段的值和对应数据的物理地址（或主键值），通过这种映射关系，MySQL可以跳过全表扫描，直接定位到目标数据的位置。 2. 通俗比喻（秒懂索引作...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c6f7db3c.html" title="05第五章：select语句的执行过程是怎么样的？">05第五章：select语句的执行过程是怎么样的？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="content">对于MySQL初学者而言，我们每天写的SELECT语句，看似只是简单的“查数据”，背后却隐藏着MySQL内核复杂的执行逻辑。很多人只会写SQL，却不懂其执行过程，遇到性能瓶颈时无从下手——比如为什么同样的查询，换个索引就快了？为什么有些查询会频繁访问磁盘？ 本章我们就从零开始，结合MySQL源码（基于8.0版本），深度拆解SELECT语句的完整执行过程，从连接器到存储引擎，每一个阶段都讲透原理、结合实例，帮你真正理解“MySQL是怎么查数据的”，为后续SQL优化、性能调优打下坚实基础。 🧩 一、整体流程概览：Server层与存储引擎层的分工在解析具体执行步骤前，我们先明确MySQL的核心架构——整个MySQL服务分为两大核心层级，二者分工明确、协同工作，这也是理解SELECT执行过程的关键。 核心分工如下：  Server 层（SQL 层）：这是MySQL的“大脑”，负责处理SQL语句的整个逻辑流程，包括连接管理、SQL解析、优化、执行调度等，不直接负责数据的存储和读取。简单说，Server层决定“查什么”“怎么查”。 存储引擎层（Engine 层）：这是MySQL的“手脚”，...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/8/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/#content-inner">10</a><a class="extend next" rel="next" href="/page/10/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E8%BF%BD%E8%B8%AA/"><span class="card-category-list-name">AI追踪</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/c%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">c语言</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/database/"><span class="card-category-list-name">database</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/datastruct/"><span class="card-category-list-name">datastruct</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/python/"><span class="card-category-list-name">python</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/"><span class="card-category-list-name">八股面试</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Java%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Java基础</span><span class="card-category-list-count">4</span></a></li></ul></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/AI%E8%BF%BD%E8%B8%AA/" style="font-size: 1.22em; color: rgb(137, 50, 114);">AI追踪</a><a href="/tags/Linux/" style="font-size: 1.28em; color: rgb(158, 64, 182);">Linux</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.35em; color: rgb(81, 62, 50);">C语言</a><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.15em; color: rgb(83, 117, 97);">数据库</a><a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.18em; color: rgb(73, 158, 127);">面试</a><a href="/tags/Python/" style="font-size: 1.18em; color: rgb(125, 68, 50);">Python</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.38em; color: rgb(50, 99, 198);">数据结构</a><a href="/tags/%E5%A4%8D%E7%9B%98/" style="font-size: 1.15em; color: rgb(75, 62, 158);">复盘</a><a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 1.22em; color: rgb(50, 134, 187);">杂谈</a><a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 1.45em; color: rgb(50, 57, 142);">日记</a><a href="/tags/%E7%9C%9F%E9%A2%98/" style="font-size: 1.32em; color: rgb(141, 186, 88);">真题</a><a href="/tags/%E6%97%A5%E5%A4%8D%E7%9B%98/" style="font-size: 1.42em; color: rgb(50, 129, 63);">日复盘</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%8E%A2%E7%B4%A2/" style="font-size: 1.18em; color: rgb(67, 113, 197);">工具探索</a><a href="/tags/%E7%A4%BE%E4%BA%A4%E5%8F%8D%E6%80%9D/" style="font-size: 1.18em; color: rgb(50, 193, 86);">社交反思</a><a href="/tags/%E6%8A%80%E6%9C%AF%E6%95%99%E8%AE%AD/" style="font-size: 1.15em; color: rgb(118, 132, 52);">技术教训</a><a href="/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/" style="font-size: 1.18em; color: rgb(122, 132, 50);">时间管理</a><a href="/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" style="font-size: 1.25em; color: rgb(145, 50, 102);">技术探索</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%95%88%E7%8E%87/" style="font-size: 1.15em; color: rgb(194, 151, 50);">工具效率</a><a href="/tags/%E7%94%9F%E6%B4%BB%E6%99%BA%E6%85%A7/" style="font-size: 1.15em; color: rgb(176, 140, 63);">生活智慧</a><a href="/tags/%E6%B6%88%E8%B4%B9%E8%A7%82/" style="font-size: 1.15em; color: rgb(138, 160, 50);">消费观</a><a href="/tags/%E7%94%9F%E6%B4%BB%E8%AE%B0%E5%BD%95/" style="font-size: 1.18em; color: rgb(161, 50, 108);">生活记录</a><a href="/tags/%E5%B7%A5%E5%85%B7%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(140, 115, 50);">工具反思</a><a href="/tags/%E8%AE%A4%E7%9F%A5%E8%BD%AC%E6%8A%98/" style="font-size: 1.15em; color: rgb(84, 194, 50);">认知转折</a><a href="/tags/%E4%BF%A1%E6%81%AF%E6%BA%90/" style="font-size: 1.15em; color: rgb(96, 170, 74);">信息源</a><a href="/tags/%E6%8A%80%E6%9C%AF%E7%AA%81%E7%A0%B4/" style="font-size: 1.18em; color: rgb(179, 145, 52);">技术突破</a><a href="/tags/%E7%94%9F%E6%B4%BB%E5%86%B3%E7%AD%96/" style="font-size: 1.15em; color: rgb(69, 157, 175);">生活决策</a><a href="/tags/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/" style="font-size: 1.15em; color: rgb(64, 98, 72);">生活感悟</a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" style="font-size: 1.22em; color: rgb(178, 164, 50);">技术学习</a><a href="/tags/%E6%94%B6%E5%85%A5%E7%AA%81%E7%A0%B4/" style="font-size: 1.15em; color: rgb(50, 50, 188);">收入突破</a><a href="/tags/%E5%AE%B6%E5%BA%AD%E5%85%B3%E7%B3%BB/" style="font-size: 1.15em; color: rgb(160, 191, 175);">家庭关系</a><a href="/tags/%E5%AE%BF%E8%88%8D%E7%94%9F%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 54, 133);">宿舍生活</a><a href="/tags/%E9%A1%B9%E7%9B%AE%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(63, 191, 50);">项目反思</a><a href="/tags/%E7%8A%B6%E6%80%81%E5%8F%8D%E6%80%9D/" style="font-size: 1.18em; color: rgb(101, 50, 54);">状态反思</a><a href="/tags/%E6%83%85%E7%BB%AA%E8%AE%B0%E5%BD%95/" style="font-size: 1.15em; color: rgb(134, 189, 74);">情绪记录</a><a href="/tags/%E5%89%8D%E7%AB%AF%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(140, 107, 50);">前端调试</a><a href="/tags/%E7%A4%BE%E4%BA%A4%E7%84%A6%E8%99%91/" style="font-size: 1.18em; color: rgb(192, 130, 192);">社交焦虑</a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%8F%8D%E6%80%9D/" style="font-size: 1.15em; color: rgb(72, 74, 64);">技术反思</a><a href="/tags/%E5%B7%A5%E5%85%B7%E6%8A%98%E8%85%BE/" style="font-size: 1.15em; color: rgb(50, 96, 169);">工具折腾</a><a href="/tags/%E5%86%85%E5%AE%B9%E8%BF%90%E8%90%A5/" style="font-size: 1.15em; color: rgb(137, 134, 119);">内容运营</a><a href="/tags/%E7%84%A6%E8%99%91%E6%83%85%E7%BB%AA/" style="font-size: 1.15em; color: rgb(64, 143, 64);">焦虑情绪</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              三月 2026
+            </span>
+            <span class="card-archive-list-count">98</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">98</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">232.3k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-19T07:46:07.655Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@3.0.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["学如逆水行舟，不进则退！","Learning is like rowing upstream!"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["学如逆水行舟，不进则退！","Learning is like rowing upstream!"])
+}
+typedJSFn.run(subtitleType)</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

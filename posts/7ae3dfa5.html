@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>别再用旧地图探索新大陆：一个正在被重构的商业模式 | JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最近脑子里一直盘旋着一个词：“失效感”。 刷手机时，这种感觉尤其强烈。感觉去年还被奉为圭臬的赚钱逻辑、商业模式，到了今年，突然就玩不转了。作为一个大二学生，学的是大数据管理与应用，整天泡在代码和算法里，这种“失效感”被放得更大。我常常会想，等我两年后毕业，后端开发的岗位还会是今天这个样子吗？A..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "别再用旧地图探索新大陆：一个正在被重构的商业模式",
+  "url": "https://lumjiel.github.io/posts/7ae3dfa5.html",
+  "image": "https://lumjiel.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.693Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lumjiel",
+      "url": "https://Lumjiel.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/posts/7ae3dfa5.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '别再用旧地图探索新大陆：一个正在被重构的商业模式',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">别再用旧地图探索新大陆：一个正在被重构的商业模式</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">别再用旧地图探索新大陆：一个正在被重构的商业模式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>最近脑子里一直盘旋着一个词：<strong>“失效感”</strong>。</p>
+<p>刷手机时，这种感觉尤其强烈。感觉去年还被奉为圭臬的赚钱逻辑、商业模式，到了今年，突然就玩不转了。作为一个大二学生，学的是大数据管理与应用，整天泡在代码和算法里，这种“失效感”被放得更大。我常常会想，等我两年后毕业，后端开发的岗位还会是今天这个样子吗？AI会把我挤到哪里去？</p>
+<p>就在这种有点焦虑的状态下，我看到一篇长文，它没讲那些被嚼烂了的“2026年风口”，而是深入剖析了当下每一个普通个体，尤其是我这样的学生，该如何理解和应对这场巨变。它像一个思维导图，把我脑子里那些模糊的焦虑，梳理成了清晰的脉络。</p>
+<p>这篇文章，我想把它拆解成三部分：原文的核心观点，我的个人思考，以及最后，写给自己的行动清单。</p>
+<h2 id="一、-原文核心观点：从“卖课”到“卖私教AI分身”"><a href="#一、-原文核心观点：从“卖课”到“卖私教AI分身”" class="headerlink" title="一、 原文核心观点：从“卖课”到“卖私教AI分身”"></a>一、 原文核心观点：从“卖课”到“卖私教AI分身”</h2><p>这篇文章的核心，是探讨了创作者（或者原文说的“艺人公司”）商业模式的进化。它认为，过去十年主流的“麦克模式”（即制作知识付费产品，如电子书、录播课）正在消亡，而一个全新的阶段已经到来。</p>
+<ol>
+<li> <strong>传统模式的辉煌与终结</strong>：过去，一个普通人可以凭一己之力，通过分享自己的兴趣和知识，吸引粉丝，然后销售自己制作的日程本、模板或课程，实现从流量到变现的闭环。这个模式的核心是“内容获客，产品变现”。</li>
+<li> <strong>消亡的深层原因</strong>：市场的认知经历了五个阶段：从最初的“产品能做什么”，到后来的“夸大承诺”，再到“解释独家方法”。现在，市场对所有承诺都已麻木，人们更渴望归属感和真实感，开始为“人设”和“使命”买单。同时，AI让复制和生成平庸内容变得极其容易，导致传统录播课市场极度饱和，用户也陷入“教程地狱”，买了课却不看，看了也拿不到结果。</li>
+<li> <strong>未来的形态：互动式AI学习体验</strong>：教育的未来不是死板的录播课，而是<strong>互动式学习体验</strong>。你卖的不仅是信息，更是你大脑的数字化版本——一个<strong>AI私教分身</strong>。它像古代的师徒制，学徒在实践中学习，师傅实时纠正。而今天，我们可以借助AI，将个人独特的经验、框架、方法论，变成一个能随时互动、指导、反馈的AI聊天机器人或微型软件。</li>
+<li><strong>如何落地：构建一个微型AI软件</strong>：以文章作者设想的一个“两小时作家”课程为例，未来的形态可能是这样的：<ul>
+<li>  <strong>学习</strong>：一个AI导师，引导你按节奏学习课程知识库。</li>
+<li>  <strong>练习</strong>：AI给你出题，尝试写作，然后根据你的框架给你打分、反馈。</li>
+<li><strong>实战</strong>：AI模拟真实场景，陪你完成一个完整的创作项目。<br>这个AI软件的核心，是精心编写的“系统提示词”，它定义了AI的角色、知识边界、行为规则和独特个性。这相当于把你的独门绝活，做成了可以同时服务千万人的程序。</li>
+</ul>
+</li>
+<li> <strong>最后的护城河</strong>：你的优势不是做AI做不了的事，而是<strong>做那些只有你才会想到用AI去做的事</strong>。你那独特的兴趣、数年积累的经验和无法被复制的品味，会让你写出别人写不出的提示词，做出别人做不出的产品。这，就是你的特殊知识。</li>
+</ol>
+<h2 id="二、-我的读后感与思考：焦虑的解药，或许是“组合”"><a href="#二、-我的读后感与思考：焦虑的解药，或许是“组合”" class="headerlink" title="二、 我的读后感与思考：焦虑的解药，或许是“组合”"></a>二、 我的读后感与思考：焦虑的解药，或许是“组合”</h2><p>读完这些，我第一个感觉是：<strong>原来我的焦虑，是时代的共震</strong>。</p>
+<p>我是一个典型的技术学生，每天被教导要学最新的框架、最底层的算法，因为这是找一份好工作的“硬通货”。但文章里描述的那个世界，和我的日常学习完全是两条平行线。我在拼命学习如何成为一个更好的“螺丝钉”，而它却在探讨如何成为一个能创造“螺丝钉”的“工匠”。</p>
+<p>文章里提到的那句话让我印象极深：“<strong>你独特的兴趣、组合、经验和洞察力，会导致你写出别人写不出的提示词，做出别人做不出的产品。</strong>”</p>
+<p>这句话像一道闪电，劈开了我的困惑。</p>
+<p>我一直在焦虑，是因为我把AI和我的关系看作“竞争”。我怕我还没毕业，写代码的能力就被AI替代了。但如果换个角度呢？如果我不只是一个“写代码的人”，而是一个 <strong>“懂点技术、懂点数据、又对某个领域有特殊兴趣和洞察的人”</strong>呢？</p>
+<p>我的专业是“大数据管理与应用”，这本身就是一个“组合”。但我过去只盯着“技术”这一端。文章启发我，我的护城河，可能恰恰不在技术本身，而在于我能否用技术去实现我独特的想法。技术是实现“特殊知识”的工具，而不是目的本身。</p>
+<p>这让我开始反思，除了完成课业，我到底对什么有那种“玩耍般”的好奇心？是游戏？是历史？还是某种小众的体育？过去我把这些都看作“浪费时间”的爱好，但从今天起，或许它们才是我未来真正的“资产”。我过去积累的一切关于后端、大数据、AI工具的知识，最终的价值，或许就体现在能否服务于我内心深处真正好奇的那个东西上。</p>
+<h2 id="三、-写给自己的方法论：如何用剩余两年，构建我的“组合优势”"><a href="#三、-写给自己的方法论：如何用剩余两年，构建我的“组合优势”" class="headerlink" title="三、 写给自己的方法论：如何用剩余两年，构建我的“组合优势”"></a>三、 写给自己的方法论：如何用剩余两年，构建我的“组合优势”</h2><p>想通了这些，光焦虑没用，得动起来。这篇长文，给我这个迷茫的大二生，画了一张非常具体的地图。以下是我给自己定下的行动清单：</p>
+<ol>
+<li><p><strong>重塑学习路线：从“学技术”到“用技术”</strong></p>
+<ul>
+<li>  <strong>硬技能不能丢，但要升级目标</strong>：继续扎实学好数据结构、算法、数据库，但目标不再只是“应付面试”，而是为了有能力把我脑海里的任何想法，用代码（或借助Cursor这类AI编程工具）变成一个哪怕最简陋的原型。</li>
+<li>  <strong>把AI工具当成“第二大脑”</strong>：不再把ChatGPT只当搜索引擎用。我要像文章里说的，学习如何写<strong>高质量的“系统提示词”</strong>。比如，让它扮演一个“后端架构师”，帮我分析一个项目设计方案的优劣；或者让它扮演一个“严苛的面试官”，对我进行模拟面试。这本身就是在学习如何“训练”一个AI为我工作。</li>
+<li>  <strong>拥抱“无代码”和“低代码”</strong>：像Replit、Coze这类平台，必须玩熟。它们是我这种非专业程序员，快速将想法落地的捷径。做一个简单的AI聊天机器人，或许比我想象的要容易。</li>
+</ul>
+</li>
+<li><p><strong>寻找并培育我的“特殊知识”</strong></p>
+<ul>
+<li>  <strong>做一个“兴趣账本”</strong>：用一个月时间，记录下我所有自发、主动、不计时间成本去做的事情。是研究某个游戏的数值平衡？还是写点没人看的小文章？或者沉迷于某个历史时期的纪录片？找到那个让我感觉像“玩耍”的领域。</li>
+<li>  <strong>用专业给兴趣“赋能”</strong>：一旦找到这个兴趣点，就尝试用我的专业知识去解构它。如果我喜欢游戏，能否用数据分析一个游戏的运营活动？如果我喜欢历史，能否用数据可视化工具，做一个关于某个朝代人口迁徙的动态地图？这本身就是“大数据管理与应用”的最佳实践。</li>
+</ul>
+</li>
+<li><p><strong>开始做第一个“AI微产品”</strong></p>
+<ul>
+<li>  <strong>目标</strong>：在大三结束前，为自己感兴趣的一个<strong>极小、极垂直</strong>的主题，做一个最简单的AI学习工具。</li>
+<li>  <strong>选题</strong>：比如，如果我对“时间管理”感兴趣，我可以把我过去两年摸索出来的、对我自己有效的番茄钟工作法和复盘模板，整理成一个“知识库”。然后利用Coze等平台，做一个叫“番茄教练”的AI Bot，当我执行番茄钟分心时，它能根据我的复盘记录，给我几句个性化的、严厉又暖心的提醒。或者，当我完成一天任务后，它能引导我进行结构化的复盘。</li>
+<li>  <strong>过程即奖励</strong>：这个产品的目标不是卖钱，而是跑通 <strong>“整理经验 -&gt; 构建知识库 -&gt; 设计提示词 -&gt; 落地成AI应用”</strong> 的全流程。过程中遇到的所有技术卡点，比如如何调用API、如何设计交互界面，都将成为我宝贵的实战经验。</li>
+</ul>
+</li>
+</ol>
+<p><strong>最后，写给两年后的自己：</strong></p>
+<p>当你再回看这篇文章时，希望你已经走在构建自己“组合优势”的路上。技术迭代会越来越快，AI会让平庸的努力加速贬值，但也让独特的灵魂加速发光。别慌，找到你好奇的那座山，然后背好你的专业行囊，用AI这把镐，一步步攀登上去。</p>
+<p>别忘了，点赞、收藏、分享，从来都不是为了别人，而是为了记录此刻的自己，是怎样被一个观点点亮，并决心开始行动。我们下个思考再见。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Lumjiel.github.io">Lumjiel</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lumjiel.github.io/posts/7ae3dfa5.html">https://lumjiel.github.io/posts/7ae3dfa5.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Lumjiel.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9D%82%E8%B0%88/">杂谈</a></div><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/fb963600.html" title="2026年03月03日"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">2026年03月03日</div></div><div class="info-2"><div class="info-item-1">今日概述元宵节过完，年味彻底散场，时间好像按下了加速键。今天没有太多琐事，反而是一场关于“信息差赚钱”的深度脑暴，夹杂着对即将找工作的焦虑和在学校低产出的困惑。是写日记的第一天，也是认真审视自己的开始�? 关键成果 认知突破：通过“易班签到”案例，深度复盘了信息差赚钱的两种模式（一锤子买卖 vs 持久合作）及其底层逻辑�?- 学业推进：上了三节新老师的课，虽然课不好逃，但启动了“课上平板看项目总结”的折中学习策略�?- 项目积累：下午晚上无课，开始总结明天的项目复盘内容，计划一周内完成，为投简历做准备�?- 自我觉察：完成了人生第一篇日记，意识到“认识自己”是最重要的课题，也发现了自己“害怕准备不充分”的求职心态�?习惯追踪   习惯 完成情况 备注    规律三餐 �? 早上两个包子，中午豆角炒肉，晚上新疆手抓饭（碳水爆炸）�?   关键任务推进 �? 启动了项目总结，虽然进度不快，但开始了�?   课上学习 ⚠️ 用平板看项目总结，属于“曲线救国”，效率待验证�?   动手实践 �? 在学校刷不到想看的视频，没产出。反思：是刷不到，还是没主动搜？   写作/记录 �? 写日记...</div></div></div></a><a class="pagination-related" href="/posts/6c9470bd.html" title="第六章查找"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">第六章查找</div></div><div class="info-2"><div class="info-item-1">六、查找顺序查找123456int Search(int a[],int n,int k)&#123;    for(int i = 1;i &lt;= n; ++i)        if(a[i] == k)            return 1;    return 0;&#125;  折半查找（二分查找）时间复杂度： 12345678910111213int	BSearch(int a[],int l,int r,int k)&#123;    int mid;    while(l &lt; r)&#123;        mid = (l + r) / 2;        if(a[mid] == k)            return mid;        if(a[mid] &gt; k)            r = mid - 1;        else            l = mid + 1;    &#125;    return 0;&#125;  分块查找时间复杂度： 123456789101112131415161718192021222...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/d4011479.html" title="当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026年03月14日</div><div class="info-item-2">当AI夺走工作，它还能夺走什么？——一份写给自己的未来生存指南</div></div><div class="info-2"><div class="info-item-1">最近我陷入一种奇怪的循环：一边刷着各种“AI取代人类”的短视频，一边焦虑地刷LeetCode准备后端面试。刷到一个视频，标题大概意思是“别再学编程了，AI都能写了”，下一条又是“2026年最火的几个高薪岗位”。我夹在中间，像一只被时代洪流裹挟的蚂蚁，不知道该往哪儿爬。 直到我读到一篇长文，它没有贩卖焦虑，而是从一个让我愣住的问题开始：“你为什么在看这个？你明明可以用ChatGPT，为什么还在看一个真人讲的东西？” 对啊，为什么？这个问题像一把钥匙，打开了我对“未来我到底该怎么办”的深层思考。下面是我对这篇文章的解读、感悟，以及给自己列的行动清单。 一、 原文核心观点：意义经济，才是未来真正的护城河这篇文章的核心，是探讨当AI能完成大部分“工作”后，人类的价值和意义将从何而来。它构建了一个从历史到未来的完整框架。  意义的历史四幕：    第一幕（神赐意义）：意义由神、国王、长者赋予。   第二幕（工作换取意义）：工业革命后，意义来自生产力、工作和对机器的贡献。   第三幕（意义虚无）：后现代主义解构一切，意义无处可寻。   第四幕（自我生成意义）：我们必须从内部为自己创造意义。 ...</div></div></div></a><a class="pagination-related" href="/posts/a537dbf4.html" title="Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026年03月14日</div><div class="info-item-2">Cloud Code 从入门到实战：一篇读懂编程 Agent 的完全指南</div></div><div class="info-2"><div class="info-item-1">最近，Cloud Code 在开发者圈子里热度持续攀升。作为一款强大的编程 Agent，它不仅能帮你写代码、改代码，还能通过多模态、MCP、插件等机制，成为你手中的“超级开发助手”。但很多同学只是简单试了几个命令，并没有真正把它用到生产环境中。今天，我们就基于一份详尽的实战教程，带你彻底搞懂 Cloud Code 的完整工作流。 本文将从环境搭建开始，逐步深入到复杂任务处理、多模态交互、上下文管理，最后解锁高级定制功能。无论你是刚接触 Cloud Code，还是希望挖掘它的更多潜力，相信都能从中获益。  一、环境搭建与基础交互  安装与登录  访问 Cloud Code 官网，复制安装命令并在终端执行。安装完成后，使用 cloud 命令启动。首次使用可能需要登录，官方提供两种接入方式： · 订阅制（Pro/Max 会员）· API Key 按量计费 如果你无法使用官方订阅，也可以配置国产模型（如 GLM、MiniMax）驱动 Cloud Code，只需设置几个环境变量即可。 ![[cloud-code-modes.svg|682]]2. 三种核心模式Cloud Code 通过 S...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8E%9F%E6%96%87%E6%A0%B8%E5%BF%83%E8%A7%82%E7%82%B9%EF%BC%9A%E4%BB%8E%E2%80%9C%E5%8D%96%E8%AF%BE%E2%80%9D%E5%88%B0%E2%80%9C%E5%8D%96%E7%A7%81%E6%95%99AI%E5%88%86%E8%BA%AB%E2%80%9D"><span class="toc-number">1.</span> <span class="toc-text">一、 原文核心观点：从“卖课”到“卖私教AI分身”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%88%91%E7%9A%84%E8%AF%BB%E5%90%8E%E6%84%9F%E4%B8%8E%E6%80%9D%E8%80%83%EF%BC%9A%E7%84%A6%E8%99%91%E7%9A%84%E8%A7%A3%E8%8D%AF%EF%BC%8C%E6%88%96%E8%AE%B8%E6%98%AF%E2%80%9C%E7%BB%84%E5%90%88%E2%80%9D"><span class="toc-number">2.</span> <span class="toc-text">二、 我的读后感与思考：焦虑的解药，或许是“组合”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E5%86%99%E7%BB%99%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%9A%E5%A6%82%E4%BD%95%E7%94%A8%E5%89%A9%E4%BD%99%E4%B8%A4%E5%B9%B4%EF%BC%8C%E6%9E%84%E5%BB%BA%E6%88%91%E7%9A%84%E2%80%9C%E7%BB%84%E5%90%88%E4%BC%98%E5%8A%BF%E2%80%9D"><span class="toc-number">3.</span> <span class="toc-text">三、 写给自己的方法论：如何用剩余两年，构建我的“组合优势”</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

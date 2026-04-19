@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型 | JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="引言从今天开始，我们正式启动MySQL的系统性学习之旅！本专栏将完全从零起步，循序渐进地带大家吃透MySQL的整个知识库——从最基础的概念、操作，到进阶的优化、调优，再到生产环境的实战技巧，全程干货无冗余。无论你是刚入门的后端新手，还是想巩固基础的开发从业者，都能从中有所收获。学习过程中，大家..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型",
+  "url": "https://lumjiel.github.io/posts/8c4bd063.html",
+  "image": "https://lumjiel.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.694Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lumjiel",
+      "url": "https://Lumjiel.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/posts/8c4bd063.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">从零起步学习MySQL   第一章：初识MySQL及深入理解内部数据类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>从今天开始，我们正式启动MySQL的系统性学习之旅！本专栏将完全从零起步，循序渐进地带大家吃透MySQL的整个知识库——从最基础的概念、操作，到进阶的优化、调优，再到生产环境的实战技巧，全程干货无冗余。无论你是刚入门的后端新手，还是想巩固基础的开发从业者，都能从中有所收获。学习过程中，大家有任何疑问、困惑，或者不同的见解，都可以在评论区交流探讨，我们一起进步、一起成长，感谢大家的支持！</p>
+<h2 id="一、MySQL-是什么？——-后端开发的“数据管家”"><a href="#一、MySQL-是什么？——-后端开发的“数据管家”" class="headerlink" title="一、MySQL 是什么？—— 后端开发的“数据管家”"></a>一、MySQL 是什么？—— 后端开发的“数据管家”</h2><p>在后端开发的世界里，无论你是开发简单的注册登录接口、复杂的商品管理系统，还是核心的订单交易系统，都离不开一个核心组件——数据库。而在众多数据库中，MySQL 凭借其开源免费、高效稳定、兼容性强的特点，成为了后端开发者的首选，更是Java后端开发中最常用的关系型数据库，没有之一。</p>
+<h3 id="✅-核心定义"><a href="#✅-核心定义" class="headerlink" title="✅ 核心定义"></a>✅ 核心定义</h3><p>MySQL 是一种 <strong>关系型数据库管理系统（RDBMS）</strong>，它基于关系模型设计，使用 SQL（结构化查询语言）作为数据的存取和管理工具。简单来说，MySQL 就像一个“智能文件柜”，它把杂乱无章的数据，按照固定的规则（表格）整理存放，并且表与表之间通过特定的关系关联起来，方便我们快速查询、修改和管理数据。</p>
+<p>补充：关系型数据库的核心是“关系”，也就是表与表之间的关联，这也是它和非关系型数据库（NoSQL）最本质的区别之一。</p>
+<h3 id="✅-核心特点（新手必记）"><a href="#✅-核心特点（新手必记）" class="headerlink" title="✅ 核心特点（新手必记）"></a>✅ 核心特点（新手必记）</h3><ul>
+<li><strong>结构化存储</strong>：数据以表格（Table）形式保存，每行对应一条数据记录，每列对应一个数据字段，结构清晰、直观，便于理解和维护。比如用户信息、商品信息，都可以对应一张独立的表，字段固定且规范。</li>
+<li><strong>支持事务（Transaction）</strong>：这是MySQL保障数据安全的核心特性，遵循ACID原则（原子性、一致性、隔离性、持久性），可以避免多用户并发操作时出现数据错乱、丢失等问题。比如用户下单支付，扣减库存和增加订单这两个操作，要么同时成功，要么同时失败，不会出现“库存扣了但订单没生成”的情况。</li>
+<li><strong>SQL语句操作灵活</strong>：提供了统一的SQL结构化查询语言，语法简洁、功能强大，能够高效完成数据的查询、插入、删除、更新等操作，无论是简单的单表查询，还是复杂的多表关联查询，都能轻松实现。</li>
+<li><strong>高兼容性</strong>：几乎兼容所有主流编程语言和开发框架，尤其是Java + Spring Boot组合，提供了完善的连接方式（如JDBC、MyBatis），开发中无需额外适配，上手成本极低。</li>
+<li><strong>开源免费</strong>：MySQL社区版完全开源，可免费下载、使用和二次开发，无需支付任何版权费用，无论是个人学习、小型项目，还是大型企业级应用，都能满足需求，这也是它普及度极高的重要原因。</li>
+</ul>
+<h2 id="二、MySQL-的基本组成结构——看懂“数据的存放规则”"><a href="#二、MySQL-的基本组成结构——看懂“数据的存放规则”" class="headerlink" title="二、MySQL 的基本组成结构——看懂“数据的存放规则”"></a>二、MySQL 的基本组成结构——看懂“数据的存放规则”</h2><p>想要学好MySQL，首先要理清它的基本组成结构。MySQL的核心是“表”，所有数据都围绕表来存储和管理，我们可以把它类比成“文件夹和文件”的关系，层层嵌套、结构清晰。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库（Database）</td>
+<td>存放表的集合，相当于一个“文件夹”，用于分类管理不同业务的表</td>
+<td>shop_db（电商项目的数据库，存放商品、订单、用户相关的表）</td>
+</tr>
+<tr>
+<td>表（Table）</td>
+<td>存放数据的结构化集合，相当于“文件夹里的文件”，每个表对应一个业务实体</td>
+<td>user（用户表）、order（订单表）、goods（商品表）</td>
+</tr>
+<tr>
+<td>行（Row）</td>
+<td>表中的一条完整的数据记录，相当于“文件里的一行内容”，对应一个实体实例</td>
+<td>用户A的信息（id:1、username:zhangsan、password:123456）</td>
+</tr>
+<tr>
+<td>列（Column）</td>
+<td>表中的某个字段，用于描述实体的一个属性，相当于“文件里的一列标题”</td>
+<td>username（用户名）、password（密码）、email（邮箱）</td>
+</tr>
+<tr>
+<td>主键（Primary Key）</td>
+<td>唯一标识某条记录的字段，不能重复、不能为null，相当于“每个人的身份证号”</td>
+<td>user表中的user_id（自增ID）</td>
+</tr>
+<tr>
+<td>外键（Foreign Key）</td>
+<td>建立表与表之间关系的字段，关联两个表的主键，相当于“两个文件夹之间的关联标签”</td>
+<td>order表中的user_id（关联user表的user_id，标识该订单属于哪个用户）</td>
+</tr>
+</tbody></table>
+<h3 id="📌-实战举例：创建一张简单的用户表"><a href="#📌-实战举例：创建一张简单的用户表" class="headerlink" title="📌 实战举例：创建一张简单的用户表"></a>📌 实战举例：创建一张简单的用户表</h3><p>下面这段SQL语句，就能创建一张基础的用户表，大家可以先熟悉一下语法（后续章节会详细讲解每一部分的含义）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,  <span class="comment">-- 主键，自增ID（唯一标识用户）</span></span><br><span class="line">  username <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT NULL</span>,      <span class="comment">-- 用户名，非空（必填）</span></span><br><span class="line">  password <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,     <span class="comment">-- 密码，非空（必填，建议加密存储）</span></span><br><span class="line">  email <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">UNIQUE</span>,          <span class="comment">-- 邮箱，唯一（不允许重复）</span></span><br><span class="line">  create_time DATETIME <span class="keyword">DEFAULT</span> NOW()  <span class="comment">-- 创建时间，默认当前时间（扩展字段）</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>一键获取完整项目代码</p>
+<p>这张表就对应了“用户”这个实体，每一条记录都是一个用户的完整信息，后续我们可以通过SQL语句，向这张表中插入、查询、修改用户数据。</p>
+<h2 id="三、MySQL-vs-NoSQL-的区别——选对数据库，少走弯路"><a href="#三、MySQL-vs-NoSQL-的区别——选对数据库，少走弯路" class="headerlink" title="三、MySQL vs NoSQL 的区别——选对数据库，少走弯路"></a>三、MySQL vs NoSQL 的区别——选对数据库，少走弯路</h2><p>随着互联网的快速发展，数据量越来越大，数据类型也越来越复杂，除了MySQL这种关系型数据库，还出现了很多NoSQL（非关系型）数据库，比如Redis、MongoDB、Cassandra等。很多新手会困惑：什么时候用MySQL？什么时候用NoSQL？其实二者没有绝对的优劣，只有“适合与否”，我们通过对比，就能快速分清它们的适用场景。</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>MySQL（关系型数据库）</th>
+<th>NoSQL（非关系型数据库）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据结构</td>
+<td>表格形式（结构化数据），字段固定、格式规范</td>
+<td>文档、键值、列族或图（非结构化/半结构化数据），格式灵活</td>
+</tr>
+<tr>
+<td>查询语言</td>
+<td>SQL（结构化查询语言），统一标准，学习成本低</td>
+<td>无统一标准，各自有专属API，语法差异较大</td>
+</tr>
+<tr>
+<td>事务支持</td>
+<td>强事务支持，严格遵循ACID原则，数据安全性高</td>
+<td>大多弱事务支持，或仅支持最终一致性，适合对数据一致性要求不高的场景</td>
+</tr>
+<tr>
+<td>扩展方式</td>
+<td>主要是垂直扩展（增加单台机器的CPU、内存、硬盘），扩展成本较高</td>
+<td>主要是水平扩展（增加机器数量），扩展灵活、成本较低，适合大数据量场景</td>
+</tr>
+<tr>
+<td>典型代表</td>
+<td>MySQL、PostgreSQL、Oracle</td>
+<td>MongoDB、Redis、Neo4j、Cassandra</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>用户系统、订单系统、财务系统等，需要结构化数据、强事务的场景</td>
+<td>日志存储、缓存、社交关系、大数据分析等，需要灵活存储、高并发的场景</td>
+</tr>
+</tbody></table>
+<h3 id="🌟-实际场景举例：快速选对数据库"><a href="#🌟-实际场景举例：快速选对数据库" class="headerlink" title="🌟 实际场景举例：快速选对数据库"></a>🌟 实际场景举例：快速选对数据库</h3><p>结合实际业务场景，我们可以快速判断该用哪种数据库，新手直接套用即可：</p>
+<ul>
+<li>用户注册登录（字段固定：用户名、密码、邮箱，需要强事务，避免注册失败但密码被存储）—— ✅ MySQL</li>
+<li>缓存验证码、Session（需要高速读写，无需持久化存储，支持过期时间）—— ✅ Redis</li>
+<li>存储不定结构的JSON文档（如商品详情、用户个性化配置，字段不固定）—— ✅ MongoDB</li>
+<li>好友推荐、社交关系链（需要存储用户之间的关联关系，属于图结构）—— ✅ Neo4j</li>
+<li>电商平台的订单交易（需要强事务，确保下单、扣库存、支付联动成功）—— ✅ MySQL</li>
+<li>系统日志存储（数据量大、格式灵活，无需事务，需要快速写入）—— ✅ MongoDB/Cassandra</li>
+</ul>
+<h3 id="👉-总结一句话"><a href="#👉-总结一句话" class="headerlink" title="👉 总结一句话"></a>👉 总结一句话</h3><p>MySQL 管“结构化数据”，主打一个“规范、安全、可靠”；NoSQL 管“灵活数据”，主打一个“高效、灵活、可扩展”。在实际项目中，很少单独使用一种数据库，通常是 <strong>MySQL + Redis + MongoDB</strong> 混合使用，各司其职、优势互补（比如用MySQL存核心业务数据，Redis做缓存提升速度，MongoDB存非结构化数据）。</p>
+<h2 id="四、MySQL-的内部数据模型——理解“数据的关联逻辑”"><a href="#四、MySQL-的内部数据模型——理解“数据的关联逻辑”" class="headerlink" title="四、MySQL 的内部数据模型——理解“数据的关联逻辑”"></a>四、MySQL 的内部数据模型——理解“数据的关联逻辑”</h2><p>MySQL 属于 <strong>关系模型（Relational Model）</strong>，它的核心思想是通过“实体-关系（ER）”的方式管理数据，简单来说，就是把现实中的“事物”（实体）和“事物之间的联系”（关系），转化为数据库中的表和表之间的关联，让数据之间的逻辑更清晰。</p>
+<h3 id="1️⃣-实体与表（Entity-amp-Table）"><a href="#1️⃣-实体与表（Entity-amp-Table）" class="headerlink" title="1️⃣ 实体与表（Entity &amp; Table）"></a>1️⃣ 实体与表（Entity &amp; Table）</h3><p>现实中的每一个“事物”，都可以看作一个“实体”，而每个实体在MySQL中，就对应一张表。实体的“属性”（比如用户的姓名、年龄、邮箱），就对应表中的“列”；实体的“实例”（比如具体的某个用户），就对应表中的“行”。</p>
+<p>举例：“用户”是一个实体，对应user表；“订单”是一个实体，对应order表；“商品”是一个实体，对应goods表。用户的“用户名”“密码”是属性，对应user表的username、password列；具体的用户“张三”，就是user表中的一行记录。</p>
+<h3 id="2️⃣-主键与外键——表与表的“纽带”"><a href="#2️⃣-主键与外键——表与表的“纽带”" class="headerlink" title="2️⃣ 主键与外键——表与表的“纽带”"></a>2️⃣ 主键与外键——表与表的“纽带”</h3><ul>
+<li><strong>主键（Primary Key，PK）</strong>：唯一标识表中的一条记录，相当于实体的“身份证号”，具有两个核心特点：<strong>不能重复、不能为null</strong>。一张表只能有一个主键，可以是单个字段（如id），也可以是多个字段组合（复合主键，较少用）。</li>
+<li><strong>外键（Foreign Key，FK）</strong>：用来建立不同表之间的关联关系，它的值必须对应另一张表的主键值。通过外键，我们可以实现表与表之间的联动查询、联动操作，避免数据冗余和数据不一致。</li>
+</ul>
+<p>举例：用户表（user）的主键是id，订单表（order）的外键是user_id，user_id的值必须对应user表中的id值。这样一来，我们就能通过user_id，找到每个订单对应的用户信息，实现“订单-用户”的关联查询。</p>
+<h3 id="3️⃣-常见的关系类型（必懂）"><a href="#3️⃣-常见的关系类型（必懂）" class="headerlink" title="3️⃣ 常见的关系类型（必懂）"></a>3️⃣ 常见的关系类型（必懂）</h3><p>表与表之间的关系，主要分为三种，结合实例理解，新手也能轻松记住：</p>
+<table>
+<thead>
+<tr>
+<th>关系类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一对一（1:1）</td>
+<td>两个表的记录一一对应，一个表的一条记录，只能对应另一个表的一条记录</td>
+<td>用户与身份证信息（一个用户只有一张身份证，一张身份证只属于一个用户）</td>
+</tr>
+<tr>
+<td>一对多（1:N）</td>
+<td>一个表的一条记录，可以对应另一个表的多条记录；反之，另一个表的多条记录，只能对应这个表的一条记录（最常用）</td>
+<td>用户与订单（一个用户可以下多个订单，一个订单只能属于一个用户）</td>
+</tr>
+<tr>
+<td>多对多（N:M）</td>
+<td>两个表的记录相互对应，一个表的一条记录，可以对应另一个表的多条记录；反之亦然</td>
+<td>学生与课程（一个学生可以选多门课程，一门课程可以被多个学生选择，通常需要一张中间表关联）</td>
+</tr>
+</tbody></table>
+<h2 id="五、MySQL-内部的存储引擎——数据的“存储方式”"><a href="#五、MySQL-内部的存储引擎——数据的“存储方式”" class="headerlink" title="五、MySQL 内部的存储引擎——数据的“存储方式”"></a>五、MySQL 内部的存储引擎——数据的“存储方式”</h2><p>MySQL 的存储引擎，相当于“数据的存储方式和管理策略”，它决定了数据如何存储、如何读取、是否支持事务、是否支持锁等核心功能。MySQL 支持多种存储引擎，我们可以根据业务需求，为不同的表选择不同的存储引擎（默认是InnoDB）。</p>
+<table>
+<thead>
+<tr>
+<th>存储引擎</th>
+<th>核心特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>InnoDB</td>
+<td>支持事务、行级锁、崩溃恢复、外键，数据安全性高，读写性能均衡（MySQL 5.5及以上默认引擎）</td>
+<td>默认引擎，适合大部分业务系统（用户、订单、财务等需要事务的场景）</td>
+</tr>
+<tr>
+<td>MyISAM</td>
+<td>不支持事务、不支持外键，支持表级锁，读取速度快，占用资源少</td>
+<td>日志存储、统计报表、只读或读写频率极低的业务（如网站访问量统计）</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>数据存放在内存中，读写速度极快，重启MySQL后数据丢失，不支持事务</td>
+<td>临时表、缓存数据（如临时计算结果、短期缓存）</td>
+</tr>
+<tr>
+<td>CSV</td>
+<td>以CSV文件形式存储数据，可直接用Excel打开，不支持索引、事务</td>
+<td>数据交换、导入导出场景（如与其他系统交换数据，快速导入批量数据）</td>
+</tr>
+</tbody></table>
+<p>重点提示：目前主流的项目（尤其是Java后端项目），基本都使用 InnoDB 存储引擎，因为它支持事务和行级锁，能满足大部分业务的安全性和性能需求。MyISAM 由于不支持事务，已逐渐被淘汰，仅在一些特殊场景下使用。</p>
+<h2 id="六、总结与思维导图（文字版）——-梳理重点，加深记忆"><a href="#六、总结与思维导图（文字版）——-梳理重点，加深记忆" class="headerlink" title="六、总结与思维导图（文字版）—— 梳理重点，加深记忆"></a>六、总结与思维导图（文字版）—— 梳理重点，加深记忆</h2><p>本章我们从零开始，认识了MySQL的核心概念、基本结构、与NoSQL的区别、内部数据模型和存储引擎，为后续的学习打下了坚实的基础。下面用文字版思维导图，梳理本章重点，方便大家回顾记忆：</p>
+<p>MySQL数据库学习总结（第一章）</p>
+<ul>
+<li>一、MySQL简介<ul>
+<li>属于关系型数据库管理系统（RDBMS）</li>
+<li>使用SQL语言操作数据</li>
+<li>数据以表格形式存储，表与表之间有关联</li>
+<li>核心特点：结构化、事务支持、高兼容、开源免费</li>
+</ul>
+</li>
+<li>二、MySQL vs NoSQL<ul>
+<li>SQL：结构化、强事务、垂直扩展、适合核心业务</li>
+<li>NoSQL：非结构化、弱事务、水平扩展、适合灵活场景</li>
+<li>实际项目：MySQL + Redis + MongoDB 混合使用</li>
+</ul>
+</li>
+<li>三、内部数据模型<ul>
+<li>基于实体-关系（ER）模型</li>
+<li>主键（唯一标识）、外键（表间关联）</li>
+<li>三种关系类型：一对一、一对多、多对多</li>
+</ul>
+</li>
+<li>四、存储引擎<ul>
+<li>InnoDB：默认引擎，支持事务、行级锁（主流首选）</li>
+<li>MyISAM：无事务，读取快（特殊场景使用）</li>
+<li>Memory：内存存储，速度快（临时数据）</li>
+<li>CSV：文件存储，适合数据交换</li>
+</ul>
+</li>
+</ul>
+<p>一键获取完整项目代码</p>
+<h2 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h2><p>MySQL 是 Java 后端开发的“地基”，也是所有后端开发者必须掌握的核心技能之一。无论是简单的用户登录系统，还是复杂的分布式电商平台，数据的持久化、查询和优化，都离不开MySQL的支撑。</p>
+<p>本章我们完成了MySQL的“入门启蒙”，后续章节，我们将逐步深入，学习MySQL的安装配置、SQL基础语法、数据查询、事务管理、索引优化等核心内容，一步步从“新手”成长为“MySQL高手”。</p>
+<p>学习过程中，大家一定要多动手实践——看懂SQL语句不难，难的是熟练运用，建议大家跟着教程，亲手创建数据库、创建表、操作数据，只有多练，才能真正掌握。有任何疑问，评论区随时交流～</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Lumjiel.github.io">Lumjiel</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lumjiel.github.io/posts/8c4bd063.html">https://lumjiel.github.io/posts/8c4bd063.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Lumjiel.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/0db1a272.html" title="08第八章：索引深入理解及高级运用（结合常见优化问题讲解）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">08第八章：索引深入理解及高级运用（结合常见优化问题讲解）</div></div><div class="info-2"><div class="info-item-1">对于后端开发者而言，MySQL 索引是提升数据库性能的核心手段，也是面试中的高频考点。很多初学者虽然知道“要建索引”，但往往陷入“索引建得越多越好”的误区，甚至建了索引却发现查询速度没提升，反而拖慢了写入性能。今天这篇文章，我们就从零深入拆解索引的核心逻辑、适用场景、优化技巧，结合实际开发中的常见问题，帮你真正吃透索引的高级运用，避开所有坑。 一、为什么要创建索引（Index）？—— 数据库的“目录”有多重要我们先从最基础的问题入手：为什么需要索引？其实一句话就能理解：索引就是数据库表的“目录”，就像我们看书时，不用逐页翻找，通过目录就能快速定位到目标章节；数据库查询时，有了索引，就不用进行全表扫描（逐行查找数据），能直接定位到符合条件的记录，极大提升查询效率。 ✅ 索引的核心优点 提升检索速度：这是最核心的作用，尤其是表中数据量达到万级、十万级甚至百万级时，索引能将查询时间从“秒级”压缩到“毫秒级”。 加速表连接：多表关联查询（JOIN）时，索引能快速匹配两个表中的关联字段，避免两个表都进行全表扫描，减少关联耗时。 优化排序和分组：当查询中包含 ORDER BY（排序）、GRO...</div></div></div></a><a class="pagination-related" href="/posts/c8485ca8.html" title="13第十三章：MySQL 事务详解：原理、特性、并发问题与隔离级别"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">13第十三章：MySQL 事务详解：原理、特性、并发问题与隔离级别</div></div><div class="info-2"><div class="info-item-1">在日常开发中，你是否遇到过这样的场景：测试库中几百条数据查询飞快，上线后生产库几十万条数据，相同的 SQL 突然慢到超时？90% 的情况下，问题都出在索引上。 一、索引的本质：不止是 “目录” 那么简单1.1 索引到底是什么？用一个最通俗的比喻：索引就像一本书的 “目录”。 如果没有目录（索引），要找某段内容，你需要从第一页翻到最后一页（全表扫描）；有了目录（索引），可以直接定位到目标章节，效率提升成百上千倍。 从技术角度来说，MySQL 的索引（InnoDB 引擎）底层基于B + 树结构实现：  非叶子节点存储索引键和指针，用于快速定位； 叶子节点存储完整的索引数据（主键索引还会存储整行数据）； 所有数据都在叶子节点，且按顺序排列，天然支持范围查询。1.11聚簇索引与非聚簇索引  在 MySQL InnoDB 中，索引的核心区别可以用两句话概括：聚簇索引 = 索引就是数据本身，非聚簇索引 = 索引是索引，数据是数据。 聚簇索引本质就是主键索引，一张表只能存在一个，它最大的特点是数据行和索引存储在一起，索引的叶子节点直接存储完整的一行数据。可以把它比作一本按页码排序的书，找到页码...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81MySQL-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E2%80%94%E2%80%94-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E6%95%B0%E6%8D%AE%E7%AE%A1%E5%AE%B6%E2%80%9D"><span class="toc-number">2.</span> <span class="toc-text">一、MySQL 是什么？—— 后端开发的“数据管家”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%A0%B8%E5%BF%83%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">✅ 核心定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9%EF%BC%88%E6%96%B0%E6%89%8B%E5%BF%85%E8%AE%B0%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">✅ 核心特点（新手必记）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MySQL-%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E7%9C%8B%E6%87%82%E2%80%9C%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%98%E6%94%BE%E8%A7%84%E5%88%99%E2%80%9D"><span class="toc-number">3.</span> <span class="toc-text">二、MySQL 的基本组成结构——看懂“数据的存放规则”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8C-%E5%AE%9E%E6%88%98%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E5%BC%A0%E7%AE%80%E5%8D%95%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">📌 实战举例：创建一张简单的用户表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81MySQL-vs-NoSQL-%E7%9A%84%E5%8C%BA%E5%88%AB%E2%80%94%E2%80%94%E9%80%89%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%B0%91%E8%B5%B0%E5%BC%AF%E8%B7%AF"><span class="toc-number">4.</span> <span class="toc-text">三、MySQL vs NoSQL 的区别——选对数据库，少走弯路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F-%E5%AE%9E%E9%99%85%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%BF%AB%E9%80%9F%E9%80%89%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.1.</span> <span class="toc-text">🌟 实际场景举例：快速选对数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%91%89-%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-number">4.2.</span> <span class="toc-text">👉 总结一句话</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81MySQL-%E7%9A%84%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E2%80%94%E2%80%94%E7%90%86%E8%A7%A3%E2%80%9C%E6%95%B0%E6%8D%AE%E7%9A%84%E5%85%B3%E8%81%94%E9%80%BB%E8%BE%91%E2%80%9D"><span class="toc-number">5.</span> <span class="toc-text">四、MySQL 的内部数据模型——理解“数据的关联逻辑”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E5%AE%9E%E4%BD%93%E4%B8%8E%E8%A1%A8%EF%BC%88Entity-amp-Table%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">1️⃣ 实体与表（Entity &amp; Table）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E4%B8%BB%E9%94%AE%E4%B8%8E%E5%A4%96%E9%94%AE%E2%80%94%E2%80%94%E8%A1%A8%E4%B8%8E%E8%A1%A8%E7%9A%84%E2%80%9C%E7%BA%BD%E5%B8%A6%E2%80%9D"><span class="toc-number">5.2.</span> <span class="toc-text">2️⃣ 主键与外键——表与表的“纽带”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%EF%BC%88%E5%BF%85%E6%87%82%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">3️⃣ 常见的关系类型（必懂）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81MySQL-%E5%86%85%E9%83%A8%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E2%80%9C%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E2%80%9D"><span class="toc-number">6.</span> <span class="toc-text">五、MySQL 内部的存储引擎——数据的“存储方式”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%80%BB%E7%BB%93%E4%B8%8E%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE%EF%BC%88%E6%96%87%E5%AD%97%E7%89%88%EF%BC%89%E2%80%94%E2%80%94-%E6%A2%B3%E7%90%86%E9%87%8D%E7%82%B9%EF%BC%8C%E5%8A%A0%E6%B7%B1%E8%AE%B0%E5%BF%86"><span class="toc-number">7.</span> <span class="toc-text">六、总结与思维导图（文字版）—— 梳理重点，加深记忆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E7%BB%93%E8%AF%AD"><span class="toc-number">8.</span> <span class="toc-text">七、结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

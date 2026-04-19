@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>02第二章：DDL语句定义及常见用法示例 | JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="上一章我们入门了MySQL的基础概念，了解了数据库、表的核心作用，今天我们正式进入SQL语句的学习，首先要掌握的就是DDL语句——它是构建数据库结构的“基石”，学会DDL，你才能真正开始创建属于自己的数据库和表，为后续的数据存储、查询打下基础。 一、什么是DDL？新手必懂的核心定义DDL 的全..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "02第二章：DDL语句定义及常见用法示例",
+  "url": "https://lumjiel.github.io/posts/bc83da02.html",
+  "image": "https://lumjiel.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.694Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lumjiel",
+      "url": "https://Lumjiel.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/posts/bc83da02.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '02第二章：DDL语句定义及常见用法示例',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">02第二章：DDL语句定义及常见用法示例</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">02第二章：DDL语句定义及常见用法示例</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.694Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/Mysql/">Mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>上一章我们入门了MySQL的基础概念，了解了数据库、表的核心作用，今天我们正式进入SQL语句的学习，首先要掌握的就是DDL语句——它是构建数据库结构的“基石”，学会DDL，你才能真正开始创建属于自己的数据库和表，为后续的数据存储、查询打下基础。</p>
+<h2 id="一、什么是DDL？新手必懂的核心定义"><a href="#一、什么是DDL？新手必懂的核心定义" class="headerlink" title="一、什么是DDL？新手必懂的核心定义"></a>一、什么是DDL？新手必懂的核心定义</h2><p>DDL 的全称是 <strong>Data Definition Language（数据定义语言）</strong>，它是SQL语言的三大分类之一（另外两类是DML数据操纵语言、DCL数据控制语言），核心作用是 <strong>定义和管理数据库对象的结构</strong>。</p>
+<p>这里要重点强调一个新手容易踩坑的点：执行DDL语句时，MySQL会自动提交事务，也就是说，语句一旦执行就会立即生效，<strong>无法通过ROLLBACK回滚</strong>。举个例子，如果你不小心用DDL语句删除了一张表，哪怕没有手动提交，这张表也会被永久删除，数据无法恢复，所以执行DDL语句一定要格外谨慎！</p>
+<p>常见的DDL操作主要分为5类，用表格总结更清晰，新手建议收藏：</p>
+<table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>核心关键字</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建</td>
+<td>CREATE</td>
+<td>创建数据库、数据表、视图、索引等数据库对象</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>ALTER</td>
+<td>修改数据库的字符集、排序规则，或数据表的结构（如添加列、修改列类型）</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>DROP</td>
+<td>删除数据库、数据表、视图、索引等，删除后结构和数据均会丢失</td>
+</tr>
+<tr>
+<td>重命名</td>
+<td>RENAME</td>
+<td>修改数据库、数据表等对象的名称</td>
+</tr>
+<tr>
+<td>清空</td>
+<td>TRUNCATE</td>
+<td>仅清空表中的所有数据，保留表的结构，后续可重新插入数据</td>
+</tr>
+</tbody></table>
+<h2 id="二、DDL常见语句与实战示例"><a href="#二、DDL常见语句与实战示例" class="headerlink" title="二、DDL常见语句与实战示例"></a>二、DDL常见语句与实战示例</h2><p>学习DDL最好的方式就是“边敲边练”，以下所有示例均经过实测，新手可以打开MySQL客户端（如Navicat、DBeaver），跟着步骤一步步执行，加深记忆。所有示例均添加了详细注释，看不懂的地方可以对照注释理解。</p>
+<h3 id="1-创建数据库：CREATE-DATABASE"><a href="#1-创建数据库：CREATE-DATABASE" class="headerlink" title="1. 创建数据库：CREATE DATABASE"></a>1. 创建数据库：CREATE DATABASE</h3><p>创建数据库是所有操作的第一步，我们通常会指定字符集和排序规则，避免出现中文乱码问题。推荐使用utf8mb4字符集（支持所有中文和特殊符号，包括emoji），排序规则默认utf8mb4_general_ci即可。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库，判断如果不存在则创建（避免重复创建报错）</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> mydb</span><br><span class="line"><span class="keyword">CHARACTER SET</span> utf8mb4  <span class="comment">-- 指定字符集为utf8mb4</span></span><br><span class="line"><span class="keyword">COLLATE</span> utf8mb4_general_ci;  <span class="comment">-- 指定排序规则</span></span><br></pre></td></tr></table></figure>
+
+<p>补充两个常用关联语句，创建数据库后一定会用到：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看MySQL中所有的数据库</span></span><br><span class="line"><span class="keyword">SHOW</span> DATABASES;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 切换到我们刚刚创建的mydb数据库（后续操作都基于这个数据库）</span></span><br><span class="line">USE mydb;</span><br></pre></td></tr></table></figure>
+
+<p>✨ 新手注意：USE语句不属于DDL，属于DCL，但它是执行后续表操作的前提，必须记住。</p>
+<h3 id="2-创建数据表：CREATE-TABLE"><a href="#2-创建数据表：CREATE-TABLE" class="headerlink" title="2. 创建数据表：CREATE TABLE"></a>2. 创建数据表：CREATE TABLE</h3><p>数据表是存储数据的核心载体，创建表时需要定义表的列名、数据类型、约束条件（如主键、非空、唯一等）。下面以最常用的“用户表（user）”为例，讲解创建表的完整语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建用户表，包含id、用户名、密码、性别、年龄、创建时间等字段</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,  <span class="comment">-- 主键（唯一标识每条数据），自动增长（无需手动插入）</span></span><br><span class="line">    username <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT NULL</span> <span class="keyword">UNIQUE</span>,  <span class="comment">-- 用户名，非空（必须填写），唯一（不能重复）</span></span><br><span class="line">    password <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,  <span class="comment">-- 密码，非空（必须填写）</span></span><br><span class="line">    gender ENUM(<span class="string">&#x27;男&#x27;</span>, <span class="string">&#x27;女&#x27;</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;男&#x27;</span>,  <span class="comment">-- 性别，枚举类型（只能选指定值），默认值为男</span></span><br><span class="line">    age <span class="type">INT</span> <span class="keyword">CHECK</span>(age <span class="operator">&gt;=</span> <span class="number">0</span>),  <span class="comment">-- 年龄，整数类型，约束条件：年龄不能小于0</span></span><br><span class="line">    create_time <span class="type">TIMESTAMP</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span>  <span class="comment">-- 创建时间，默认当前系统时间</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>创建完成后，我们可以查看表的结构，确认是否符合预期：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看user表的详细结构（字段名、类型、约束等）</span></span><br><span class="line"><span class="keyword">DESC</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p>✨ 新手重点：主键（PRIMARY KEY）是表的核心，每条数据的主键值都是唯一的，用于区分不同的数据；AUTO_INCREMENT仅适用于整数类型的主键，能自动生成递增的主键值，大大简化插入操作。</p>
+<h3 id="3-修改表结构：ALTER-TABLE"><a href="#3-修改表结构：ALTER-TABLE" class="headerlink" title="3. 修改表结构：ALTER TABLE"></a>3. 修改表结构：ALTER TABLE</h3><p>实际开发中，表结构往往不是一成不变的，比如需要新增字段、修改字段类型、删除字段等，这时候就需要用到ALTER TABLE语句。以下是最常用的6种修改场景，覆盖90%的开发需求：</p>
+<h4 id="（1）给表添加新列"><a href="#（1）给表添加新列" class="headerlink" title="（1）给表添加新列"></a>（1）给表添加新列</h4><p>示例：给user表添加“邮箱（email）”字段，用于存储用户邮箱：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给user表添加email列，类型为VARCHAR(100)</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD</span> email <span class="type">VARCHAR</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）修改列的数据类型"><a href="#（2）修改列的数据类型" class="headerlink" title="（2）修改列的数据类型"></a>（2）修改列的数据类型</h4><p>示例：将user表的age列（原本是INT类型）修改为SMALLINT类型（节省存储空间，因为年龄范围通常在0-150之间，SMALLINT足够）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 修改age列的类型为SMALLINT</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> MODIFY age <span class="type">SMALLINT</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（3）重命名表中的列"><a href="#（3）重命名表中的列" class="headerlink" title="（3）重命名表中的列"></a>（3）重命名表中的列</h4><p>示例：将user表的username列重命名为user_name（符合Java开发中的命名规范，下划线命名）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 重命名列：旧列名username → 新列名user_name，同时指定新列的类型（必须指定）</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> CHANGE username user_name <span class="type">VARCHAR</span>(<span class="number">50</span>);</span><br></pre></td></tr></table></figure>
+
+<p>✨ 注意：CHANGE和MODIFY的区别：CHANGE可以重命名列，同时修改列类型；MODIFY只能修改列类型，不能重命名。</p>
+<h4 id="（4）删除表中的列"><a href="#（4）删除表中的列" class="headerlink" title="（4）删除表中的列"></a>（4）删除表中的列</h4><p>示例：删除user表中的gender列（假设后续不需要存储性别信息）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除user表的gender列</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> <span class="keyword">DROP</span> <span class="keyword">COLUMN</span> gender;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（5）给列添加约束"><a href="#（5）给列添加约束" class="headerlink" title="（5）给列添加约束"></a>（5）给列添加约束</h4><p>示例：给user表的email列添加唯一约束（确保每个用户的邮箱都不重复）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给email列添加唯一约束，约束名uq_email（自定义，便于后续删除约束）</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD CONSTRAINT</span> uq_email <span class="keyword">UNIQUE</span>(email);</span><br></pre></td></tr></table></figure>
+
+<h4 id="（6）重命名数据表"><a href="#（6）重命名数据表" class="headerlink" title="（6）重命名数据表"></a>（6）重命名数据表</h4><p>示例：将user表重命名为users（通常表名用复数形式，符合开发规范）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 将user表重命名为users</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> RENAME <span class="keyword">TO</span> users;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-删除表：DROP-TABLE"><a href="#4-删除表：DROP-TABLE" class="headerlink" title="4. 删除表：DROP TABLE"></a>4. 删除表：DROP TABLE</h3><p>删除表是非常危险的操作，删除后表的结构和所有数据都会被永久删除，无法恢复。因此，一定要加上IF EXISTS判断，避免删除不存在的表报错。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除users表，判断如果存在则删除</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> IF <span class="keyword">EXISTS</span> users;</span><br></pre></td></tr></table></figure>
+
+<p>⚠️ 警告：新手在测试时，建议先备份数据，再执行DROP语句，避免误删重要数据。</p>
+<h3 id="5-清空表数据：TRUNCATE-TABLE"><a href="#5-清空表数据：TRUNCATE-TABLE" class="headerlink" title="5. 清空表数据：TRUNCATE TABLE"></a>5. 清空表数据：TRUNCATE TABLE</h3><p>如果我们只想清空表中的所有数据，保留表的结构（后续可以重新插入数据），就可以使用TRUNCATE TABLE语句。很多新手会把它和DELETE语句混淆，这里用表格明确两者的区别，新手一定要记牢：</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>DELETE（DML语句）</th>
+<th>TRUNCATE（DDL语句）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否为DDL</td>
+<td>否（属于DML）</td>
+<td>是（属于DDL）</td>
+</tr>
+<tr>
+<td>是否可回滚</td>
+<td>✅ 可回滚（在事务内执行时）</td>
+<td>❌ 不可回滚（执行即生效）</td>
+</tr>
+<tr>
+<td>是否重置自增</td>
+<td>❌ 否（删除数据后，自增主键会继续从之前的最大值递增）</td>
+<td>✅ 是（清空数据后，自增主键重新从1开始）</td>
+</tr>
+<tr>
+<td>执行速度</td>
+<td>较慢（逐行删除数据，会记录日志）</td>
+<td>非常快（直接清空表数据，不记录日志）</td>
+</tr>
+</tbody></table>
+<p>示例：清空user表（假设表已重新创建）的数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 清空user表的数据，保留表结构</span></span><br><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、DDL的执行特性"><a href="#三、DDL的执行特性" class="headerlink" title="三、DDL的执行特性"></a>三、DDL的执行特性</h2><p>结合前面的内容，我们总结一下DDL语句的4个核心执行特性，这也是新手容易出错的地方，一定要牢记：</p>
+<ol>
+<li>自动提交事务：DDL语句执行后，MySQL会自动提交事务，无需手动执行COMMIT，且无法通过ROLLBACK回滚。</li>
+<li>不可逆性：大部分DDL操作（如DROP、TRUNCATE）都是不可逆的，删除或修改后无法恢复，一定要谨慎操作。</li>
+<li>适用场景：DDL语句主要用于数据库初始化（如创建数据库、表）、表结构变更（如新增列、修改约束）阶段，日常数据操作（如插入、删除数据）不使用DDL。</li>
+<li>项目中的使用方式：在Java后端项目中，很少直接手动执行DDL语句，通常通过数据库迁移工具（如Flyway、Liquibase）管理DDL，避免多人开发时出现表结构不一致的问题。</li>
+</ol>
+<h2 id="四、综合实战示例：创建电商系统产品表"><a href="#四、综合实战示例：创建电商系统产品表" class="headerlink" title="四、综合实战示例：创建电商系统产品表"></a>四、综合实战示例：创建电商系统产品表</h2><p>为了让大家更好地掌握DDL的综合用法，我们结合实际开发场景，创建一个电商系统中常用的“产品表（product）”，包含产品id、名称、价格、库存、分类关联等字段，涵盖主键、外键、约束、默认值等核心知识点：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 先创建产品分类表（因为产品表需要关联分类表，外键依赖）</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> category (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT NULL</span> <span class="keyword">UNIQUE</span>,  <span class="comment">-- 分类名称，唯一</span></span><br><span class="line">    create_time <span class="type">TIMESTAMP</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建产品表，关联分类表（外键约束）</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> product (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,  <span class="comment">-- 产品主键，自动增长</span></span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,  <span class="comment">-- 产品名称，非空</span></span><br><span class="line">    price <span class="type">DECIMAL</span>(<span class="number">10</span>, <span class="number">2</span>) <span class="keyword">NOT NULL</span> <span class="keyword">CHECK</span> (price <span class="operator">&gt;=</span> <span class="number">0</span>),  <span class="comment">-- 产品价格，精确到2位小数，约束价格不能为负</span></span><br><span class="line">    stock <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,  <span class="comment">-- 产品库存，默认值为0</span></span><br><span class="line">    category_id <span class="type">INT</span>,  <span class="comment">-- 分类id，关联分类表的主键</span></span><br><span class="line">    created_at DATETIME <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span>,  <span class="comment">-- 产品创建时间</span></span><br><span class="line">    updated_at DATETIME <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="built_in">CURRENT_TIMESTAMP</span>,  <span class="comment">-- 产品更新时间，修改数据时自动更新</span></span><br><span class="line">    <span class="keyword">FOREIGN KEY</span> (category_id) <span class="keyword">REFERENCES</span> category(id)  <span class="comment">-- 外键约束，关联分类表的id</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>要点说明：</p>
+<ul>
+<li>DECIMAL(10,2)：用于存储价格、金额等需要精确计算的数据，10表示总长度，2表示小数位数，避免浮点数精度丢失问题。</li>
+<li>ON UPDATE CURRENT_TIMESTAMP：当修改产品表中的数据时，updated_at字段会自动更新为当前系统时间，无需手动修改。</li>
+<li>FOREIGN KEY（外键）：用于建立表与表之间的关联（产品表与分类表），保证数据的完整性，比如不能添加不存在的分类id。</li>
+</ul>
+<h2 id="五、在Java中如何使用DDL（简单示例）"><a href="#五、在Java中如何使用DDL（简单示例）" class="headerlink" title="五、在Java中如何使用DDL（简单示例）"></a>五、在Java中如何使用DDL（简单示例）</h2><p>对于Java后端开发者来说，了解如何在代码中执行DDL语句也很重要（虽然实际开发中多使用迁移工具，但基础用法需要掌握）。下面通过JDBC示例，演示如何在Java代码中创建数据表：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DdlDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 数据库连接信息（请替换为自己的数据库地址、用户名、密码）</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/mydb?useSSL=false&amp;serverTimezone=UTC&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定义DDL语句，创建user表</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            CREATE TABLE IF NOT EXISTS user (</span></span><br><span class="line"><span class="string">                id INT PRIMARY KEY AUTO_INCREMENT,</span></span><br><span class="line"><span class="string">                username VARCHAR(50) NOT NULL,</span></span><br><span class="line"><span class="string">                password VARCHAR(100) NOT NULL</span></span><br><span class="line"><span class="string">            )</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 执行DDL语句</span></span><br><span class="line">        <span class="keyword">try</span> (<span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(url, user, password);</span><br><span class="line">             <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> conn.createStatement()) &#123;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line">            System.out.println(<span class="string">&quot;数据表创建成功！&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">&quot;数据表创建失败！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>✨ 说明：JDBC中执行DDL语句使用executeUpdate()方法，执行查询语句（如SELECT）使用executeQuery()方法；try-with-resources语法会自动关闭连接和Statement，避免资源泄露。</p>
+<h2 id="✅-本章总结"><a href="#✅-本章总结" class="headerlink" title="✅ 本章总结"></a>✅ 本章总结</h2><p>本章我们掌握了DDL语句的核心用法，重点记住“创建、修改、删除、清空、重命名”五大操作，以及它们对应的关键字和使用场景，用表格快速回顾：</p>
+<table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>核心语句</th>
+<th>核心功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建</td>
+<td>CREATE DATABASE / TABLE</td>
+<td>定义数据库或数据表的结构</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>ALTER TABLE</td>
+<td>修改数据表的结构（添加列、修改列等）</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>DROP DATABASE / TABLE</td>
+<td>删除数据库或数据表（结构+数据）</td>
+</tr>
+<tr>
+<td>清空</td>
+<td>TRUNCATE TABLE</td>
+<td>清空表数据，保留表结构</td>
+</tr>
+<tr>
+<td>重命名</td>
+<td>RENAME TABLE</td>
+<td>修改数据表的名称</td>
+</tr>
+</tbody></table>
+<p>最后再强调一句：DDL语句执行后不可回滚，新手练习时一定要谨慎，建议先在测试环境操作，熟悉后再应用到实际项目中。下一章我们将学习DML语句，掌握数据的插入、删除、修改操作，继续加油！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Lumjiel.github.io">Lumjiel</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lumjiel.github.io/posts/bc83da02.html">https://lumjiel.github.io/posts/bc83da02.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Lumjiel.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/ea1dc819.html" title="01第一章：初识MySQL及深入理解内部数据类型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">01第一章：初识MySQL及深入理解内部数据类型</div></div><div class="info-2"><div class="info-item-1">引言从今天开始，我们正式启动MySQL的系统性学习之旅！本专栏将完全从零起步，循序渐进地带大家吃透MySQL的整个知识库——从最基础的概念、操作，到进阶的优化、调优，再到生产环境的实战技巧，全程干货无冗余。无论你是刚入门的后端新手，还是想巩固基础的开发从业者，都能从中有所收获。学习过程中，大家有任何疑问、困惑，或者不同的见解，都可以在评论区交流探讨，我们一起进步、一起成长，感谢大家的支持！ 一、MySQL 是什么？—— 后端开发的“数据管家”在后端开发的世界里，无论你是开发简单的注册登录接口、复杂的商品管理系统，还是核心的订单交易系统，都离不开一个核心组件——数据库。而在众多数据库中，MySQL 凭借其开源免费、高效稳定、兼容性强的特点，成为了后端开发者的首选，更是Java后端开发中最常用的关系型数据库，没有之一。 ✅ 核心定义MySQL 是一种 关系型数据库管理系统（RDBMS），它基于关系模型设计，使用 SQL（结构化查询语言）作为数据的存取和管理工具。简单来说，MySQL 就像一个“智能文件柜”，它把杂乱无章的数据，按照固定的规则（表格）整理存放，并且表与表之间通过特定的关...</div></div></div></a><a class="pagination-related" href="/posts/10060e2f.html" title="从零起步学习 Redis 第七章：Redis 持久化方案的实现及底层原理解析（RDB 快照与 AOF 日志）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">从零起步学习 Redis 第七章：Redis 持久化方案的实现及底层原理解析（RDB 快照与 AOF 日志）</div></div><div class="info-2"><div class="info-item-1">引言Redis 是典型的内存型键值数据库，其高性能、高吞吐、低延迟的核心优势，源于 “将数据主要存储在内存中” 的设计。但纯内存存储存在一个致命缺陷：一旦发生断电、进程崩溃或机器重启，内存中的所有数据都会丢失，这在生产环境中是无法接受的。 为了兼顾 “内存的速度优势” 与 “数据的持久性需求”，Redis 提供了完善的持久化机制 —— 将内存中的数据定期写入磁盘，当 Redis 重启时，再从磁盘读取数据恢复到内存中。目前 Redis 主要支持两大类持久化方式：RDB（快照式持久化） 和 AOF（日志式持久化），在实际生产部署中，更常见两者组合使用，以平衡数据恢复速度与数据安全性。  一、RDB：快照式持久化（整体备份）RDB（Redis Database）是 Redis 最基础的持久化方式，核心思想是 “拍摄内存数据的完整快照”，将某一时刻的全量数据集序列化后，写入磁盘的二进制文件（默认文件名：dump.rdb），重启时通过读取该文件反序列化，恢复数据状态。 1.1 底层原理RDB 的核心是 “全量快照 + 异步执行”，为了避免持久化操作阻塞主线程（影响客户端响应），Redis ...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFDDL%EF%BC%9F%E6%96%B0%E6%89%8B%E5%BF%85%E6%87%82%E7%9A%84%E6%A0%B8%E5%BF%83%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">一、什么是DDL？新手必懂的核心定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81DDL%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%AE%9E%E6%88%98%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">二、DDL常见语句与实战示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9ACREATE-DATABASE"><span class="toc-number">2.1.</span> <span class="toc-text">1. 创建数据库：CREATE DATABASE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8%EF%BC%9ACREATE-TABLE"><span class="toc-number">2.2.</span> <span class="toc-text">2. 创建数据表：CREATE TABLE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%EF%BC%9AALTER-TABLE"><span class="toc-number">2.3.</span> <span class="toc-text">3. 修改表结构：ALTER TABLE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E7%BB%99%E8%A1%A8%E6%B7%BB%E5%8A%A0%E6%96%B0%E5%88%97"><span class="toc-number">2.3.1.</span> <span class="toc-text">（1）给表添加新列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E4%BF%AE%E6%94%B9%E5%88%97%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.2.</span> <span class="toc-text">（2）修改列的数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%88%97"><span class="toc-number">2.3.3.</span> <span class="toc-text">（3）重命名表中的列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E5%88%A0%E9%99%A4%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%88%97"><span class="toc-number">2.3.4.</span> <span class="toc-text">（4）删除表中的列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%885%EF%BC%89%E7%BB%99%E5%88%97%E6%B7%BB%E5%8A%A0%E7%BA%A6%E6%9D%9F"><span class="toc-number">2.3.5.</span> <span class="toc-text">（5）给列添加约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%886%EF%BC%89%E9%87%8D%E5%91%BD%E5%90%8D%E6%95%B0%E6%8D%AE%E8%A1%A8"><span class="toc-number">2.3.6.</span> <span class="toc-text">（6）重命名数据表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%88%A0%E9%99%A4%E8%A1%A8%EF%BC%9ADROP-TABLE"><span class="toc-number">2.4.</span> <span class="toc-text">4. 删除表：DROP TABLE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E6%95%B0%E6%8D%AE%EF%BC%9ATRUNCATE-TABLE"><span class="toc-number">2.5.</span> <span class="toc-text">5. 清空表数据：TRUNCATE TABLE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81DDL%E7%9A%84%E6%89%A7%E8%A1%8C%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">三、DDL的执行特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%BB%BC%E5%90%88%E5%AE%9E%E6%88%98%E7%A4%BA%E4%BE%8B%EF%BC%9A%E5%88%9B%E5%BB%BA%E7%94%B5%E5%95%86%E7%B3%BB%E7%BB%9F%E4%BA%A7%E5%93%81%E8%A1%A8"><span class="toc-number">4.</span> <span class="toc-text">四、综合实战示例：创建电商系统产品表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%9C%A8Java%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DDL%EF%BC%88%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">五、在Java中如何使用DDL（简单示例）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E6%9C%AC%E7%AB%A0%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">✅ 本章总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>

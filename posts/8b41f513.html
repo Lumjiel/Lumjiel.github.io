@@ -1,0 +1,628 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>一周 Java 后端面试冲刺准备计划 | JIE的笔记本</title><meta name="author" content="Lumjiel"><meta name="copyright" content="Lumjiel"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本计划围绕你的简历核心技能（Java 基础 / 并发、MySQL/Redis、Spring 全家桶、分布式中间件）和两个核心项目展开，循序渐进从基础到项目深挖，再到模拟面试，每天明确学习目标、高频面试题、实操复盘和博客产出方向，确保面试时能结合项目对答如流，且博客内容能体现你的技术思考和项目实..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "一周 Java 后端面试冲刺准备计划",
+  "url": "https://lumjiel.github.io/posts/8b41f513.html",
+  "image": "https://lumjiel.github.io/img/toux.jpg",
+  "datePublished": "2026-03-14T07:00:00.000Z",
+  "dateModified": "2026-03-14T08:09:38.693Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lumjiel",
+      "url": "https://Lumjiel.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lumjiel.github.io/posts/8b41f513.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '一周 Java 后端面试冲刺准备计划',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/pet.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="JIE的笔记本" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(102.7deg,#fddaff 8.2%,#dfadfc 19.6%,#adcdfc 36.8%,#adfcf4 73.2%,#caf8d0 90.9%);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JIE的笔记本</span></a><a class="nav-page-title" href="/"><span class="site-name">一周 Java 后端面试冲刺准备计划</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">一周 Java 后端面试冲刺准备计划</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-14T07:00:00.000Z" title="发表于 2026年03月14日 15:00:00">2026年03月14日</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T08:09:38.693Z" title="更新于 2026年03月14日 16:09:38">2026年03月14日</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%AB%E8%82%A1%E9%9D%A2%E8%AF%95/">八股面试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>本计划围绕你的简历核心技能（Java 基础 / 并发、MySQL/Redis、Spring 全家桶、分布式中间件）和两个核心项目展开，<strong>循序渐进从基础到项目深挖，再到模拟面试</strong>，每天明确学习目标、高频面试题、实操复盘和博客产出方向，确保面试时能结合项目对答如流，且博客内容能体现你的技术思考和项目实战能力。</p>
+<p>计划适配岗位：Java 后端开发（校招 / 实习），核心要求贴合你的简历技能栈，每天学习时长建议<strong>6-8 小时</strong>（可根据自身基础微调），实操部分需结合你的 GitHub 项目代码（智行天下、大学科研管理系统）复现核心逻辑。</p>
+<h2 id="核心准备原则"><a href="#核心准备原则" class="headerlink" title="核心准备原则"></a>核心准备原则</h2><ol>
+<li><strong>所有知识点都要结合项目讲</strong>：面试中面试官不会只问纯知识点，必会追问 “项目中怎么用的”，因此每个技术点都要对应简历中的项目场景；</li>
+<li><strong>深挖项目细节</strong>：明确项目中 “你做了什么、用了什么技术、解决了什么问题、为什么这么选型、有没有优化空间” 五大核心问题；</li>
+<li><strong>博客产出同步沉淀</strong>：每天的博客既是学习复盘，也是面试时的 “个人技术成果”，可向面试官提及，增加加分项。</li>
+</ol>
+<h2 id="第一天：Java-基础-并发编程（简历核心基础，项目高频用到）"><a href="#第一天：Java-基础-并发编程（简历核心基础，项目高频用到）" class="headerlink" title="第一天：Java 基础 + 并发编程（简历核心基础，项目高频用到）"></a>第一天：Java 基础 + 并发编程（简历核心基础，项目高频用到）</h2><h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>熟练掌握简历中提及的 Java 容器底层原理，能口述核心实现；</li>
+<li>吃透 Java 并发编程的锁机制、线程池原理，结合项目讲清实际应用；</li>
+<li>能回答基础高频题，无知识点盲区。</li>
+</ol>
+<h3 id="核心学习内容"><a href="#核心学习内容" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：Java-核心容器（HashMap-ArrayList-LinkedList）"><a href="#模块-1：Java-核心容器（HashMap-ArrayList-LinkedList）" class="headerlink" title="模块 1：Java 核心容器（HashMap/ArrayList/LinkedList）"></a>模块 1：Java 核心容器（HashMap/ArrayList/LinkedList）</h4><ul>
+<li>重点：HashMap（JDK8）底层（数组 + 链表 + 红黑树、哈希冲突解决、扩容机制、为什么线程不安全）；</li>
+<li>对比：ArrayList 与 LinkedList 底层差异、使用场景（项目中哪里用了？比如存储攻略信息 / 用户信息）；</li>
+<li>拓展：HashSet/LinkedHashSet/TreeSet 底层，HashMap 与 Hashtable/ConcurrentHashMap 区别。</li>
+</ul>
+<h4 id="模块-2：Java-并发编程"><a href="#模块-2：Java-并发编程" class="headerlink" title="模块 2：Java 并发编程"></a>模块 2：Java 并发编程</h4><ul>
+<li>锁机制：乐观锁 / 悲观锁、公平锁 / 非公平锁、可重入锁、自旋锁，<strong>重点结合项目</strong>（智行天下中 Redis + 乐观锁实现防超卖、科研管理系统中数据库锁的使用）；</li>
+<li>线程池：核心参数（corePoolSize/maximumPoolSize 等）、工作原理、拒绝策略，<strong>重点结合项目</strong>（科研管理系统中自定义 ThreadPoolTaskExecutor 同步人员信息的参数设计、为什么这么设计）；</li>
+<li>其他：Volatile 关键字、CAS 原理、ThreadLocal（科研管理系统中存储用户信息的使用场景和底层，解决了什么问题）。</li>
+</ul>
+<h3 id="面试高频题准备（必须能口述回答，结合项目）"><a href="#面试高频题准备（必须能口述回答，结合项目）" class="headerlink" title="面试高频题准备（必须能口述回答，结合项目）"></a>面试高频题准备（必须能口述回答，结合项目）</h3><ol>
+<li>HashMap JDK8 做了哪些优化？项目中哪里用到了 HashMap，为什么不用其他容器？</li>
+<li>乐观锁和悲观锁的区别？你在智行天下的秒杀功能中是怎么用乐观锁的，为什么选乐观锁而非悲观锁？</li>
+<li>说说你对线程池核心参数的理解？科研管理系统中你自定义线程池的参数是怎么设置的，依据是什么？</li>
+<li>ThreadLocal 的底层原理？你在项目中用 ThreadLocal 存储用户信息，有没有考虑过内存泄漏问题，怎么解决的？</li>
+<li>ConcurrentHashMap 的底层实现（JDK8），为什么能保证线程安全？</li>
+</ol>
+<h3 id="实操复盘"><a href="#实操复盘" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>打开 IDEA，手写 HashMap 核心实现片段（哈希计算、扩容）、自定义线程池代码（复现科研管理系统中的配置）；</li>
+<li>查看你的 GitHub 项目代码，找到<strong>ThreadLocal 存储用户信息、自定义线程池同步数据</strong>的代码，复现运行并梳理逻辑。</li>
+</ol>
+<h3 id="博客产出"><a href="#博客产出" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：Java 核心容器底层原理与并发编程在项目中的实战应用</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：校招 Java 后端必备的基础 + 并发知识点，结合自身项目实战梳理；</li>
+<li>一、Java 常见容器底层解析（HashMap/JDK8、ArrayList&amp;LinkedList 对比）；</li>
+<li>二、Java 并发核心知识点（锁机制分类、线程池工作原理）；</li>
+<li>三、项目实战：并发编程在我的两个项目中的落地（乐观锁实现秒杀防超卖、自定义线程池同步人员信息、ThreadLocal 存储用户信息）；</li>
+<li>四、常见面试题总结（附自己的理解和项目作答思路）；</li>
+<li>结尾：基础学习的心得体会。</li>
+</ol>
+<h2 id="第二天：MySQL-Redis（项目核心存储，高并发场景重点）"><a href="#第二天：MySQL-Redis（项目核心存储，高并发场景重点）" class="headerlink" title="第二天：MySQL+Redis（项目核心存储，高并发场景重点）"></a>第二天：MySQL+Redis（项目核心存储，高并发场景重点）</h2><h3 id="学习目标-1"><a href="#学习目标-1" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>吃透 MySQL 事务、锁、索引、SQL 优化，结合项目讲清优化思路；</li>
+<li>熟练掌握 Redis 基础数据结构、持久化、缓存问题解决，<strong>能完整口述智行天下中 Redis 的所有应用场景和实现细节</strong>；</li>
+<li>掌握 Redis Lua 脚本、Set/ZSet 的使用，对应秒杀和点赞功能。</li>
+</ol>
+<h3 id="核心学习内容-1"><a href="#核心学习内容-1" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：MySQL-核心（简历提及：事务、锁、索引、SQL-优化）"><a href="#模块-1：MySQL-核心（简历提及：事务、锁、索引、SQL-优化）" class="headerlink" title="模块 1：MySQL 核心（简历提及：事务、锁、索引、SQL 优化）"></a>模块 1：MySQL 核心（简历提及：事务、锁、索引、SQL 优化）</h4><ul>
+<li>索引：聚簇索引 / 非聚簇索引、索引失效场景、联合索引最左匹配原则，<strong>项目中哪里建了索引，为什么</strong>（比如景点信息、用户信息表的索引设计）；</li>
+<li>事务：ACID 特性、事务隔离级别（脏读 / 不可重复读 / 幻读）、MySQL 默认隔离级别及原因；</li>
+<li>锁：行锁 / 表锁、间隙锁，项目中是否用到行锁，解决了什么问题；</li>
+<li>SQL 优化：慢查询优化、EXPLAIN 关键字使用、分页查询优化，<strong>项目中有没有遇到慢查询，怎么优化的</strong>。</li>
+</ul>
+<h4 id="模块-2：Redis-核心（简历中项目高频使用，校招重点）"><a href="#模块-2：Redis-核心（简历中项目高频使用，校招重点）" class="headerlink" title="模块 2：Redis 核心（简历中项目高频使用，校招重点）"></a>模块 2：Redis 核心（简历中项目高频使用，校招重点）</h4><ul>
+<li>基础数据结构：String/Hash/List/Set/ZSet，<strong>每个结构对应项目中的一个场景</strong>（比如 String 存门票库存、Set 存点赞用户 ID、ZSet 存点赞数量）；</li>
+<li>持久化机制：RDB/AOF，区别和使用场景，项目中 Redis 用了哪种持久化，为什么；</li>
+<li>缓存三大问题：穿透 / 雪崩 / 击穿，<strong>完整梳理智行天下中你的解决方法</strong>（比如缓存穿透用布隆过滤器 / 空值缓存、雪崩用过期时间随机 + Redis 集群、击穿用互斥锁 / 逻辑过期）；</li>
+<li>高级用法：Lua 脚本（智行天下中判断下单资格，为什么用 Lua 脚本？原子性）、Redis 分布式锁（结合秒杀场景）、Redis 与 MySQL 双写一致性（项目中怎么保证的）。</li>
+</ul>
+<h3 id="面试高频题准备（必须结合项目作答）"><a href="#面试高频题准备（必须结合项目作答）" class="headerlink" title="面试高频题准备（必须结合项目作答）"></a>面试高频题准备（必须结合项目作答）</h3><ol>
+<li>说说 MySQL 索引失效的常见场景？你在项目中是怎么设计索引的，有没有遇到索引失效，怎么解决的？</li>
+<li>MySQL 的事务隔离级别有哪些？解决了什么问题，默认的是哪一个？</li>
+<li>Redis 的 5 种基础数据结构，你在项目中分别用在了哪些场景？</li>
+<li>缓存穿透、雪崩、击穿的区别？你在智行天下中是怎么解决这三个问题的，具体实现步骤是什么？</li>
+<li>为什么秒杀场景中要用 Lua 脚本？Redis 执行 Lua 脚本的特性是什么？</li>
+<li>怎么保证 Redis 和 MySQL 的双写一致性？你在项目中是怎么做的？</li>
+<li>Redis 的 Set 和 ZSet 怎么实现点赞和点赞数排序的，项目中怎么定时同步到数据库的？</li>
+</ol>
+<h3 id="实操复盘-1"><a href="#实操复盘-1" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>手写 MySQL 慢查询优化 SQL（结合项目中的景点 / 用户表）、用 EXPLAIN 分析执行计划；</li>
+<li>打开智行天下项目代码，复现<strong>Redis 缓存景点信息、Lua 脚本实现下单判断、Set/ZSet 实现点赞</strong>的核心代码，手动运行并梳理逻辑；</li>
+<li>手写 Redis 解决缓存三大问题的核心代码（比如布隆过滤器实现、过期时间随机设置）。</li>
+</ol>
+<h3 id="博客产出-1"><a href="#博客产出-1" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：MySQL 优化实战 + Redis 在高并发旅游平台的全场景落地（附源码）</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：数据存储是后端开发的核心，结合自身智行天下（高并发）、科研管理系统（数据统计）梳理 MySQL+Redis 的实战应用；</li>
+<li>一、MySQL 核心知识点与项目优化（索引设计、事务隔离、慢查询优化）；</li>
+<li>二、Redis 基础数据结构与项目场景映射（String/Set/ZSet 等在秒杀、点赞、缓存中的使用）；</li>
+<li>三、高并发场景下 Redis 缓存问题的解决（穿透 / 雪崩 / 击穿的实现方案 + 项目源码）；</li>
+<li>四、Redis 高级用法：Lua 脚本实现秒杀原子性、Redis 与 MySQL 双写一致性保障；</li>
+<li>五、MySQL+Redis 的技术选型思考（项目中为什么选这两个组合，有没有其他替代方案）；</li>
+<li>结尾：高并发场景下数据存储的心得体会。</li>
+</ol>
+<h2 id="第三天：Spring-全家桶（Spring-SpringBoot-SpringSecurity）"><a href="#第三天：Spring-全家桶（Spring-SpringBoot-SpringSecurity）" class="headerlink" title="第三天：Spring 全家桶（Spring/SpringBoot/SpringSecurity）"></a>第三天：Spring 全家桶（Spring/SpringBoot/SpringSecurity）</h2><h3 id="学习目标-2"><a href="#学习目标-2" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>掌握 Spring 核心原理，能口述 IOC/AOP 的实现和项目应用；</li>
+<li>吃透 SpringBoot 自动配置原理，了解核心注解的使用；</li>
+<li><strong>完整梳理 SpringSecurity 实现 RBAC 动态权限的全过程</strong>（科研管理系统核心亮点），能口述代码设计和实现步骤。</li>
+</ol>
+<h3 id="核心学习内容-2"><a href="#核心学习内容-2" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：Spring-核心（简历提及：核心原理研究）"><a href="#模块-1：Spring-核心（简历提及：核心原理研究）" class="headerlink" title="模块 1：Spring 核心（简历提及：核心原理研究）"></a>模块 1：Spring 核心（简历提及：核心原理研究）</h4><ul>
+<li>IOC 容器：底层原理（Bean 的生命周期、依赖注入方式、Bean 的作用域），项目中哪里用到了 IOC/AOP（比如 AOP 做日志 / 权限校验）；</li>
+<li>AOP：底层原理（动态代理：JDK 动态代理 / CGLIB 动态代理）、核心术语（切点 / 切面 / 通知）、项目中的应用场景。</li>
+</ul>
+<h4 id="模块-2：SpringBoot-核心"><a href="#模块-2：SpringBoot-核心" class="headerlink" title="模块 2：SpringBoot 核心"></a>模块 2：SpringBoot 核心</h4><ul>
+<li>自动配置原理：@SpringBootApplication 注解拆解（@SpringBootConfiguration/@EnableAutoConfiguration/@ComponentScan）、自动配置的实现流程（SPI 机制）；</li>
+<li>核心注解：@RestController/@Service/@Repository/@Autowired/@Resource 的区别、@ConfigurationProperties 的使用；</li>
+<li>项目配置：yml 配置文件、多环境配置（开发 / 测试 / 生产），项目中怎么配置的。</li>
+</ul>
+<h4 id="模块-3：SpringSecurity（科研管理系统核心，简历重点）"><a href="#模块-3：SpringSecurity（科研管理系统核心，简历重点）" class="headerlink" title="模块 3：SpringSecurity（科研管理系统核心，简历重点）"></a>模块 3：SpringSecurity（科研管理系统核心，简历重点）</h4><ul>
+<li>核心流程：认证 + 授权的执行过程；</li>
+<li>RBAC 模型：基于角色的权限控制，<strong>你设计的 5 张核心表（用户 / 角色 / 权限 / 用户 - 角色 / 角色 - 权限）的表结构和关联关系</strong>，为什么这么设计；</li>
+<li>动态权限实现：<strong>结合项目代码梳理</strong>（从数据库查询权限、自定义权限校验器、SpringSecurity 的配置），如何实现权限校验效率提升 40%；</li>
+<li>单一登录机制：<strong>结合项目</strong>（UUID+JWT+Redis 实现防多端登录，JWT 的生成 / 解析、Redis 存储登录状态、动态更新凭证的逻辑）。</li>
+</ul>
+<h3 id="面试高频题准备（结合项目，突出自己的设计思路）"><a href="#面试高频题准备（结合项目，突出自己的设计思路）" class="headerlink" title="面试高频题准备（结合项目，突出自己的设计思路）"></a>面试高频题准备（结合项目，突出自己的设计思路）</h3><ol>
+<li>Spring 的 IOC 和 AOP 是什么？底层原理是什么？你在项目中哪里用到了 AOP/IOC，解决了什么问题？</li>
+<li>SpringBoot 的自动配置原理是什么？@SpringBootApplication 注解包含哪些内容？</li>
+<li>@Autowired 和 @Resource 的区别是什么？你在项目中用的是哪一个，为什么？</li>
+<li>说说你对 RBAC 模型的理解？你在科研管理系统中是怎么基于 RBAC 设计数据库表的，为什么设计 5 张核心表？</li>
+<li>你是怎么用 SpringSecurity 实现动态权限管理的？具体步骤是什么，怎么做到权限校验效率提升 40% 的？</li>
+<li>科研管理系统中你是怎么实现单一用户登录的？UUID+JWT+Redis 的结合逻辑是什么，怎么防止多端同时登录？</li>
+<li>JWT 的优缺点是什么？项目中用 JWT 做身份认证，怎么解决 JWT 无法主动过期的问题？</li>
+</ol>
+<h3 id="实操复盘-2"><a href="#实操复盘-2" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>手写 Spring AOP 实现日志切面的代码（复现项目中的 AOP 使用）；</li>
+<li>打开科研管理系统项目代码，复现<strong>RBAC 数据库表设计、SpringSecurity 动态权限配置、JWT+Redis 单一登录</strong>的核心代码，梳理表关联关系和配置流程；</li>
+<li>手写 SpringBoot 自动配置的核心注解拆解，理解 SPI 机制的实现。</li>
+</ol>
+<h3 id="博客产出-2"><a href="#博客产出-2" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：Spring 全家桶核心原理 + SpringSecurity 实现 RBAC 动态权限实战（附项目表设计）</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：Spring 全家桶是 Java 后端的主流框架，结合自身两个项目梳理核心原理和实战落地；</li>
+<li>一、Spring 核心：IOC/AOP 底层原理与项目应用；</li>
+<li>二、SpringBoot 核心：自动配置原理与核心注解使用；</li>
+<li>三、RBAC 权限模型详解：5 张核心表的设计思路与关联关系（科研管理系统实战）；</li>
+<li>四、SpringSecurity 实现动态权限管理的全过程（配置步骤 + 源码 + 效率优化方案）；</li>
+<li>五、项目实战：UUID+JWT+Redis 实现单一用户登录（防多端登录的核心逻辑）；</li>
+<li>六、SpringSecurity 的优化思考（项目中还能怎么优化权限校验）；</li>
+<li>结尾：框架学习的心得体会 —— 从原理到项目落地。</li>
+</ol>
+<h2 id="第四天：微服务-分布式中间件（SpringCloud-RabbitMQ-XXL-Job）"><a href="#第四天：微服务-分布式中间件（SpringCloud-RabbitMQ-XXL-Job）" class="headerlink" title="第四天：微服务 + 分布式中间件（SpringCloud/RabbitMQ/XXL-Job）"></a>第四天：微服务 + 分布式中间件（SpringCloud/RabbitMQ/XXL-Job）</h2><h3 id="学习目标-3"><a href="#学习目标-3" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>掌握简历中提及的 SpringCloud 组件（Nacos/Gateway/XXL-Job）的使用场景和项目落地；</li>
+<li>吃透 RabbitMQ 核心知识点，能完整口述智行天下中 RabbitMQ 的应用（秒杀异步下单、点赞同步数据库）；</li>
+<li>掌握限流算法（令牌桶），结合项目讲清秒杀场景的限流实现。</li>
+</ol>
+<h3 id="核心学习内容-3"><a href="#核心学习内容-3" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：SpringCloud-核心组件（简历提及：Nacos-Gateway-XXL-Job）"><a href="#模块-1：SpringCloud-核心组件（简历提及：Nacos-Gateway-XXL-Job）" class="headerlink" title="模块 1：SpringCloud 核心组件（简历提及：Nacos/Gateway/XXL-Job）"></a>模块 1：SpringCloud 核心组件（简历提及：Nacos/Gateway/XXL-Job）</h4><ul>
+<li>Nacos：服务注册与发现、配置中心，科研管理系统中怎么用的，解决了什么问题；</li>
+<li>Gateway：网关的核心功能（路由转发、限流、跨域），项目中是否用到，怎么配置的；</li>
+<li>XXL-Job：分布式任务调度，<strong>科研管理系统中定时更新人员数据的实现</strong>（任务配置、执行逻辑、调度中心使用）。</li>
+</ul>
+<h4 id="模块-2：RabbitMQ（智行天下核心，高并发秒杀重点）"><a href="#模块-2：RabbitMQ（智行天下核心，高并发秒杀重点）" class="headerlink" title="模块 2：RabbitMQ（智行天下核心，高并发秒杀重点）"></a>模块 2：RabbitMQ（智行天下核心，高并发秒杀重点）</h4><ul>
+<li>核心知识点：AMQP 协议、交换机 / 队列 / 绑定的关系、常见交换机类型（Direct/Topic/Fanout/Headers）；</li>
+<li>消息可靠性：生产者确认、消费者确认、消息持久化、死信队列，<strong>项目中怎么保证消息不丢失</strong>（秒杀场景中异步下单的消息可靠性）；</li>
+<li>项目应用：<strong>智行天下中两个核心场景</strong>（秒杀同步下单转异步下单、点赞数据 MQ 异步写入数据库），为什么用 RabbitMQ，技术选型思考。</li>
+</ul>
+<h4 id="模块-3：分布式限流与定时任务"><a href="#模块-3：分布式限流与定时任务" class="headerlink" title="模块 3：分布式限流与定时任务"></a>模块 3：分布式限流与定时任务</h4><ul>
+<li>限流算法：令牌桶 / 漏桶 / 计数器，<strong>智行天下中令牌桶算法的实现</strong>（秒杀场景的限流，为什么选令牌桶）；</li>
+<li>SpringTask：定时任务的使用，<strong>智行天下中定时移除点赞数最少的内容</strong>的实现，与 XXL-Job 的区别和使用场景。</li>
+</ul>
+<h3 id="面试高频题准备（结合项目，讲清实现和选型）"><a href="#面试高频题准备（结合项目，讲清实现和选型）" class="headerlink" title="面试高频题准备（结合项目，讲清实现和选型）"></a>面试高频题准备（结合项目，讲清实现和选型）</h3><ol>
+<li>你用过哪些 SpringCloud 组件？Nacos 的作用是什么，服务注册与发现的底层原理是什么？</li>
+<li>XXL-Job 是什么？你在科研管理系统中用 XXL-Job 做了什么，怎么配置和执行的？</li>
+<li>RabbitMQ 的核心组件有哪些？常见的交换机类型有哪些，你在项目中用的是哪一种，为什么？</li>
+<li>怎么保证 RabbitMQ 的消息可靠性，防止消息丢失？你在项目中是怎么做的？</li>
+<li>智行天下中为什么要把秒杀的同步下单改为异步下单？用 RabbitMQ 的好处是什么？</li>
+<li>常见的限流算法有哪些？你在秒杀场景中用的令牌桶算法，具体是怎么实现的？</li>
+<li>SpringTask 和 XXL-Job 的区别是什么？项目中为什么有的地方用 SpringTask，有的地方用 XXL-Job？</li>
+</ol>
+<h3 id="实操复盘-3"><a href="#实操复盘-3" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>打开智行天下项目代码，复现<strong>RabbitMQ 实现秒杀异步下单、令牌桶算法限流、SpringTask 定时任务</strong>的核心代码，梳理消息发送和消费的逻辑；</li>
+<li>打开科研管理系统项目代码，复现<strong>XXL-Job 定时更新人员数据</strong>的配置和执行代码；</li>
+<li>手写 RabbitMQ 消息持久化、生产者 / 消费者确认的核心代码，理解消息可靠性保障。</li>
+</ol>
+<h3 id="博客产出-3"><a href="#博客产出-3" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：分布式中间件整合实战 ——RabbitMQ+XXL-Job + 限流算法在项目中的落地</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：高并发和分布式场景下，中间件是提升系统性能的关键，结合自身两个项目梳理 RabbitMQ/SpringCloud/ 限流的实战应用；</li>
+<li>一、SpringCloud 组件实战：Nacos/XXL-Job 在科研管理系统中的使用；</li>
+<li>二、RabbitMQ 核心知识点：组件 / 交换机 / 消息可靠性保障；</li>
+<li>三、智行天下实战：RabbitMQ 实现秒杀异步下单（同步转异步的设计思路 + 源码）；</li>
+<li>四、智行天下实战：RabbitMQ+SpringTask 实现点赞数据异步同步（定时 + 异步的结合）；</li>
+<li>五、高并发限流：令牌桶算法的实现与秒杀场景的落地；</li>
+<li>六、中间件技术选型思考（为什么选 RabbitMQ 而非 Kafka/RocketMQ，XXL-Job 而非 Quartz）；</li>
+<li>结尾：分布式中间件学习的心得体会 —— 性能与可靠性的平衡。</li>
+</ol>
+<h2 id="第五天：项目深挖-——-智行天下（核心项目，校招面试重点）"><a href="#第五天：项目深挖-——-智行天下（核心项目，校招面试重点）" class="headerlink" title="第五天：项目深挖 —— 智行天下（核心项目，校招面试重点）"></a>第五天：项目深挖 —— 智行天下（核心项目，校招面试重点）</h2><h3 id="学习目标-4"><a href="#学习目标-4" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li><strong>能完整口述智行天下的项目全貌</strong>：项目背景、核心功能、技术栈选型、你的核心职责；</li>
+<li>对简历中提及的 5 个项目职责，能<strong>逐点讲清实现步骤、技术细节、问题解决、优化思路</strong>；</li>
+<li>掌握项目的整体架构设计，能画架构图，讲清各模块之间的交互逻辑；</li>
+<li>思考项目的优化空间，面试时能主动提及，体现思考能力。</li>
+</ol>
+<h3 id="核心学习内容-4"><a href="#核心学习内容-4" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><ol>
+<li><strong>项目整体梳理</strong>：<ul>
+<li>项目背景：专为大学生打造的智能旅游服务平台，解决大学生旅游规划难、组队难、攻略分散的问题；</li>
+<li>核心功能：AI 线路规划、攻略分享 / 点赞、景点点评、门票优惠券秒杀；</li>
+<li>技术栈选型：为什么选 SpringBoot+MyBatis-Plus？为什么用 LangChain4j 对接阿里云百炼大模型？Redis/RabbitMQ 的选型原因；</li>
+<li>架构设计：前后端分离，后端分层（Controller/Service/Mapper），缓存层（Redis）、消息队列层（RabbitMQ）、AI 层（LangChain4j + 大模型）的交互逻辑。</li>
+</ul>
+</li>
+<li><strong>5 个项目职责逐点深挖</strong>：<ul>
+<li>职责 1：Redis 缓存景点 / 攻略信息，解决缓存三大问题 ——<strong>复现代码，讲清解决方法的实现步骤，提升的性能指标（比如数据库查询压力降低多少）</strong>；</li>
+<li>职责 2：对接阿里云百炼大模型，LangChain4j+Prompt+RAG 实现 AI 路线规划 ——<strong>讲清 RAG 向量库的作用、Prompt 的设计思路、大模型的调用流程，项目中怎么处理大模型调用的延迟问题</strong>；</li>
+<li>职责 3：Redis+Lua + 乐观锁实现秒杀防超卖、一人一单 ——<strong>讲清 Lua 脚本的逻辑、乐观锁的实现、一人一单的判断条件（Redis 中 Set 存储已下单用户 ID）</strong>；</li>
+<li>职责 4：RabbitMQ 实现异步下单 + 令牌桶限流 ——<strong>讲清同步转异步的流程、令牌桶限流的实现、秒杀业务的性能提升指标</strong>；</li>
+<li>职责 5：Redis Set/ZSet 实现点赞 + SpringTask 定时清理 + MQ 异步入库 ——<strong>讲清点赞的实现逻辑、定时清理的规则、异步入库的原因（提升接口响应速度）</strong>。</li>
+</ul>
+</li>
+<li><strong>项目问题与优化</strong>：<ul>
+<li>开发中遇到的最大问题是什么？怎么解决的（比如大模型调用延迟、秒杀超卖、缓存击穿）；</li>
+<li>目前项目的优化空间是什么（比如引入 Redis 集群提升高可用、引入 Elasticsearch 实现攻略搜索、大模型调用增加缓存）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="面试高频题准备"><a href="#面试高频题准备" class="headerlink" title="面试高频题准备"></a>面试高频题准备</h3><ol>
+<li>请你介绍一下智行天下这个项目，你在其中负责了什么？</li>
+<li>这个项目的技术栈是怎么选型的？为什么选 SpringBoot 而非 SSM？为什么用 LangChain4j 对接大模型？</li>
+<li>你在项目中是怎么实现 AI 智能线路规划的？RAG 向量库的作用是什么，Prompt 是怎么设计的？</li>
+<li>秒杀功能是项目的核心，你是怎么保证秒杀的高并发和数据一致性的？（Redis+Lua + 乐观锁 + RabbitMQ + 限流，逐点讲）</li>
+<li>你在项目中用 Redis 解决了缓存三大问题，具体是怎么实现的？有没有实际的性能提升数据？</li>
+<li>项目中为什么要把点赞数据异步写入数据库？定时移除点赞数最少的内容，是怎么设计定时规则的？</li>
+<li>这个项目开发中你遇到的最大的问题是什么？怎么解决的？</li>
+<li>你觉得这个项目还有哪些优化空间？如果让你继续开发，你会做哪些改进？</li>
+</ol>
+<h3 id="实操复盘-4"><a href="#实操复盘-4" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>画智行天下的<strong>项目架构图</strong>（手绘 / 工具画），包含前端、后端分层、缓存、消息队列、大模型、数据库，讲清各模块交互；</li>
+<li>打开 GitHub 项目代码，从头到尾走查核心业务流程（AI 规划、秒杀、点赞），复现运行，确保能讲清每一步的代码逻辑；</li>
+<li>整理项目中的<strong>性能提升指标</strong>（比如缓存后数据库查询 QPS 降低多少、异步下单后秒杀接口响应时间提升多少），面试时用数据说话。</li>
+</ol>
+<h3 id="博客产出-4"><a href="#博客产出-4" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：智行天下 —— 大学生智能旅游平台的高并发设计与 AI 落地实战（附 GitHub 源码）</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：项目背景与开发初衷（解决大学生旅游的痛点），项目整体介绍（核心功能、技术栈、开发成果）；</li>
+<li>一、项目架构设计：前后端分离架构 + 分布式中间件整合，架构图详解；</li>
+<li>二、核心功能实战 1：AI 智能线路规划（阿里云百炼大模型 + LangChain4j+RAG 的落地）；</li>
+<li>三、核心功能实战 2：高并发门票秒杀（Redis+Lua + 乐观锁 + RabbitMQ + 令牌桶限流的全流程）；</li>
+<li>四、核心功能实战 3：攻略点赞与缓存设计（Redis Set/ZSet+SpringTask+MQ 异步入库）；</li>
+<li>五、项目难点与解决方法（大模型调用延迟、缓存问题、秒杀超卖等）；</li>
+<li>六、项目性能优化与后续规划（现有优化成果、未来的改进方向）；</li>
+<li>结尾：项目开发的心得体会 —— 从需求分析到技术落地。</li>
+</ol>
+<h2 id="第六天：项目深挖-——-大学科研管理系统-综合技术拓展"><a href="#第六天：项目深挖-——-大学科研管理系统-综合技术拓展" class="headerlink" title="第六天：项目深挖 —— 大学科研管理系统 + 综合技术拓展"></a>第六天：项目深挖 —— 大学科研管理系统 + 综合技术拓展</h2><h3 id="学习目标-5"><a href="#学习目标-5" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li><strong>能完整口述大学科研管理系统的项目全貌</strong>，讲清核心功能、权限设计、工作流落地；</li>
+<li>吃透 Activiti7 工作流的项目应用，能讲清 BPMN 设计器的使用、审核流程的实现；</li>
+<li>梳理两个项目的<strong>技术亮点和个人贡献</strong>，形成面试时的统一作答思路；</li>
+<li>补充简历中提及的其他技术（Docker/Linux/Vue3），应对面试官的拓展提问。</li>
+</ol>
+<h3 id="核心学习内容-5"><a href="#核心学习内容-5" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：大学科研管理系统深挖"><a href="#模块-1：大学科研管理系统深挖" class="headerlink" title="模块 1：大学科研管理系统深挖"></a>模块 1：大学科研管理系统深挖</h4><ol>
+<li>项目整体梳理：<ul>
+<li>项目背景：解决大学科研成果录入、审核、统计的痛点，用户角色（校级管理员 / 院级管理员 / 教师）；</li>
+<li>核心功能：科研成果（项目 / 论文 / 著作 / 专利）录入、多角色审核、数据统计、人员信息同步；</li>
+<li>技术栈选型：为什么选 SpringCloud 做微服务？为什么选 Activiti7 做工作流？</li>
+</ul>
+</li>
+<li><strong>4 个项目职责逐点深挖</strong>：<ul>
+<li>职责 1：RBAC 模型 + SpringSecurity 实现动态权限，效率提升 40%——<strong>讲清权限校验的优化思路，比如缓存权限信息、减少数据库查询</strong>；</li>
+<li>职责 2：Activiti7+BPMN 设计器实现审核工作流 ——<strong>讲清 BPMN 设计器绘制审核流程的步骤、各角色的审核节点、工作流与业务系统的整合逻辑，解决了硬编码的什么问题</strong>；</li>
+<li>职责 3：UUID+JWT+Redis 实现单一登录 ——<strong>讲清完整的认证流程，动态更新凭证的逻辑，ThreadLocal 存储用户信息的细节</strong>；</li>
+<li>职责 4：自定义线程池 + XXL-Job 实现人员数据同步 ——<strong>讲清数据同步的流程，定时任务的配置，大量数据处理的性能优化</strong>。</li>
+</ul>
+</li>
+<li>项目亮点与问题：开发中遇到的问题（比如工作流与业务数据的关联、多角色审核的权限控制），怎么解决的；项目的实际价值（比如提升学校科研审核效率）。</li>
+</ol>
+<h4 id="模块-2：Activiti7-工作流核心"><a href="#模块-2：Activiti7-工作流核心" class="headerlink" title="模块 2：Activiti7 工作流核心"></a>模块 2：Activiti7 工作流核心</h4><ul>
+<li>核心组件：ProcessEngine/RepositoryService/RuntimeService/TaskService；</li>
+<li>BPMN 设计器：绘制流程（开始节点 / 用户任务 / 网关 / 结束节点），项目中审核流程的设计（教师提交→院级审核→校级审核→通过 / 驳回）；</li>
+<li>工作流与业务系统的整合：怎么将审核流程与科研成果表关联，怎么获取审核节点的用户信息。</li>
+</ul>
+<h4 id="模块-3：简历其他技术补充（Docker-Linux-Vue3）"><a href="#模块-3：简历其他技术补充（Docker-Linux-Vue3）" class="headerlink" title="模块 3：简历其他技术补充（Docker/Linux/Vue3）"></a>模块 3：简历其他技术补充（Docker/Linux/Vue3）</h4><ul>
+<li>Linux：项目部署的步骤（环境搭建、代码打包、运行、日志查看），常用命令（ls/cd/ps/top/tail）；</li>
+<li>Docker：基本概念（镜像 / 容器 / 仓库），项目是否用 Docker 部署，怎么制作镜像；</li>
+<li>Vue3：前端基础，项目中是否用 Vue3 开发了单体页面，核心组件的使用（比如 Element Plus）。</li>
+</ul>
+<h3 id="面试高频题准备-1"><a href="#面试高频题准备-1" class="headerlink" title="面试高频题准备"></a>面试高频题准备</h3><ol>
+<li>请你介绍一下大学科研管理系统这个项目，核心解决了什么问题，你负责了什么？</li>
+<li>这个项目分为三个用户角色，你是怎么实现不同角色的权限控制的？RBAC 模型的设计思路是什么？</li>
+<li>你在项目中用 Activiti7 实现了审核工作流，具体是怎么实现的？BPMN 设计器是怎么使用的，审核流程是怎么设计的？</li>
+<li>工作流与业务系统怎么整合的？怎么将审核流程和科研成果数据关联起来？</li>
+<li>你是怎么实现人员信息的定时同步的？自定义线程池 + XXL-Job 的结合，解决了什么问题？</li>
+<li>你有 Linux 服务器部署经验，说说你部署项目的具体步骤？常用的 Linux 命令有哪些？</li>
+<li>你会 Vue3，在项目中用 Vue3 开发了什么功能？核心用了哪些组件？</li>
+<li>对比你的两个项目，智行天下和科研管理系统的技术难点和侧重点有什么不同？你在两个项目中分别学到了什么？</li>
+</ol>
+<h3 id="实操复盘-5"><a href="#实操复盘-5" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>画大学科研管理系统的<strong>权限与工作流架构图</strong>，讲清 RBAC 权限控制和 Activiti7 审核流程的交互逻辑；</li>
+<li>打开 GitHub 项目代码，复现<strong>Activiti7 审核流程、XXL-Job 定时同步数据、动态权限配置</strong>的核心代码，确保能讲清每一步；</li>
+<li>整理<strong>两个项目的技术亮点对比表</strong>，明确各自的核心亮点、使用的技术、解决的问题，面试时能快速区分作答。</li>
+</ol>
+<h3 id="博客产出-5"><a href="#博客产出-5" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：大学科研管理系统 —— 基于微服务 + 工作流 + RBAC 的权限管理系统实战</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：项目背景（解决高校科研管理的痛点），项目整体介绍（用户角色、核心功能、技术栈）；</li>
+<li>一、项目架构设计：SpringCloud 微服务架构 + 工作流 + 权限管理的整合；</li>
+<li>二、RBAC 权限模型实战：5 张核心表设计 + SpringSecurity 动态权限实现（含效率优化）；</li>
+<li>三、Activiti7 工作流落地：BPMN 设计器使用 + 多角色审核流程实现 + 与业务系统的整合；</li>
+<li>四、核心功能实战：单一用户登录 + 人员数据定时同步（自定义线程池 + XXL-Job）；</li>
+<li>五、项目难点与解决方法（工作流与业务数据关联、多角色权限控制、大量数据处理）；</li>
+<li>六、项目部署：Linux 服务器部署步骤与常用命令；</li>
+<li>七、两个项目的开发对比（智行天下 VS 科研管理系统，技术难点、侧重点、收获）；</li>
+<li>结尾：企业级管理系统开发的心得体会。</li>
+</ol>
+<h2 id="第七天：综合复盘-模拟面试-HR-问题准备（临门一脚，确保对答如流）"><a href="#第七天：综合复盘-模拟面试-HR-问题准备（临门一脚，确保对答如流）" class="headerlink" title="第七天：综合复盘 + 模拟面试 + HR 问题准备（临门一脚，确保对答如流）"></a>第七天：综合复盘 + 模拟面试 + HR 问题准备（临门一脚，确保对答如流）</h2><h3 id="学习目标-6"><a href="#学习目标-6" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>整体复盘一周所学知识点，形成<strong>知识体系框架</strong>，无盲区；</li>
+<li>熟练掌握自我介绍，能<strong>结合两个项目突出个人技术亮点和贡献</strong>；</li>
+<li>完成模拟面试，查漏补缺，梳理面试作答的<strong>通用思路</strong>；</li>
+<li>准备 HR 常见问题，做到回答自然、贴合自身情况。</li>
+</ol>
+<h3 id="核心学习内容-6"><a href="#核心学习内容-6" class="headerlink" title="核心学习内容"></a>核心学习内容</h3><h4 id="模块-1：知识体系整体复盘"><a href="#模块-1：知识体系整体复盘" class="headerlink" title="模块 1：知识体系整体复盘"></a>模块 1：知识体系整体复盘</h4><ol>
+<li>按 ** 基础（Java / 并发）→数据库（MySQL/Redis）→框架（Spring 全家桶）→中间件（RabbitMQ/SpringCloud/XXL-Job）→项目（两个核心项目）** 的顺序，梳理知识框架，用思维导图整理核心知识点；</li>
+<li>重点回顾<strong>每个知识点与项目的结合点</strong>，确保面试时能 “知识点 + 项目实例” 作答，而非纯背理论；</li>
+<li>查漏补缺：回顾前六天的面试高频题，标记不会的知识点，重新学习并口述回答。</li>
+</ol>
+<h4 id="模块-2：面试核心内容准备"><a href="#模块-2：面试核心内容准备" class="headerlink" title="模块 2：面试核心内容准备"></a>模块 2：面试核心内容准备</h4><ol>
+<li><strong>自我介绍（1-2 分钟，校招黄金时长）</strong>：<ul>
+<li>模板：基本信息（姓名 / 学校 / 专业）→学习情况（主修课程 / 荣誉证书，校级奖学金 / 英语四级）→技术栈（核心 Java 后端技术，贴合简历）→项目经验（两个核心项目，讲清项目背景、核心功能、你的贡献和技术亮点）→求职意向（Java 后端开发，对岗位的期待和学习热情）；</li>
+<li>要求：流畅口述，突出个人优势（项目实战经验、高并发 / 微服务 / AI 落地能力、独立开发能力），结合数据（比如权限校验效率提升 40%、解决缓存三大问题）。</li>
+</ul>
+</li>
+<li><strong>项目亮点提炼</strong>：<ul>
+<li>智行天下：高并发秒杀的全流程实现、AI 大模型与旅游平台的结合、Redis 的多场景落地；</li>
+<li>科研管理系统：RBAC 动态权限设计、Activiti7 工作流落地、微服务 + 分布式任务调度的整合；</li>
+<li>要求：能快速说出每个项目的 3-5 个核心亮点，结合技术和解决的问题。</li>
+</ul>
+</li>
+<li><strong>技术选型通用思路</strong>：面试中被问 “为什么选 XX 技术”，按<strong>业务场景 + 技术特性 + 性能 + 学习成本</strong>的思路作答（比如秒杀场景选 RabbitMQ，因为业务需要异步下单，RabbitMQ 消息可靠性高，且自身熟悉该技术）。</li>
+<li><strong>项目优化通用思路</strong>：面试中被问 “项目的优化空间”，从 ** 性能（高并发 / 缓存）、高可用（集群 / 容灾）、功能（用户体验）、技术（框架升级 / 中间件优化）** 四个角度作答。</li>
+</ol>
+<h4 id="模块-3：模拟面试（最重要环节）"><a href="#模块-3：模拟面试（最重要环节）" class="headerlink" title="模块 3：模拟面试（最重要环节）"></a>模块 3：模拟面试（最重要环节）</h4><ol>
+<li><strong>模拟方式</strong>：自我模拟 / 找同学 / 老师模拟，按 ** 技术面（40-60 分钟）+HR 面（20 分钟）** 的流程；</li>
+<li><strong>技术面重点</strong>：Java 基础 / 并发、MySQL/Redis、Spring 全家桶、中间件、两个项目的深挖；</li>
+<li><strong>要求</strong>：模拟时尽量<strong>大声口述回答</strong>，模拟面试官的追问（比如 “讲清这个步骤的代码逻辑”“还有其他实现方法吗”），记录回答不流畅的地方，重新梳理。</li>
+</ol>
+<h4 id="模块-4：HR-常见问题准备"><a href="#模块-4：HR-常见问题准备" class="headerlink" title="模块 4：HR 常见问题准备"></a>模块 4：HR 常见问题准备</h4><ol>
+<li>你为什么选择 Java 后端开发这个方向？</li>
+<li>你在项目开发中遇到的最大的困难是什么？怎么解决的？</li>
+<li>你和团队成员有过分歧吗？怎么解决的？（若无团队经验，可讲 “独立开发中遇到的问题，怎么通过查资料 / 问老师解决的”）</li>
+<li>你的职业规划是什么？（校招回答：短期 1-2 年掌握企业级开发流程，提升技术深度；长期成为资深 Java 后端开发 / 架构师）</li>
+<li>你为什么选择我们公司？（提前了解公司业务，结合自身技术栈匹配作答）</li>
+<li>你的优缺点是什么？（优点：学习能力强、项目实战能力强、做事认真；缺点：开发经验不足，正在通过项目和学习弥补）</li>
+<li>你期望的薪资是多少？（校招可按行业平均薪资作答，或说 “相信公司的薪资体系，结合自身能力给出合理薪资”）</li>
+</ol>
+<h3 id="实操复盘-6"><a href="#实操复盘-6" class="headerlink" title="实操复盘"></a>实操复盘</h3><ol>
+<li>整理<strong>一周学习的思维导图</strong>，包含所有核心知识点和项目亮点，反复翻看；</li>
+<li>录制<strong>自我介绍的音频 / 视频</strong>，检查流畅度和时间，确保 1-2 分钟；</li>
+<li>重新走查两个项目的 GitHub 代码，确保所有核心逻辑都能讲清，无代码盲区；</li>
+<li>整理<strong>面试错题本</strong>，记录模拟面试中回答不流畅的问题，反复口述作答。</li>
+</ol>
+<h3 id="博客产出-6"><a href="#博客产出-6" class="headerlink" title="博客产出"></a>博客产出</h3><p><strong>博客主题</strong>：Java 后端校招面试一周冲刺复盘 —— 从基础到项目的全流程准备（附面试高频题合集）</p>
+<p><strong>核心内容框架</strong>：</p>
+<ol>
+<li>前言：校招 Java 后端面试的准备思路，自身一周冲刺的规划和收获；</li>
+<li>一、面试准备核心原则（知识点结合项目、深挖项目细节、用数据说话）；</li>
+<li>二、核心知识点复盘（Java / 并发 / MySQL/Redis/Spring/ 中间件，附高频题合集）；</li>
+<li>三、项目实战复盘（两个核心项目的亮点、难点、优化思路）；</li>
+<li>四、面试作答技巧（自我介绍、技术选型、项目优化的通用思路）；</li>
+<li>五、模拟面试与查漏补缺（常见问题、回答不流畅的点、改进方法）；</li>
+<li>六、HR 面问题准备（通用回答思路，贴合校招场景）；</li>
+<li>结尾：校招面试的心得体会，对后续技术学习的规划。</li>
+</ol>
+<h2 id="面试加分项提醒"><a href="#面试加分项提醒" class="headerlink" title="面试加分项提醒"></a>面试加分项提醒</h2><ol>
+<li>面试时主动提及自己的<strong>技术博客</strong>，可展示自己的技术沉淀和总结能力；</li>
+<li>讲项目时<strong>用数据说话</strong>（比如缓存后数据库查询压力降低 60%、秒杀接口响应时间从 500ms 降到 100ms），提升可信度；</li>
+<li>面试官追问时，<strong>不懂的问题不要装懂</strong>，可说 “这个知识点我目前掌握的还不够深入，回去会重点学习，不过我了解相关的 XX 知识点，结合项目做过 XX 实现”；</li>
+<li>展示自己的<strong>学习能力</strong>，比如 “通过自学 LangChain4j 对接大模型，实现了 AI 线路规划功能”“通过查阅官方文档，掌握了 Activiti7 工作流的使用”。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Lumjiel.github.io">Lumjiel</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lumjiel.github.io/posts/8b41f513.html">https://lumjiel.github.io/posts/8b41f513.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Lumjiel.github.io" target="_blank">JIE的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post-share"><div class="social-share" data-image="/img/toux.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/fb2c5356.html" title="数据结构第一次习题课"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">数据结构第一次习题课</div></div><div class="info-2"><div class="info-item-1">第一次习题课阶乘和123456789101112131415161718int cal(int x)&#123;    int cal=1;    for(int i=2;i&lt;=x;i++)&#123;        cal*=x;    &#125;    return cal;&#125;int fun(LinkList L)&#123;    LNode p=L-&gt;next;    int ans=0;    while(p)&#123;        ans+=cal(p-&gt;data);        p=p-&gt;next;    &#125;&#125;  数组在长度为N的数组arr中，将小于等于arr[0]的数放在数组的左半部分，大于arr[0]的放在右半部分， arr[0]介于中间，输出处理后的数组  123456789101112131415161718192021222324#include&lt;iostream&gt;using namespace std;const int N=100010;int arr[N];int main()...</div></div></div></a><a class="pagination-related" href="/posts/579b46ec.html" title="第一章线性表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">第一章线性表</div></div><div class="info-2"><div class="info-item-1">第一章线性表线性表的操作123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175#include&lt;cstdio&gt;#include&lt;iostream&gt;using namespace std;co...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/db18547c.html" title="Java值传递"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026年03月14日</div><div class="info-item-2">Java值传递</div></div><div class="info-2"><div class="info-item-1">Java 值传递一、问题引入：一段 “语法正确但逻辑失效” 的代码1. 问题场景实现 “查找二叉搜索树（BST）中第 k 小元素” 功能，以下代码编译无报错，但运行结果始终错误（返回 0）： 1234567891011121314151617181920212223class TreeNode &#123;    int val;    TreeNode left;    TreeNode right;    TreeNode(int x) &#123; val = x; &#125;&#125;class Solution &#123;    public int kthSmallest(TreeNode root, int k) &#123;        int res = 0; // 外层局部变量        dfs(root, k, res); // 传参调用递归方法        return res; // 永远返回0，核心逻辑失效    &#125;    // 中序遍历（左→根→右）找第k小元素    private void dfs(TreeNode nod...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/toux.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Lumjiel</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">98</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lumjiel"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lumjiel" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3465937769@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%87%86%E5%A4%87%E5%8E%9F%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">核心准备原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E5%A4%A9%EF%BC%9AJava-%E5%9F%BA%E7%A1%80-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88%E7%AE%80%E5%8E%86%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%EF%BC%8C%E9%A1%B9%E7%9B%AE%E9%AB%98%E9%A2%91%E7%94%A8%E5%88%B0%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">第一天：Java 基础 + 并发编程（简历核心基础，项目高频用到）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-number">2.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9"><span class="toc-number">2.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9AJava-%E6%A0%B8%E5%BF%83%E5%AE%B9%E5%99%A8%EF%BC%88HashMap-ArrayList-LinkedList%EF%BC%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">模块 1：Java 核心容器（HashMap&#x2F;ArrayList&#x2F;LinkedList）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9AJava-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">2.2.2.</span> <span class="toc-text">模块 2：Java 并发编程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87%EF%BC%88%E5%BF%85%E9%A1%BB%E8%83%BD%E5%8F%A3%E8%BF%B0%E5%9B%9E%E7%AD%94%EF%BC%8C%E7%BB%93%E5%90%88%E9%A1%B9%E7%9B%AE%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">面试高频题准备（必须能口述回答，结合项目）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98"><span class="toc-number">2.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA"><span class="toc-number">2.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E5%A4%A9%EF%BC%9AMySQL-Redis%EF%BC%88%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E5%AD%98%E5%82%A8%EF%BC%8C%E9%AB%98%E5%B9%B6%E5%8F%91%E5%9C%BA%E6%99%AF%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">第二天：MySQL+Redis（项目核心存储，高并发场景重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-1"><span class="toc-number">3.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-1"><span class="toc-number">3.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9AMySQL-%E6%A0%B8%E5%BF%83%EF%BC%88%E7%AE%80%E5%8E%86%E6%8F%90%E5%8F%8A%EF%BC%9A%E4%BA%8B%E5%8A%A1%E3%80%81%E9%94%81%E3%80%81%E7%B4%A2%E5%BC%95%E3%80%81SQL-%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-number">3.2.1.</span> <span class="toc-text">模块 1：MySQL 核心（简历提及：事务、锁、索引、SQL 优化）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9ARedis-%E6%A0%B8%E5%BF%83%EF%BC%88%E7%AE%80%E5%8E%86%E4%B8%AD%E9%A1%B9%E7%9B%AE%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%EF%BC%8C%E6%A0%A1%E6%8B%9B%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">模块 2：Redis 核心（简历中项目高频使用，校招重点）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87%EF%BC%88%E5%BF%85%E9%A1%BB%E7%BB%93%E5%90%88%E9%A1%B9%E7%9B%AE%E4%BD%9C%E7%AD%94%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">面试高频题准备（必须结合项目作答）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-1"><span class="toc-number">3.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-1"><span class="toc-number">3.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%A4%A9%EF%BC%9ASpring-%E5%85%A8%E5%AE%B6%E6%A1%B6%EF%BC%88Spring-SpringBoot-SpringSecurity%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">第三天：Spring 全家桶（Spring&#x2F;SpringBoot&#x2F;SpringSecurity）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-2"><span class="toc-number">4.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-2"><span class="toc-number">4.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9ASpring-%E6%A0%B8%E5%BF%83%EF%BC%88%E7%AE%80%E5%8E%86%E6%8F%90%E5%8F%8A%EF%BC%9A%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E7%A0%94%E7%A9%B6%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">模块 1：Spring 核心（简历提及：核心原理研究）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9ASpringBoot-%E6%A0%B8%E5%BF%83"><span class="toc-number">4.2.2.</span> <span class="toc-text">模块 2：SpringBoot 核心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-3%EF%BC%9ASpringSecurity%EF%BC%88%E7%A7%91%E7%A0%94%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%A0%B8%E5%BF%83%EF%BC%8C%E7%AE%80%E5%8E%86%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">4.2.3.</span> <span class="toc-text">模块 3：SpringSecurity（科研管理系统核心，简历重点）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87%EF%BC%88%E7%BB%93%E5%90%88%E9%A1%B9%E7%9B%AE%EF%BC%8C%E7%AA%81%E5%87%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">面试高频题准备（结合项目，突出自己的设计思路）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-2"><span class="toc-number">4.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-2"><span class="toc-number">4.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E5%A4%A9%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88SpringCloud-RabbitMQ-XXL-Job%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">第四天：微服务 + 分布式中间件（SpringCloud&#x2F;RabbitMQ&#x2F;XXL-Job）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-3"><span class="toc-number">5.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-3"><span class="toc-number">5.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9ASpringCloud-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%EF%BC%88%E7%AE%80%E5%8E%86%E6%8F%90%E5%8F%8A%EF%BC%9ANacos-Gateway-XXL-Job%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">模块 1：SpringCloud 核心组件（简历提及：Nacos&#x2F;Gateway&#x2F;XXL-Job）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9ARabbitMQ%EF%BC%88%E6%99%BA%E8%A1%8C%E5%A4%A9%E4%B8%8B%E6%A0%B8%E5%BF%83%EF%BC%8C%E9%AB%98%E5%B9%B6%E5%8F%91%E7%A7%92%E6%9D%80%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">模块 2：RabbitMQ（智行天下核心，高并发秒杀重点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-3%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E4%B8%8E%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">5.2.3.</span> <span class="toc-text">模块 3：分布式限流与定时任务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87%EF%BC%88%E7%BB%93%E5%90%88%E9%A1%B9%E7%9B%AE%EF%BC%8C%E8%AE%B2%E6%B8%85%E5%AE%9E%E7%8E%B0%E5%92%8C%E9%80%89%E5%9E%8B%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">面试高频题准备（结合项目，讲清实现和选型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-3"><span class="toc-number">5.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-3"><span class="toc-number">5.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E5%A4%A9%EF%BC%9A%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96-%E2%80%94%E2%80%94-%E6%99%BA%E8%A1%8C%E5%A4%A9%E4%B8%8B%EF%BC%88%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE%EF%BC%8C%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">第五天：项目深挖 —— 智行天下（核心项目，校招面试重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-4"><span class="toc-number">6.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-4"><span class="toc-number">6.2.</span> <span class="toc-text">核心学习内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87"><span class="toc-number">6.3.</span> <span class="toc-text">面试高频题准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-4"><span class="toc-number">6.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-4"><span class="toc-number">6.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E5%A4%A9%EF%BC%9A%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96-%E2%80%94%E2%80%94-%E5%A4%A7%E5%AD%A6%E7%A7%91%E7%A0%94%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-%E7%BB%BC%E5%90%88%E6%8A%80%E6%9C%AF%E6%8B%93%E5%B1%95"><span class="toc-number">7.</span> <span class="toc-text">第六天：项目深挖 —— 大学科研管理系统 + 综合技术拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-5"><span class="toc-number">7.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-5"><span class="toc-number">7.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9A%E5%A4%A7%E5%AD%A6%E7%A7%91%E7%A0%94%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%B7%B1%E6%8C%96"><span class="toc-number">7.2.1.</span> <span class="toc-text">模块 1：大学科研管理系统深挖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9AActiviti7-%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A0%B8%E5%BF%83"><span class="toc-number">7.2.2.</span> <span class="toc-text">模块 2：Activiti7 工作流核心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-3%EF%BC%9A%E7%AE%80%E5%8E%86%E5%85%B6%E4%BB%96%E6%8A%80%E6%9C%AF%E8%A1%A5%E5%85%85%EF%BC%88Docker-Linux-Vue3%EF%BC%89"><span class="toc-number">7.2.3.</span> <span class="toc-text">模块 3：简历其他技术补充（Docker&#x2F;Linux&#x2F;Vue3）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%E5%87%86%E5%A4%87-1"><span class="toc-number">7.3.</span> <span class="toc-text">面试高频题准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-5"><span class="toc-number">7.4.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-5"><span class="toc-number">7.5.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E5%A4%A9%EF%BC%9A%E7%BB%BC%E5%90%88%E5%A4%8D%E7%9B%98-%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95-HR-%E9%97%AE%E9%A2%98%E5%87%86%E5%A4%87%EF%BC%88%E4%B8%B4%E9%97%A8%E4%B8%80%E8%84%9A%EF%BC%8C%E7%A1%AE%E4%BF%9D%E5%AF%B9%E7%AD%94%E5%A6%82%E6%B5%81%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">第七天：综合复盘 + 模拟面试 + HR 问题准备（临门一脚，确保对答如流）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-6"><span class="toc-number">8.1.</span> <span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9-6"><span class="toc-number">8.2.</span> <span class="toc-text">核心学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-1%EF%BC%9A%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%95%B4%E4%BD%93%E5%A4%8D%E7%9B%98"><span class="toc-number">8.2.1.</span> <span class="toc-text">模块 1：知识体系整体复盘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-2%EF%BC%9A%E9%9D%A2%E8%AF%95%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%E5%87%86%E5%A4%87"><span class="toc-number">8.2.2.</span> <span class="toc-text">模块 2：面试核心内容准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-3%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95%EF%BC%88%E6%9C%80%E9%87%8D%E8%A6%81%E7%8E%AF%E8%8A%82%EF%BC%89"><span class="toc-number">8.2.3.</span> <span class="toc-text">模块 3：模拟面试（最重要环节）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-4%EF%BC%9AHR-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%87%86%E5%A4%87"><span class="toc-number">8.2.4.</span> <span class="toc-text">模块 4：HR 常见问题准备</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E5%A4%8D%E7%9B%98-6"><span class="toc-number">8.3.</span> <span class="toc-text">实操复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E4%BA%A7%E5%87%BA-6"><span class="toc-number">8.4.</span> <span class="toc-text">博客产出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%8A%A0%E5%88%86%E9%A1%B9%E6%8F%90%E9%86%92"><span class="toc-number">9.</span> <span class="toc-text">面试加分项提醒</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260331.html" title="日记 - 2026-03-31"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-31"/></a><div class="content"><a class="title" href="/posts/daily-20260331.html" title="日记 - 2026-03-31">日记 - 2026-03-31</a><time datetime="2026-03-31T15:59:59.000Z" title="发表于 2026年03月31日 23:59:59">2026年03月31日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260330.html" title="日记 - 2026-03-30"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-30"/></a><div class="content"><a class="title" href="/posts/daily-20260330.html" title="日记 - 2026-03-30">日记 - 2026-03-30</a><time datetime="2026-03-30T15:59:59.000Z" title="发表于 2026年03月30日 23:59:59">2026年03月30日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260329.html" title="日记 - 2026-03-29"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-29"/></a><div class="content"><a class="title" href="/posts/daily-20260329.html" title="日记 - 2026-03-29">日记 - 2026-03-29</a><time datetime="2026-03-29T15:59:59.000Z" title="发表于 2026年03月29日 23:59:59">2026年03月29日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260328.html" title="日记 - 2026-03-28"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-28"/></a><div class="content"><a class="title" href="/posts/daily-20260328.html" title="日记 - 2026-03-28">日记 - 2026-03-28</a><time datetime="2026-03-28T15:59:59.000Z" title="发表于 2026年03月28日 23:59:59">2026年03月28日</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/daily-20260327.html" title="日记 - 2026-03-27"><img src="/img/riji.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记 - 2026-03-27"/></a><div class="content"><a class="title" href="/posts/daily-20260327.html" title="日记 - 2026-03-27">日记 - 2026-03-27</a><time datetime="2026-03-27T15:59:59.000Z" title="发表于 2026年03月27日 23:59:59">2026年03月27日</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2021 - 2026 By Lumjiel</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="/js/pet.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-filter-gitcalendar@1.0.11/lib/gitcalendar.js"></script><script data-pjax>
+  var git_color = document.documentElement.dataset.theme === 'dark' ? ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'] : ['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e']
+  function boxInit(git_color) {
+    function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+    }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gh-calendar.rschristian.dev/user//api?Lumjiel",git_color,'Lumjiel')
+    }
+  }
+  boxInit(git_color)
+  var htmlElement = document.documentElement
+  var observer = new MutationObserver(function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        var newThemeValue = htmlElement.getAttribute('data-theme')
+        if (newThemeValue === 'light') {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        } else {
+          var gitcalendarBar = document.getElementById('gitcalendarBar');
+          if (gitcalendarBar) {
+              gitcalendarBar.parentNode.removeChild(gitcalendarBar);
+          }
+          boxInit(['#ebedf0', '#bae3fd', '#74b9ff', '#4dabf7', '#0969da', '#0550ae', '#033d8b', '#0a3069', '#08285c', '#06224d', '#041c3e'])
+        }
+      }
+    }
+  })
+  var config = { attributes: true }
+  observer.observe(htmlElement, config)  
+  </script><!-- hexo injector body_end end --></body></html>
